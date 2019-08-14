@@ -1,0 +1,50 @@
+@import '_variables.scss';
+
+.minwidth {
+    min-width: $svgMinWidth;
+    max-height: $svgMaxHeight;
+}
+
+.maxheight {
+    max-height: $svgMaxHeight;
+}
+
+.closed {
+    fill: $closedText;
+    rect
+    {
+        fill: $opacityZero;
+        &:hover {
+            @include strokeParams
+        }
+    }
+}
+
+.open {
+    fill: $openText;
+    rect
+    {
+        fill: $openLayer;
+        &:hover {
+            @include strokeParams
+        }
+    }
+}
+
+.tripped {
+    fill: $trippedText;
+    rect 
+    {
+        fill: $trippedLayer;
+        &:hover {
+            @include strokeParams
+        }
+    }
+}
+
+.static {
+    fill: $closedText;
+    rect {
+        fill: $opacityZero;
+    }
+}

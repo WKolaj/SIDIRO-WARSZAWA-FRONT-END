@@ -1,0 +1,30 @@
+
+
+@import '_variables.scss';
+
+.minwidth {
+    min-width: $svgMinWidth;
+}
+
+.maxheight {
+    max-height: $svgMaxHeight;
+}
+
+.voltageApplied {
+    stroke: $voltageAppliedLine;
+}
+
+.noVoltage {
+    stroke: $noVoltage
+}
+
+.overlay {
+    fill: $opacityZero;
+    rect
+    {
+        fill: $opacityZero;
+        &:hover {
+            @include smallStrokeParams
+        }
+    }
+}
