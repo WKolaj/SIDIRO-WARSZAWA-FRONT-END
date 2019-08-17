@@ -7,7 +7,7 @@ import {
   hideBusyDialogActionCreator,
   showBusyDialogActionCreator
 } from "./busyDialog";
-import { exists, snooze } from "../utils/utilities";
+import { exists } from "../utils/utilities";
 
 import { enqueueSnackbar } from "./snackbar";
 

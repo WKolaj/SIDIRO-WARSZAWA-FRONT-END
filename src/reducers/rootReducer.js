@@ -7,6 +7,7 @@ import { languageDialogReducer } from "./languageDialogReducer";
 import { powermonitorDataReducer } from "./powermonitorReducer";
 import { busyDialogReducer } from "./busyDialogReducer";
 import { newRecipientDialogReducer } from "./newRecipientDialogReducer";
+import { powermonitorPowerDataReducer } from "./powermonitorActivePowerReducer";
 import { reducer } from "redux-form";
 import snackbarReducer from "./snackbarReducer";
 
@@ -20,5 +21,6 @@ export default combineReducers({
   busyDialog: busyDialogReducer,
   newRecipientDialog: newRecipientDialogReducer,
   form: reducer,
+  powermonitorPowerDataReducer: powermonitorPowerDataReducer,
   snackbar: snackbarReducer
 });

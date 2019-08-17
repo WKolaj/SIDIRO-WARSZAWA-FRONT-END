@@ -53,10 +53,6 @@ const styles = theme => {
 };
 
 class PowermonitorNewRecipientDialogComponent extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   handleCancelButtonClick = () => {
     this.props.reset();
     this.props.hide();

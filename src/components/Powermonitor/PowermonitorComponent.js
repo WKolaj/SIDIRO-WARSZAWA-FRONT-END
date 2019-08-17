@@ -15,6 +15,7 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import PowermonitorOverviewComponent from "./PowermonitorOverviewComponent";
+import Powermonitor15MinComponent from "./Powermonitor15MinComponent";
 import PowermonitorSettings from "./PowermonitorSettingsComponent";
 
 import BottomNavigation from "@material-ui/core/BottomNavigation";
@@ -26,7 +27,6 @@ import MultilineChart from "@material-ui/icons/MultilineChart";
 import TrendingUp from "@material-ui/icons/TrendingUp";
 import Settings from "@material-ui/icons/Settings";
 
-import { snooze } from "../../utils/utilities";
 import Typography from "@material-ui/core/Typography";
 import { withSnackbar } from "notistack";
 
@@ -118,6 +118,9 @@ class PowermonitorComponent extends Component {
     switch (pageNumber) {
       case 0: {
         return <PowermonitorOverviewComponent />;
+      }
+      case 1: {
+        return <Powermonitor15MinComponent />;
       }
       case 2: {
         return <PowermonitorSettings />;

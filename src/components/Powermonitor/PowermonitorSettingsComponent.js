@@ -49,7 +49,6 @@ const styles = theme => ({
     minWidth: 400
   },
   mainGrid: {
-    height: "100%",
     height: "calc(100% - 45px)"
   },
   settingsGrid: {
@@ -70,11 +69,13 @@ const styles = theme => ({
   },
   listHeader: {
     fontSize: 14,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    padding: 15
   },
   mailHeader: {
     fontSize: 14,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    padding: 15
   },
   form: {
     width: "100%",
@@ -101,10 +102,6 @@ const styles = theme => ({
 });
 
 class PowermonitorSettingsComponent extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   initialize() {
     //initializing form with values
     if (exists(this.props.powermonitor.settings)) {
@@ -239,7 +236,6 @@ class PowermonitorSettingsComponent extends Component {
   };
 
   renderEmailTable = renderObject => {
-    let { t, classes } = this.props;
     let fields = renderObject.fields;
     if (!exists(fields)) return null;
     return (
@@ -295,7 +291,7 @@ class PowermonitorSettingsComponent extends Component {
   );
 
   render() {
-    let { t, powermonitor, classes } = this.props;
+    let { t, classes } = this.props;
 
     return (
       <React.Fragment>

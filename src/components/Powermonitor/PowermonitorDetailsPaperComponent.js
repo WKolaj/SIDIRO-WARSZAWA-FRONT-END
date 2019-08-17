@@ -17,7 +17,8 @@ const styles = theme => ({
   },
   listHeader: {
     fontSize: 14,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    padding: 15
   },
   powerListItem: {},
   powerListItemWarning: { backgroundColor: "rgba(255,150,0,1)" },
