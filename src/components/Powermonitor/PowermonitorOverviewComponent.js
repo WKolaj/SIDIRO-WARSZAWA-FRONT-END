@@ -17,7 +17,7 @@ class PowermonitorOverviewComponent extends Component {
   render() {
     let { classes, t } = this.props;
 
-    if (!this.props.powermonitor.ready)
+    if (!this.props.powermonitor.data.ready)
       return <p>{t("powermonitorNotReadyLabel")}</p>;
 
     return (
