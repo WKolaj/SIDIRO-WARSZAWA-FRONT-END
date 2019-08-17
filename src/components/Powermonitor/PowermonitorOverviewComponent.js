@@ -15,7 +15,10 @@ const styles = theme => ({
 
 class PowermonitorOverviewComponent extends Component {
   render() {
-    let { classes } = this.props;
+    let { classes, t } = this.props;
+
+    if (!this.props.powermonitor.ready)
+      return <p>{t("powermonitorNotReadyLabel")}</p>;
 
     return (
       <Grid container spacing={3} className={classes.root}>

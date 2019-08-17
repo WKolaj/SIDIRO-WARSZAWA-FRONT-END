@@ -91,6 +91,8 @@ const resources = {
       powermonitorPower15TableDataEmpty: "Brak danych",
       powermonitorPower15TableSeverityAlert: "Alarm",
       powermonitorPower15TableSeverityWarning: "Ostrzeżenie",
+      powermonitorNotReadyLabel:
+        "Strażnik mocy nie jest gotowy! Zaczekaj do zakończenia aktualnego okresu 15-minutowego",
 
       //slideUpDialog
       slideUpDialogTabOverview: "Przegląd",
@@ -216,6 +218,8 @@ const resources = {
       powermonitorPower15TableSeverityAlert: "Alarm",
       powermonitorPower15TableSeverityWarning: "Warninig",
 
+      powermonitorNotReadyLabel:
+        "Load monitoring is not ready! Wait for the next 15-minute interval...",
       //events
       events: "Events",
       event: "Event",
