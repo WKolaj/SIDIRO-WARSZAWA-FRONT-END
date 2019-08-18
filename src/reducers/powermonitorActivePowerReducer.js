@@ -4,6 +4,8 @@ const initialState = {
   data: null,
   startPeriod: null,
   endPeriod: null,
+  maxValue: null,
+  maxTime: null,
   transgressions: []
 };
 
@@ -15,7 +17,9 @@ export const powermonitorPowerDataReducer = (state = initialState, action) => {
         data: action.payload.data,
         startPeriod: action.payload.range.startPeriod,
         endPeriod: action.payload.range.endPeriod,
-        transgressions: action.payload.transgressions
+        transgressions: action.payload.transgressions,
+        maxValue: action.payload.maxValue,
+        maxTime: action.payload.maxTime
       };
     }
     default:

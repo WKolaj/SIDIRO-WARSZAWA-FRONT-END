@@ -6,8 +6,8 @@ const styles = theme => {
   return {
     dialog: {},
     dialogDiv: {
-      width: 250,
-      height: 250
+      width: 200,
+      height: 200
     },
     progress: {
       width: 200,

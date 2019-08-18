@@ -15,9 +15,11 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
 import Powermonitor15MinTrend from "./Powermonitor15MinTrendComponent";
 import Powermonitor15MinTable from "./Powermonitor15MinTableComponent";
 import { exists } from "../../utils/utilities";
+import moment from "moment";
 
 const styles = theme => ({
   root: {
@@ -56,7 +58,12 @@ const styles = theme => ({
     width: 150,
     margin: 10
   },
-  selectMonthInputGridItem: {}
+  selectMonthInputGridItem: {},
+  maxValueInput: {
+    width: 250,
+    margin: 10
+  },
+  maxValueInputGridItem: {}
 });
 
 class Powermonitor15MinComponent extends Component {
@@ -162,8 +169,29 @@ class Powermonitor15MinComponent extends Component {
     );
   };
 
+  renderMaximumLabel = (t, classes, powermonitorActivePower) => {
+    let maximumText = exists(powermonitorActivePower.maxValue)
+      ? `${moment(new Date(powermonitorActivePower.maxTime)).format(
+          "YYYY-MM-DD HH:mm"
+        )} - ${powermonitorActivePower.maxValue.toFixed(2)} kW`
+      : "";
+
+    return (
+      <Grid className={classes.maxValueInputGridItem} item>
+        <TextField
+          id="maxValueInput"
+          label={t("powermonitorPower15MaxValueLabel")}
+          className={classes.maxValueInput}
+          value={maximumText}
+          onChange={() => {}}
+          InputLabelProps={{ shrink: true }}
+        />
+      </Grid>
+    );
+  };
+
   render() {
-    let { t, classes } = this.props;
+    let { t, classes, powermonitorActivePower } = this.props;
 
     return (
       <Grid
@@ -207,6 +235,11 @@ class Powermonitor15MinComponent extends Component {
                     alignItems="center"
                     wrap="nowrap"
                   >
+                    {this.renderMaximumLabel(
+                      t,
+                      classes,
+                      powermonitorActivePower
+                    )}
                     <Grid item xs />
                     <Grid className={classes.selectMonthInputGridItem} item>
                       <Field

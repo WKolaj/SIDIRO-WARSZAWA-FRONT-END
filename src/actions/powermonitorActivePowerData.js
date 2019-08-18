@@ -5,7 +5,7 @@ import {
   showBusyDialogActionCreator
 } from "./busyDialog";
 
-import { exists } from "../utils/utilities";
+import { exists, isEmpty } from "../utils/utilities";
 
 import { enqueueSnackbar } from "./snackbar";
 
@@ -63,6 +63,21 @@ let calculateTransgressions = (data, warningLimit, alarmLimit) => {
   return transgressionsToReturn;
 };
 
+let calculateMax = data => {
+  if (!exists(data) || isEmpty(data)) return { maxTime: null, maxValue: null };
+  let maxTime = data[0].date;
+  let maxValue = data[0].value;
+
+  for (let i = 1; i < data.length; i++) {
+    if (data[i].value > maxValue) {
+      maxValue = data[i].value;
+      maxTime = data[i].date;
+    }
+  }
+
+  return { maxValue, maxTime };
+};
+
 //Fetch data when initializing component - with showing busy dialog
 export const fetchPowermonitorPowerMonthDataActionCreator = function(
   yearNumber,
@@ -93,12 +108,16 @@ export const fetchPowermonitorPowerMonthDataActionCreator = function(
         );
       }
 
+      let max = calculateMax(normalizedData);
+
       await dispatch({
         type: FETCH_POWERMONITOR_POWER_DATA,
         payload: {
           data: normalizedData,
           transgressions: transgressions,
-          range: calculatePeriodRange(yearNumber, monthNumber)
+          range: calculatePeriodRange(yearNumber, monthNumber),
+          maxValue: max.maxValue,
+          maxTime: max.maxTime
         }
       });
     } catch (err) {

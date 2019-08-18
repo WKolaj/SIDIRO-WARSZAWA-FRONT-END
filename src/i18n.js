@@ -73,6 +73,7 @@ const resources = {
       powermonitorPower15AlarmPointsLabel: "Moc czynna 15-min [kW] - alarm",
       powermonitorPower15MonthLabel: "Miesiąc",
       powermonitorPower15YearLabel: "Rok",
+      powermonitorPower15MaxValueLabel: "Wartość maksymalna",
 
       powermonitorPower15TableTitle: "Przekroczenia mocy",
       powermonitorPower15TableDateColumn: "Data i czas",
@@ -199,6 +200,7 @@ const resources = {
         "Active power 15-min [kW] - above alarm",
       powermonitorPower15MonthLabel: "Month",
       powermonitorPower15YearLabel: "Year",
+      powermonitorPower15MaxValueLabel: "Maximum value",
 
       powermonitorPower15TableTitle: "Power transgressions",
       powermonitorPower15TableDateColumn: "Date and time",

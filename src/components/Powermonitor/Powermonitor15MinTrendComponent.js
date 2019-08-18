@@ -82,7 +82,7 @@ class Powermonitor15MinComponent extends Component {
     };
   }
 
-  generateValidActivePowerPoints = (
+  generateAllActivePowerPoints = (
     powermonitorData,
     powermonitorActivePowerData
   ) => {
@@ -91,34 +91,18 @@ class Powermonitor15MinComponent extends Component {
       activePowerLimitWarning
     } = powermonitorData.data;
 
-    return powermonitorActivePowerData.data
-      .filter(point => {
-        return (
-          point.value < activePowerLimitAlarm &&
-          point.value < activePowerLimitWarning
-        );
-      })
-      .map(point => {
-        return { x: new Date(point.date), y: point.value };
-      });
+    let pointsToReturn = [];
+
+    for (let i = 0; i < powermonitorActivePowerData.data.length; i++) {
+      let point = powermonitorActivePowerData.data[i];
+
+      pointsToReturn.push({ x: new Date(point.date), y: point.value });
+    }
+
+    return pointsToReturn;
   };
 
-  generateAlarmActivePowerPoints = (
-    powermonitorData,
-    powermonitorActivePowerData
-  ) => {
-    let { activePowerLimitAlarm } = powermonitorData.data;
-
-    return powermonitorActivePowerData.data
-      .filter(point => {
-        return point.value >= activePowerLimitAlarm;
-      })
-      .map(point => {
-        return { x: new Date(point.date), y: point.value };
-      });
-  };
-
-  generateWarningActivePowerPoints = (
+  generateAllActivePowerPointsColors = (
     powermonitorData,
     powermonitorActivePowerData
   ) => {
@@ -127,16 +111,25 @@ class Powermonitor15MinComponent extends Component {
       activePowerLimitWarning
     } = powermonitorData.data;
 
-    return powermonitorActivePowerData.data
-      .filter(point => {
-        return (
-          point.value < activePowerLimitAlarm &&
-          point.value >= activePowerLimitWarning
-        );
-      })
-      .map(point => {
-        return { x: new Date(point.date), y: point.value };
-      });
+    let validColor = "rgba(125, 125, 125, 1)";
+    let alertColor = "rgba(255, 0, 0, 1)";
+    let warningColor = "rgba(255, 150, 0, 1)";
+
+    let colorsToReturn = [];
+
+    for (let i = 0; i < powermonitorActivePowerData.data.length; i++) {
+      let point = powermonitorActivePowerData.data[i];
+
+      if (point.value >= activePowerLimitAlarm) {
+        colorsToReturn.push(alertColor);
+      } else if (point.value >= activePowerLimitWarning) {
+        colorsToReturn.push(warningColor);
+      } else {
+        colorsToReturn.push(validColor);
+      }
+    }
+
+    return colorsToReturn;
   };
 
   generateLimitAlarmPoints = (
@@ -172,7 +165,12 @@ class Powermonitor15MinComponent extends Component {
   generateDataForTrend(powermonitorData, powermonitorActivePowerData) {
     let { t } = this.props;
 
-    let validPoints = this.generateValidActivePowerPoints(
+    let allPoints = this.generateAllActivePowerPoints(
+      powermonitorData,
+      powermonitorActivePowerData
+    );
+
+    let pointColors = this.generateAllActivePowerPointsColors(
       powermonitorData,
       powermonitorActivePowerData
     );
@@ -187,48 +185,15 @@ class Powermonitor15MinComponent extends Component {
       powermonitorActivePowerData
     );
 
-    let alertPoints = this.generateAlarmActivePowerPoints(
-      powermonitorData,
-      powermonitorActivePowerData
-    );
-
-    let warningPoints = this.generateWarningActivePowerPoints(
-      powermonitorData,
-      powermonitorActivePowerData
-    );
-
     return {
       datasets: [
         {
           type: "bar",
           label: t("powermonitorPower15ValidPointsLabel"),
-          fill: true,
-          borderColor: "rgba(0,0,0,1)",
-          backgroundColor: "rgba(0,0,0,1)",
-          borderWidth: 0,
-          data: validPoints
-        },
-        {
-          type: "bar",
-          label: t("powermonitorPower15WarningPointsLabel"),
-          fill: true,
-          borderColor: "rgba(255,150,0,1)",
-          backgroundColor: "rgba(255,150,0,1)",
-          barPercentage: 1,
           borderWidth: 1,
-          borderSkipped: false,
-          data: warningPoints
-        },
-        {
-          type: "bar",
-          label: t("powermonitorPower15AlarmPointsLabel"),
-          fill: true,
-          borderColor: "rgba(255,0,0,1)",
-          backgroundColor: "rgba(255,0,0,1)",
-          barPercentage: 1,
-          borderWidth: 1,
-          borderSkipped: false,
-          data: alertPoints
+          borderColor: pointColors,
+          data: allPoints,
+          backgroundColor: pointColors
         },
         {
           type: "line",
