@@ -20,12 +20,12 @@ import { withTranslation } from "react-i18next";
 import Overview from "./components/Overview";
 import Elevation from "./components/Elevation";
 import Events from "./components/Events";
-import Powermonitor from "./components/Powermonitor/PowermonitorComponent";
 import SlideupDialog from "./components/SlideupDialog";
 import { connect } from "react-redux";
 import { manageLanguageDialog } from "./actions/languageDialog";
 import { manageDrawerOpen } from "./actions/index";
 import LanguageDialog from "./components/LanguageSelectionDialog";
+import Powermonitor from "./components/Powermonitor/PowermonitorComponent";
 import {
   getIntervalData1Min,
   getIntervalData15Min
