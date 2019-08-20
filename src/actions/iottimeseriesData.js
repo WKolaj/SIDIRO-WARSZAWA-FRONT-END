@@ -1,5 +1,6 @@
 import axios from "axios";
 import moment from "moment";
+import { showBusyDialogActionCreator, hideBusyDialogActionCreator } from "./busyDialog"
 //chart data
 export const GET_DATA_REQUESTED = "GET_DATA_REQUESTED";
 export const GET_DATA_DONE = "GET_DATA_DONE";
@@ -36,13 +37,22 @@ export const chartSetRewindDirection = direction => ({
   direction
 });
 
-export const getData = (device, tabIndex, toTime) => {
-  let from = moment(toTime)
-    .subtract(30, "minute")
+export const getData = (device, tabIndex, toTime, loadingCircle = false) => {
+  let from = null;
+  switch(tabIndex) {
+    case 'powerTab':
+      from = moment(toTime)
+      .subtract(1, "day")
+      .toISOString();
+    break;
+    default: 
+    from = moment(toTime)
+    .subtract(15, "minute")
     .toISOString();
+    break;
+  }
+
   let to = moment(toTime).toISOString();
-  console.log(from);
-  console.log(to);
   return dispatch => {
     let datasets = [];
     let colors = [
@@ -88,12 +98,25 @@ export const getData = (device, tabIndex, toTime) => {
       case "currentTab":
         variablesToGET = ["Current_L1", "Current_L2", "Current_L3"];
         break;
+      case "powerTab":
+        if(device === 'TR2_15_min' || device === 'TR1_15_min' || device === 'GEN_15_min')
+        {
+          variablesToGET = ['Total_active_power_import', 'Total_reactive_power_import', 'Total_apparent_power']
+        }
+        else {
+          variablesToGET = ['Active_power_import_15_min', 'Reactive_power_import_15_min']
+        }
+        break;
       default:
         variablesToGET = ["Current_L1", "Current_L2", "Current_L3"];
         break;
     }
 
     // set state to "loading"
+    if(loadingCircle === true)
+    {
+      dispatch(showBusyDialogActionCreator())
+    }
     dispatch(getDataRequested());
     axios({
       url: `/api/iottimeseries/v3/timeseries/a5eebd59cd1348c5b38f8d74ab432780/${device}?select=${variablesToGET}&from=${from}&to=${to}&sort=desc&limit=2000`,
@@ -131,10 +154,19 @@ export const getData = (device, tabIndex, toTime) => {
             }
           });
         }
+        if(loadingCircle === true)
+        {
+          dispatch(hideBusyDialogActionCreator())
+        }
+        
         dispatch(getDataDone(datasets));
       })
       .catch(error => {
         // error
+        if(loadingCircle === true)
+        {
+          dispatch(hideBusyDialogActionCreator())
+        }
         dispatch(getDataFailed(error));
       });
   };

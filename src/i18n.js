@@ -142,7 +142,10 @@ const resources = {
       voltageL3N: "Napięcie L3-N",
       currentL1: "Prąd L1",
       currentL2: "Prąd L2",
-      currentL3: "Prąd L3"
+      currentL3: "Prąd L3",
+      //connectionErrorNotification
+      snackbarsConnectionError: "Błąd połączenia",
+      eventSeverity: "Ważność"
     }
   },
   en: {
@@ -280,9 +283,13 @@ const resources = {
       voltageL2N: "Voltage L2-N",
       voltageL3L1: "Voltage L3-L1",
       voltageL3N: "Voltage L3-N",
-      currentL1: "Prąd L1",
-      currentL2: "Prąd L2",
-      currentL3: "Prąd L3"
+      currentL1: "Current L1",
+      currentL2: "Current L2",
+      currentL3: "Current L3",
+      //connectionErrorNotification
+      snackbarsConnectionError: "Connection error",
+      //events
+      eventSeverity: "Severity"
     }
   }
 };

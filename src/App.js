@@ -30,10 +30,10 @@ import {
   getIntervalData1Min,
   getIntervalData15Min
 } from "./actions/mindsphereDataUpdateInterval";
-
 import MultilineChart from "@material-ui/icons/MultilineChart";
 import BusyDialog from "./components/BusyDialog";
 import SnackbarNotifier from "./components/SnackbarNotifier";
+import { withSnackbar } from 'notistack';
 
 const drawerWidth = 240;
 const styles = theme => ({
@@ -98,7 +98,7 @@ class App extends React.Component {
 
     this.interval15sec = setInterval(() => {
       this.props.getIntervalData1Min();
-    }, 15000);
+    }, 30000);
     this.interval15min = setInterval(() => {
       this.props.getIntervalData15Min();
     }, 900000);
@@ -107,6 +107,15 @@ class App extends React.Component {
   componentWillUnmount() {
     clearInterval(this.interval15sec);
     clearInterval(this.interval15min);
+  }
+
+  componentDidUpdate(prevProps) {
+    if(prevProps.checkStates.syncError === false && this.props.checkStates.syncError === true)
+    {
+      this.props.enqueueSnackbar(this.props.t('snackbarsConnectionError'), {
+        variant: 'error',
+    });
+    }
   }
 
   render() {
@@ -220,4 +229,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(withTranslation()(App)));
+)(withStyles(styles)(withTranslation()(withSnackbar(App))));

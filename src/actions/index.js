@@ -17,6 +17,3 @@ export const manageDialogOpen = (open, deviceName, deviceTitle, deviceSection, d
 export const manageDialogTab = (index) => ({ type: MANAGE_DIALOG_TAB, index: index })
 export const setCurrentDeviceStatus = (status) => ({ type: SET_CURRENT_DEVICE_STATUS, status: status })
 export const setCurrentDeviceType = (deviceType) => ({ type: SET_CURRENT_DEVICE_TYPE, deviceType: deviceType})
-
-
-//lol

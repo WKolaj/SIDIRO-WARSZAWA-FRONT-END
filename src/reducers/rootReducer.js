@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import { drawerReducer } from "./drawerReducer";
 import { chartReducer } from "./chartReducer";
+import { eventsReducer } from "./eventsReducer";
 import { switchesStateReducer } from "./switchesStateReducer";
 import { dialogReducer } from "./dialogReducer";
 import { languageDialogReducer } from "./languageDialogReducer";
@@ -17,10 +18,11 @@ export default combineReducers({
   switchesStateReducer,
   dialogReducer,
   languageDialogReducer,
+  eventsReducer,
   powermonitor: powermonitorDataReducer,
   busyDialog: busyDialogReducer,
   newRecipientDialog: newRecipientDialogReducer,
   form: reducer,
   powermonitorPowerDataReducer: powermonitorPowerDataReducer,
-  snackbar: snackbarReducer
+  snackbar: snackbarReducer,
 });

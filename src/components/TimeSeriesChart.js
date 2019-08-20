@@ -30,15 +30,16 @@ class TimeSeriesChart extends React.Component {
     }
 
     getDeviceNameForApiCall = () => {
+        let tabIndex = this.props.tabIndex;
         switch(this.props.deviceNameForApiCall) {
             case 'Q1':
-                return 'TR1'
+                return tabIndex === 'powerTab'? 'TR1_15_min' : 'TR1_1_s'
             case 'Q2':
-                return 'TR2'
+                return tabIndex === 'powerTab'? 'TR2_15_min' : 'TR2_1_s'
             case 'Q3':
-                return 'GEN'
+                return tabIndex === 'powerTab'? 'GEN_15_min' : 'GEN_1_s'
             default:
-                return this.props.deviceNameForApiCall
+                return tabIndex === 'powerTab'? `${this.props.deviceNameForApiCall}_15_min` : `${this.props.deviceNameForApiCall}_1_s`
         }
     }
 
@@ -93,7 +94,7 @@ class TimeSeriesChart extends React.Component {
                 datasets: [...datasets]
             },
             options: {
-                aspectRatio: 2.2,
+                aspectRatio: 3,
                 scales: {
                     xAxes: [{
                         type: 'time',
@@ -194,11 +195,11 @@ class TimeSeriesChart extends React.Component {
         {
             clearInterval(this.updateInterval)
         }
-        this.props.getData(this.getDeviceNameForApiCall(),this.tabIndex, this.props.timeRangeSlider)
+        this.props.getData(this.getDeviceNameForApiCall(),this.tabIndex, this.props.timeRangeSlider, true)
         this.updateInterval = setInterval(() => {
             if (this.props.liveDataUpdate === true) {
                 this.props.sliderSetTimerange(new Date().toISOString())
-                this.props.getData(this.getDeviceNameForApiCall(),this.tabIndex, moment().toISOString())
+                this.props.getData(this.getDeviceNameForApiCall(),this.tabIndex, moment().toISOString(), false)
             }
         }, 30000)
     }

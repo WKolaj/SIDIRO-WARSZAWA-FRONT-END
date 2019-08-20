@@ -61,9 +61,9 @@ const initialState = {
             Voltage_L3_L1_qc: 0,
             Voltage_L3_N: 0,
             Voltage_L3_N_qc: 0,
-            Total_active_power_import_15_min: 0,
-            Total_reactive_power_import_15_min: 0,
-            Total_apparent_power_15_min: 0,
+            Total_active_power_import: 0,
+            Total_reactive_power_import: 0,
+            Total_apparent_power: 0,
             _time: ''
         },
         TR1: {
@@ -114,13 +114,15 @@ const initialState = {
             Voltage_L3_L1_qc: 0,
             Voltage_L3_N: 0,
             Voltage_L3_N_qc: 0,
-            Total_active_power_import_15_min: 0,
-            Total_reactive_power_import_15_min: 0,
-            Total_apparent_power_15_min: 0,
+            Total_active_power_import: 0,
+            Total_reactive_power_import: 0,
+            Total_apparent_power: 0,
             _time: ''
         },
         GEN: {
             state: 0,
+            ready: 0,
+            started: 0,
             Active_energy_export: 0,
             Active_energy_export_qc: 0,
             Active_energy_import: 0,
@@ -167,9 +169,9 @@ const initialState = {
             Voltage_L3_L1_qc: 0,
             Voltage_L3_N: 0,
             Voltage_L3_N_qc: 0,
-            Total_active_power_import_15_min: 0,
-            Total_reactive_power_import_15_min: 0,
-            Total_apparent_power_15_min: 0,
+            Total_active_power_import: 0,
+            Total_reactive_power_import: 0,
+            Total_apparent_power: 0,
             _time: ''
         }
     },
@@ -915,19 +917,35 @@ const initialState = {
 export const switchesStateReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_3VA_BREAKER_1_MIN_DATA_FROM_MS_DONE:
-            let _3VAState = decoder3VA.convertValue(action.data.Breaker_status)
-            return {
-                ...state,
-                syncError: false,
-                breakers: {
-                    ...state.breakers,
-                    [action.deviceName]: {
-                        ...state.breakers[action.deviceName],
-                        ...action.data,
-                        stateClosed: _3VAState.stateClosed,
-                        stateOpened: _3VAState.stateOpened,
-                        stateTripped: _3VAState.stateTripped,
-                        
+            let _3VAState = null;
+            if(action.data.Breaker_status)
+            {
+                _3VAState = decoder3VA.convertValue(action.data.Breaker_status)
+                return {
+                    ...state,
+                    syncError: false,
+                    breakers: {
+                        ...state.breakers,
+                        [action.deviceName]: {
+                            ...state.breakers[action.deviceName],
+                            ...action.data,
+                            stateClosed: _3VAState.stateClosed,
+                            stateOpened: _3VAState.stateOpened,
+                            stateTripped: _3VAState.stateTripped,
+                        }
+                    }
+                }
+            }
+            else {
+                return {
+                    ...state,
+                    syncError: false,
+                    breakers: {
+                        ...state.breakers,
+                        [action.deviceName]: {
+                            ...state.breakers[action.deviceName],
+                            ...action.data
+                        }
                     }
                 }
             }

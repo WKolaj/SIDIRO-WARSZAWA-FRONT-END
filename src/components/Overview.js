@@ -146,12 +146,12 @@ class Overview extends React.Component {
                                     <tspan x="27.56" y="0" letterSpacing="-0.02em"> </tspan>
                                     <tspan x="30.68" y="0">TR2</tspan>
                                 </text><text transform="translate(305.91 77.52)" fontSize="12" fill="#3c3c3b" stroke="none"
-                                    fontFamily="Roboto, Helvetica, Arial, sans-serif">{(this.props.sources.TR2.Total_active_power_import_15_min / 1000).toFixed(1)} kW</text><text
+                                    fontFamily="Roboto, Helvetica, Arial, sans-serif">{(this.props.sources.TR2.Total_active_power_import / 1000).toFixed(1)} kW</text><text
                                         transform="translate(305.91 96.12)" fontSize="12" fill="#3c3c3b" stroke="none"
-                                        fontFamily="Roboto, Helvetica, Arial, sans-serif">{(this.props.sources.TR2.Total_reactive_power_import_15_min / 1000).toFixed(1)} kvar</text><text
+                                        fontFamily="Roboto, Helvetica, Arial, sans-serif">{(this.props.sources.TR2.Total_reactive_power_import / 1000).toFixed(1)} kvar</text><text
                                             transform="translate(305.91 114.72)" fontSize="12" fill="#3c3c3b" stroke="none"
-                                            fontFamily="Roboto, Helvetica, Arial, sans-serif">{this.props.sources.TR2.Total_apparent_power_15_min !== 0 ?
-                                                (this.props.sources.TR2.Total_active_power_import_15_min / this.props.sources.TR2.Total_apparent_power_15_min).toFixed(2) : 0} PF</text></g>
+                                            fontFamily="Roboto, Helvetica, Arial, sans-serif">{this.props.sources.TR2.Total_apparent_power !== 0 ?
+                                                (this.props.sources.TR2.Total_active_power_import / this.props.sources.TR2.Total_apparent_power).toFixed(2) : 0} PF</text></g>
                             <g id="Opisy"><text transform="translate(73.93 161.2)" fontSize="24" fill="#1d1d1b"
                                 fontFamily="Roboto, Helvetica, Arial, sans-serif">2FP2</text><text transform="translate(-1 161.2)" fontSize="24"
                                     fill="#1d1d1b" fontFamily="Roboto, Helvetica, Arial, sans-serif">2FP1</text><text
@@ -423,12 +423,12 @@ class Overview extends React.Component {
                                     <tspan x="27.56" y="0" letterSpacing="-0.02em"> </tspan>
                                     <tspan x="30.68" y="0">TR1</tspan>
                                 </text><text transform="translate(765.64 77.52)" fontSize="12" fill="#3c3c3b" stroke="none"
-                                    fontFamily="Roboto, Helvetica, Arial, sans-serif">{(this.props.sources.TR1.Total_active_power_import_15_min / 1000).toFixed(1)} kW</text><text
+                                    fontFamily="Roboto, Helvetica, Arial, sans-serif">{(this.props.sources.TR1.Total_active_power_import / 1000).toFixed(1)} kW</text><text
                                         transform="translate(765.64 96.12)" fontSize="12" fill="#3c3c3b" stroke="none"
-                                        fontFamily="Roboto, Helvetica, Arial, sans-serif">{(this.props.sources.TR1.Total_reactive_power_import_15_min / 1000).toFixed(1)} kvar</text><text
+                                        fontFamily="Roboto, Helvetica, Arial, sans-serif">{(this.props.sources.TR1.Total_reactive_power_import / 1000).toFixed(1)} kvar</text><text
                                             transform="translate(765.64 114.72)" fontSize="12" fill="#3c3c3b" stroke="none"
-                                            fontFamily="Roboto, Helvetica, Arial, sans-serif">{this.props.sources.TR1.Total_apparent_power_15_min !== 0 ?
-                                                (this.props.sources.TR1.Total_active_power_import_15_min / this.props.sources.TR1.Total_apparent_power_15_min).toFixed(2) : 0} PF</text></g>
+                                            fontFamily="Roboto, Helvetica, Arial, sans-serif">{this.props.sources.TR1.Total_apparent_power !== 0 ?
+                                                (this.props.sources.TR1.Total_active_power_import / this.props.sources.TR1.Total_apparent_power).toFixed(2) : 0} PF</text></g>
                             <g id="GEN" className={sources.GEN.state === true ? "voltageApplied" : "noVoltage"}>
                                 <line x1="1009.87" y1="238.68" x2="1025.77" y2="222.78" fill="none" strokeLinecap="square"
                                     strokeMiterlimit="10" strokeWidth="2" />
@@ -450,23 +450,17 @@ class Overview extends React.Component {
                                     strokeWidth="2" /><text transform="translate(940.84 146.86)" fontSize="12" fill="#fff"
                                         fontFamily="Roboto, Helvetica, Arial, sans-serif">Generator</text><text transform="translate(939.85 168.39)"
                                             fontSize="12" fill="#3c3c3b" stroke="none" fontFamily="Roboto, Helvetica, Arial, sans-serif">
-                                    {(this.props.sources.GEN.Total_active_power_import_15_min / 1000).toFixed(1)} kW</text><text
+                                    {(this.props.sources.GEN.Total_active_power_import / 1000).toFixed(1)} kW</text><text
                                         transform="translate(939.85 186.99)" fontSize="12" fill="#3c3c3b" stroke="none"
-                                        fontFamily="Roboto, Helvetica, Arial, sans-serif">{(this.props.sources.GEN.Total_reactive_power_import_15_min / 1000).toFixed(1)} kvar</text><text transform="translate(939.85 205.59)" fontSize="12"
-                                            fill="#3c3c3b" fontFamily="Roboto, Helvetica, Arial, sans-serif" stroke="none">{this.props.sources.GEN.Total_apparent_power_15_min !== 0 ?
-                                                (this.props.sources.GEN.Total_active_power_import_15_min / this.props.sources.GEN.Total_apparent_power_15_min).toFixed(2) : 0} PF</text></g>
+                                        fontFamily="Roboto, Helvetica, Arial, sans-serif">{(this.props.sources.GEN.Total_reactive_power_import / 1000).toFixed(1)} kvar</text><text transform="translate(939.85 205.59)" fontSize="12"
+                                            fill="#3c3c3b" fontFamily="Roboto, Helvetica, Arial, sans-serif" stroke="none">{this.props.sources.GEN.Total_apparent_power !== 0 ?
+                                                (this.props.sources.GEN.Total_active_power_import / this.props.sources.GEN.Total_apparent_power).toFixed(2) : 0} PF</text></g>
                             <g id="GEN_Stop"><text transform="translate(942.88 114.67)" fontSize="18" fill="#1d1d1b"
                                 fontFamily="Roboto, Helvetica, Arial, sans-serif">
-                                <tspan letterSpacing="-0.03em">S</tspan>
-                                <tspan x="8.88" y="0" letterSpacing="-0.02em">t</tspan>
-                                <tspan x="14.79" y="0">op</tspan>
+                                <tspan>Stop</tspan>
                             </text></g>
                             <g id="GEN_Gotowosc"><text transform="translate(900.01 90.3)" fontSize="18" fill="#1d1d1b"
-                                fontFamily="Roboto, Helvetica, Arial, sans-serif">G<tspan x="12.11" y="0" letterSpacing="-0.02em">o</tspan>
-                                <tspan x="21.97" y="0" letterSpacing="-0.02em">t</tspan>
-                                <tspan x="27.89" y="0" letterSpacing="-0.01em">o</tspan>
-                                <tspan x="37.92" y="0" letterSpacing="-0.01em">w</tspan>
-                                <tspan x="51.88" y="0">ość</tspan>
+                                fontFamily="Roboto, Helvetica, Arial, sans-serif">Gotowość
                             </text></g>
                             <g id="_3F" data-name="3F"
                                 className={(breakers.cb_Q2.stateClosed === true && sources.TR2.state === true && breakers.cb_Q4.stateClosed === true && breakers.cb_Q5.stateClosed === true)

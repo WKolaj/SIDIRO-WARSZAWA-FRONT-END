@@ -214,15 +214,16 @@ class ChartDataRangeTimeSlider extends React.Component {
     }
 
     getDeviceNameForApiCall = () => {
-        switch (this.props.deviceNameForApiCall) {
+        let tabIndex = this.props.tabIndex;
+        switch(this.props.deviceNameForApiCall) {
             case 'Q1':
-                return 'TR1'
+                return tabIndex === 'powerTab'? 'TR1_15_min' : 'TR1_1_s'
             case 'Q2':
-                return 'TR2'
+                return tabIndex === 'powerTab'? 'TR2_15_min' : 'TR2_1_s'
             case 'Q3':
-                return 'GEN'
+                return tabIndex === 'powerTab'? 'GEN_15_min' : 'GEN_1_s'
             default:
-                return this.props.deviceNameForApiCall
+                return tabIndex === 'powerTab'? `${this.props.deviceNameForApiCall}_15_min` : `${this.props.deviceNameForApiCall}_1_s`
         }
     }
 
@@ -252,7 +253,7 @@ class ChartDataRangeTimeSlider extends React.Component {
             timeRange = new Date().toISOString()
         }
         else {
-            timeRange = moment(this.props.timeRange).add(30, 'minute').toISOString()
+            timeRange = moment(this.props.timeRange).add(15, 'minute').toISOString()
         }
         let currentTimeInHHmmFormat = moment(timeRange).format('HH:mm');
         let hours = currentTimeInHHmmFormat.substring(0, 2)
@@ -277,10 +278,10 @@ class ChartDataRangeTimeSlider extends React.Component {
         this.props.sliderSetTimerange(addedMinutes);
         this.props.sliderSetStepValue(value)
         if (this.props.liveUpdate === false) {
-            this.props.getData(this.getDeviceNameForApiCall(), this.props.tabIndex, addedMinutes);
+            this.props.getData(this.getDeviceNameForApiCall(), this.props.tabIndex, addedMinutes, true);
         }
         else {
-            this.props.getData(this.getDeviceNameForApiCall(), this.props.tabIndex, moment().toISOString());
+            this.props.getData(this.getDeviceNameForApiCall(), this.props.tabIndex, moment().toISOString(), false);
         }
     }
 

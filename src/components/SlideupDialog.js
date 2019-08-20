@@ -173,14 +173,19 @@ class SlideupDialog extends React.Component {
         //modify params in case of infeed
         if(variable === 'Active_power_import_15_min')
         {
-          variable = 'Total_active_power_import_15_min'
+          variable = 'Total_active_power_import'
         }
         else if(variable === 'Reactive_power_import_15_min')
         {
-          variable = 'Total_reactive_power_import_15_min'
+          variable = 'Total_reactive_power_import'
+        }
+        else if(variable === 'Total_apparent_power_15_min')
+        {
+          variable = 'Total_apparent_power'
         }
         else if(variable === 'Total_power_factor_1_min')
         {
+          variable = 'Total_power_factor'
           divider = 1
         }
         
@@ -197,7 +202,6 @@ class SlideupDialog extends React.Component {
     if(this.props.params.deviceTitle!=='' && this.props.params.deviceTitle!==undefined)
     {
       let t = this.props.t;
-      let closed = this.props.breakers[`cb_${this.props.params.deviceTitle}`].stateClosed;
       let open = this.props.breakers[`cb_${this.props.params.deviceTitle}`].stateOpened;
       let tripped = this.props.breakers[`cb_${this.props.params.deviceTitle}`].stateTripped;
       if(open)
@@ -253,7 +257,7 @@ class SlideupDialog extends React.Component {
   }
 
   render() {
-    const { classes, params, zoomMultiplier, chartRewindDirection, t, selectedDevice, breakers , selectedDeviceType } = this.props;
+    const { classes, params, zoomMultiplier, chartRewindDirection, t } = this.props;
     const overviewDeviceCircuitMid = <svg id="main" className={params.currentDeviceType !== 'middleDevice' ? 'invisibleCircuit' : 'visibleCircuit'} data-name="main" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 158.76 291.11" >
       <line x1="107.98" x2="107.98" y2="39" fill="#383838" stroke="#1d1d1b" strokeMiterlimit="10" strokeWidth="2" />
       <circle cx="107.98" cy="68.07" r="29.07" fill="none" stroke="#1d1d1b" strokeMiterlimit="10" strokeWidth="2" />
@@ -399,7 +403,7 @@ class SlideupDialog extends React.Component {
                 scrollButtons="auto"
               >
                 <Tab label={t('slideUpDialogTabOverview')} value="overviewTab"/>
-                <Tab label={t('slideUpDialogTabVoltage')} value="voltageTab"/>
+                {this.props.selectedDevice && this.props.selectedDevice.indexOf('cb_')===-1 ?<Tab label={t('slideUpDialogTabVoltage')} value="voltageTab"/>:null}
                 <Tab label={t('slideUpDialogTabCurrent')} value="currentTab"/>
                 <Tab label={t('slideUpDialogTabPower')} value="powerTab"/>
               </Tabs>
@@ -478,7 +482,7 @@ class SlideupDialog extends React.Component {
               </Grid>
             </Grid>
             </TabContainer>}
-            {params.tabIndex === 'voltageTab' && <TabContainer>
+            {params.tabIndex === 'voltageTab' && this.props.selectedDevice && this.props.selectedDevice.indexOf('cb_')===-1 && <TabContainer>
               <TimeSeriesChart />
               <Grid container spacing={1} direction="row" justify="center" alignItems="center">
                 <Grid item xs={11}>
@@ -496,7 +500,6 @@ class SlideupDialog extends React.Component {
                   <ChartLiveUpdateControls/>
                 </Grid>
               </Grid>
-              
               </TabContainer>}
             {params.tabIndex === 'currentTab' && <TabContainer>
               <TimeSeriesChart />
@@ -517,7 +520,25 @@ class SlideupDialog extends React.Component {
                 </Grid>
               </Grid>
               </TabContainer>}
-            {params.tabIndex === 'powerTab' && <TabContainer>Fourth</TabContainer>}
+            {params.tabIndex === 'powerTab' && <TabContainer>
+            <TimeSeriesChart />
+              <Grid container spacing={1} direction="row" justify="center" alignItems="center">
+                <Grid item xs={11}>
+                  <ChartDataRangeTimeSlider/>
+                </Grid>
+              </Grid>
+              <Grid container spacing={2} justify="space-between" alignItems="flex-start" alignContent="space-around" className={classes.chartControls}>
+                <Grid item xs={12}>
+                <Typography variant="h6">{t('chartSettings')}</Typography>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ChartDataRangeTimePicker/>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ChartLiveUpdateControls/>
+                </Grid>
+              </Grid>
+            </TabContainer>}
           </div>
         </Dialog>
       </div>
