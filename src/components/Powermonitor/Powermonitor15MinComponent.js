@@ -202,7 +202,14 @@ class Powermonitor15MinComponent extends Component {
         alignItems="stretch"
         spacing={3}
       >
-        <Grid item xs={8}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={12}
+          lg={8}
+          style={{ minWidth: 600, minHeight: 500 }}
+        >
           <Paper className={classes.trendPaper}>
             <Grid
               container
@@ -282,7 +289,7 @@ class Powermonitor15MinComponent extends Component {
             </Grid>
           </Paper>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={12} md={12} lg={4} style={{ minWidth: 570 }}>
           <Powermonitor15MinTable />
         </Grid>
       </Grid>
