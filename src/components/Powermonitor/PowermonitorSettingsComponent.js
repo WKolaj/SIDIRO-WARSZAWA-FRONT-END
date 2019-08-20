@@ -305,7 +305,7 @@ class PowermonitorSettingsComponent extends Component {
             alignItems="stretch"
             spacing={3}
           >
-            <Grid item>
+            <Grid item style={{ minWidth: 500 }}>
               <Paper className={classes.settingsPaper}>
                 <Grid
                   container
@@ -382,7 +382,7 @@ class PowermonitorSettingsComponent extends Component {
                 </Grid>
               </Paper>
             </Grid>
-            <Grid item>
+            <Grid item style={{ minWidth: 500 }}>
               <Paper className={classes.emailListPaper}>
                 <Grid
                   container

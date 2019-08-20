@@ -22,10 +22,16 @@ class PowermonitorOverviewComponent extends Component {
 
     return (
       <Grid container spacing={3} className={classes.root}>
-        <Grid item xs={2}>
+        <Grid item xs={12} sm={12} md={4} style={{ minWidth: 300 }}>
           <PowermonitorDetailsPaperComponent />
         </Grid>
-        <Grid item xs={10}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={8}
+          style={{ minWidth: 600, minHeight: 500 }}
+        >
           <PowermonitorEnergyTrend />
         </Grid>
       </Grid>
