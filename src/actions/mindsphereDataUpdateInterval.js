@@ -9,12 +9,14 @@ export const GET_3VA_BREAKER_15_MIN_DATA_FROM_MS_DONE = 'GET_3VA_BREAKER_15_MIN_
 export const GET_3WL_BREAKER_1_MIN_DATA_FROM_MS_DONE = 'GET_3WL_BREAKER_1_MIN_DATA_FROM_MS_DONE';
 export const GET_SOURCE_1_MIN_DATA_FROM_MS_DONE = 'GET_SOURCE_1_MIN_DATA_FROM_MS_DONE';
 export const GET_SOURCE_15_MIN_DATA_FROM_MS_DONE = 'GET_SOURCE_15_MIN_DATA_FROM_MS_DONE';
+export const GET_GEN_READY_STARTED = 'GET_GEN_READY_STARTED';
 
 export const getDataIntervalSynchronizeRequested = () => ({ type: GET_DATA_INTERVAL_SYNCHRONIZE_REQUESTED})
 //1min
 export const get3VABreaker1MinDataFromMSDone = (deviceName, data) => ({ type: GET_3VA_BREAKER_1_MIN_DATA_FROM_MS_DONE, deviceName, data})
 export const get3WLBreaker1MinDataFromMSDone = (deviceName, data) => ({ type: GET_3WL_BREAKER_1_MIN_DATA_FROM_MS_DONE, deviceName, data})
 export const getSource1MinDataFromMSDone = (deviceName, data, sourceState) => ({ type: GET_SOURCE_1_MIN_DATA_FROM_MS_DONE, deviceName, data, sourceState})
+export const getGenReadyStartedFromMSDone = (ready, started) => ({ type: GET_GEN_READY_STARTED, ready, started })
 //15min
 export const get3VABreaker15MinDataFromMSDone = (deviceName, data) => ({ type: GET_3VA_BREAKER_15_MIN_DATA_FROM_MS_DONE, deviceName, data})
 export const getSource15MinDataFromMSDone = (deviceName, data) => ({ type: GET_SOURCE_15_MIN_DATA_FROM_MS_DONE, deviceName, data})
@@ -141,6 +143,7 @@ export const getIntervalData1Min = () => {
             dispatch(getSource1MinDataFromMSDone('TR1',TR1.data[0],sourcesState.tr1Supply))
             dispatch(getSource1MinDataFromMSDone('TR2',TR2.data[0],sourcesState.tr2Supply))
             dispatch(getSource1MinDataFromMSDone('GEN',GEN.data[0],sourcesState.genSupply))
+            dispatch(getGenReadyStartedFromMSDone(sourcesState.genReady,sourcesState.genStarted))
 
             dispatch(get3VABreaker1MinDataFromMSDone('cb_1F1',_1F1_currents.data[0]))
             dispatch(get3VABreaker1MinDataFromMSDone('cb_1F2',_1F2_currents.data[0]))

@@ -455,12 +455,9 @@ class Overview extends React.Component {
                                         fontFamily="Roboto, Helvetica, Arial, sans-serif">{(this.props.sources.GEN.Total_reactive_power_import / 1000).toFixed(1)} kvar</text><text transform="translate(939.85 205.59)" fontSize="12"
                                             fill="#3c3c3b" fontFamily="Roboto, Helvetica, Arial, sans-serif" stroke="none">{this.props.sources.GEN.Total_apparent_power !== 0 ?
                                                 (this.props.sources.GEN.Total_active_power_import / this.props.sources.GEN.Total_apparent_power).toFixed(2) : 0} PF</text></g>
-                            <g id="GEN_Stop"><text transform="translate(942.88 114.67)" fontSize="18" fill="#1d1d1b"
-                                fontFamily="Roboto, Helvetica, Arial, sans-serif">
-                                <tspan>Stop</tspan>
-                            </text></g>
-                            <g id="GEN_Gotowosc"><text transform="translate(900.01 90.3)" fontSize="18" fill="#1d1d1b"
-                                fontFamily="Roboto, Helvetica, Arial, sans-serif">Gotowość
+
+                            <g id="GEN_Start_Stop"><text transform="translate(943.01 100.3)" fontSize="18" fill={this.props.sources.GEN.started===true?'#3ec221':"#1d1d1b"}
+                                fontFamily="Roboto, Helvetica, Arial, sans-serif">{this.props.sources.GEN.started===true?'Start':'Stop'}
                             </text></g>
                             <g id="_3F" data-name="3F"
                                 className={(breakers.cb_Q2.stateClosed === true && sources.TR2.state === true && breakers.cb_Q4.stateClosed === true && breakers.cb_Q5.stateClosed === true)
@@ -679,7 +676,7 @@ class Overview extends React.Component {
                                     strokeMiterlimit="10" />
                                 <rect x="814.89" y="446.34" width="60" height="19.93" fill="#055f87" stroke="#055f87" strokeMiterlimit="10"
                                     strokeWidth="2" /><text transform="translate(826.89 458.26)" fontSize="12" fill="#fff" stroke="none"
-                                        fontFamily="Roboto, Helvetica, Arial, sans-serif">B2 RG</text><text transform="translate(816.89 479.79)"
+                                        fontFamily="Roboto, Helvetica, Arial, sans-serif">B1B P1</text><text transform="translate(816.89 479.79)"
                                             fontSize="12" fill="#3c3c3b" stroke="none"
                                             fontFamily="Roboto, Helvetica, Arial, sans-serif">{(breakers.cb_1F7.Active_power_import_15_min / 1000).toFixed(1)} kW</text><text
                                                 transform="translate(816.89 498.39)" fontSize="12" fill="#3c3c3b" stroke="none"
@@ -1033,7 +1030,7 @@ class Overview extends React.Component {
                             <g id="_3F1_overlay" className="overlay" onClick={() => this.openProperties('cb_3F1', '3F1', `${t('slideUpDialogCircuitSection')} GEN`, 'Budynek 2 - serwer.')}>
                                 <rect x="922.14" y="446.2" width="60" height="75.73" />
                             </g>
-                            <g id="_1F7_overlay" className="overlay" onClick={() => this.openProperties('cb_1F7', '1F7', `${t('slideUpDialogCircuitSection')} TR1`, 'Budynek 2 - RG')}>
+                            <g id="_1F7_overlay" className="overlay" onClick={() => this.openProperties('cb_1F7', '1F7', `${t('slideUpDialogCircuitSection')} TR1`, 'Budynek 1B - P1')}>
                                 <rect x="814.89" y="446.2" width="60" height="75.73" />
                             </g>
                             <g id="_1F6_overlay" className="overlay" onClick={() => this.openProperties('cb_1F6', '1F6', `${t('slideUpDialogCircuitSection')} TR1`, 'Budynek 2 - RG')}>

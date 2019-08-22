@@ -16,7 +16,7 @@ class Elevation extends React.Component {
             let deviceStateClosed = this.props.params.breakers[name].stateClosed;
             let deviceStateOpen = this.props.params.breakers[name].stateOpened;
             let deviceStateTripped = this.props.params.breakers[name].stateTripped;
-            let namesToShort = ['cb_2FP1','cb_2FP2','cb_1FP1','cb_1FP2']
+            let namesToShort = ['cb_2FP1','cb_2FP2','cb_1FP1','cb_1FP2', 'cb_Q3', 'cb_Q5']
     
             if(namesToShort.indexOf(name)!==-1)
             {
@@ -1488,10 +1488,10 @@ class Elevation extends React.Component {
                                 <polygon points="1506.37 325.89 1490.4 325.89 1490.4 325.64 1506.37 325.64 1506.37 325.89 1506.37 325.89"
                                     fill="#055f87" />
                             </g>
-                            <g id="S1P4_3VA_1_status" className='closed'><text transform="translate(1379.57 437.07)" fontSize="21"
-                                fontFamily="Roboto, Helvetica, Arial, sans-serif">{t('elevationClosedShort')}</text></g>
-                            <g id="S1P4_3VA_2_status" className='closed'><text transform="translate(1465.7 437.07)" fontSize="21"
-                                fontFamily="Roboto, Helvetica, Arial, sans-serif">{t('elevationClosedShort')}</text></g>
+                            <g id="S1P4_3VA_1_status" className={this.manageSwitchesClassName('cb_Q5')}><text transform="translate(1379.57 437.07)" fontSize="21"
+                                fontFamily="Roboto, Helvetica, Arial, sans-serif">{this.manageSwitchesState('cb_Q5')}</text></g>
+                            <g id="S1P4_3VA_2_status" className={this.manageSwitchesClassName('cb_Q3')}><text transform="translate(1465.7 437.07)" fontSize="21"
+                                fontFamily="Roboto, Helvetica, Arial, sans-serif">{this.manageSwitchesState('cb_Q3')}</text></g>
                             <g id="S2P1_3VA_1">
                                 <path d="M579.22,914.88h22.83V899.39H579.22v15.49Zm23,.21H579V899.18h23.24v15.91Z"
                                     transform="translate(-83.96 -51.18)" fill="#055f87" />
@@ -2197,7 +2197,7 @@ class Elevation extends React.Component {
                                 <rect x="911.04" y="451.86" width="180" height="80.87" />
                             </g>
                             <g id="S1P2.6_overlay" className={this.manageSwitchesClassName('cb_1F7')}
-                            onClick={() => this.openProperties('cb_1F7','1F7',`${t('slideUpDialogCircuitSection')} TR1`,'Budynek 2 - RG')}>
+                            onClick={() => this.openProperties('cb_1F7','1F7',`${t('slideUpDialogCircuitSection')} TR1`,'Budynek 1B - P1')}>
                                 <rect x="911.04" y="532.67" width="180" height="80.87" />
                             </g>
                             <g id="S1P2.10_overlay" className='static'>
@@ -2208,34 +2208,35 @@ class Elevation extends React.Component {
                                 <rect x="1228.44" y="370.93" width="136.6" height="323.48" />
                             </g>
                             <g id="S1P4.3_overlay" className={this.manageSwitchesClassName('cb_3F1')}
-                            onClick={() => this.openProperties('cb_3F1','3F1','Sekcja GEN','Budynek 2 - serwer.')}>
+                            onClick={() => this.openProperties('cb_3F1','3F1',`${t('slideUpDialogCircuitSection')} GEN`,'Budynek 2 - serwer.')}>
                                 <rect x="1365.24" y="532.73" width="180" height="80.87" />
                             </g>
                             <g id="S1P4.4_overlay" className={this.manageSwitchesClassName('cb_3F2')}
-                            onClick={() => this.openProperties('cb_3F2','3F2','Sekcja GEN','Budynek 01 - MSG')}>
+                            onClick={() => this.openProperties('cb_3F2','3F2',`${t('slideUpDialogCircuitSection')} GEN`,'Budynek 01 - MSG')}>
                                 <rect x="1365.44" y="613.6" width="180" height="80.87" />
                             </g>
-                            <g id="S1P4_3VA_1_overlay" className="closed">
-                                <rect x="1365.44" y="85.62" width="90" height="366.18" />
+                            <g id="S1P4_3VA_1_overlay" className={this.manageSwitchesClassName('cb_Q5')}>
+                                <rect x="1365.44" y="273.62" width="90" height="178.18" />
                             </g>
-                            <g id="S1P4_3VA_2_overlay" className="closed">
-                                <rect x="1455.44" y="85.62" width="90" height="366.18" />
+                            <g id="S1P4_3VA_2_overlay" className={this.manageSwitchesClassName('cb_Q3')}
+                            onClick={() => this.openProperties('GEN', 'Q3', 'Generator', `${t('slideUpDialogCircuitSection')} GEN`)}>
+                                <rect x="1455.44" y="273.62" width="90" height="178.18" />
                             </g>
                             <g id="S2P1_3VA_1_overlay" className={this.manageSwitchesClassName('cb_2FP1')}
                             onClick={() => this.openProperties('cb_2FP1','2FP1','TR2','Budynek 01 - MSF')}>
-                                <rect x="457.64" y="694.41" width="68.3" height="249.61" />
+                                <rect x="457.64" y="784.41" width="68.3" height="159.61" />
                             </g>
                             <g id="S2P1_3VA_2_overlay" className={this.manageSwitchesClassName('cb_2FP2')}
                             onClick={() => this.openProperties('cb_2FP2','2FP2','TR2','RPZOK')}>
-                                <rect x="525.94" y="694.41" width="68.3" height="249.61" />
+                                <rect x="525.94" y="784.41" width="68.3" height="159.61" />
                             </g>
                             <g id="S1P1_3VA_1_overlay" className={this.manageSwitchesClassName('cb_1FP1')}
                             onClick={() => this.openProperties('cb_1FP1','1FP1','TR1','Budynek 01 - MSF')}>
-                                <rect x="774.64" y="694.41" width="68.3" height="249.61" />
+                                <rect x="774.64" y="784.41" width="68.3" height="159.61" />
                             </g>
                             <g id="S1P1_3VA_2_overlay" className={this.manageSwitchesClassName('cb_1FP2')}
                             onClick={() => this.openProperties('cb_1FP2','1FP2','TR1','RPZOK')}>
-                                <rect x="842.94" y="694.41" width="68.3" height="249.61" />
+                                <rect x="842.94" y="784.41" width="68.3" height="159.61" />
                             </g>
                             <g id="Roof">
                                 <polygon points="1669.84 33.62 3.44 33.62 53.44 1.82 1719.44 1.82 1669.84 33.62" fill="#a6c7d5" stroke="#055f87"

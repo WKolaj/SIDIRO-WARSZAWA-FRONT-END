@@ -5,6 +5,7 @@ import { getData, sliderSetTimerange, chartSetMarginToRewind, chartLiveUpdate } 
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
 import { withSnackbar } from 'notistack';
+import { getDeviceNameForApiCall } from '../utils/getDeviceNameForApiCall'
 
 let myLineChart;
 Chart.defaults.global.animation.duration = 300;
@@ -27,20 +28,6 @@ class TimeSeriesChart extends React.Component {
         Current_L1: this.props.t('currentL1'),
         Current_L2: this.props.t('currentL2'),
         Current_L3: this.props.t('currentL3'),
-    }
-
-    getDeviceNameForApiCall = () => {
-        let tabIndex = this.props.tabIndex;
-        switch(this.props.deviceNameForApiCall) {
-            case 'Q1':
-                return tabIndex === 'powerTab'? 'TR1_15_min' : 'TR1_1_s'
-            case 'Q2':
-                return tabIndex === 'powerTab'? 'TR2_15_min' : 'TR2_1_s'
-            case 'Q3':
-                return tabIndex === 'powerTab'? 'GEN_15_min' : 'GEN_1_s'
-            default:
-                return tabIndex === 'powerTab'? `${this.props.deviceNameForApiCall}_15_min` : `${this.props.deviceNameForApiCall}_1_s`
-        }
     }
 
     calculateMinMaxRange = () => {
@@ -195,11 +182,11 @@ class TimeSeriesChart extends React.Component {
         {
             clearInterval(this.updateInterval)
         }
-        this.props.getData(this.getDeviceNameForApiCall(),this.tabIndex, this.props.timeRangeSlider, true)
+        this.props.getData(getDeviceNameForApiCall(this.props.tabIndex, this.props.deviceNameForApiCall),this.tabIndex, this.props.timeRangeSlider, true)
         this.updateInterval = setInterval(() => {
             if (this.props.liveDataUpdate === true) {
                 this.props.sliderSetTimerange(new Date().toISOString())
-                this.props.getData(this.getDeviceNameForApiCall(),this.tabIndex, moment().toISOString(), false)
+                this.props.getData(getDeviceNameForApiCall(this.props.tabIndex, this.props.deviceNameForApiCall),this.tabIndex, moment().toISOString(), false)
             }
         }, 30000)
     }

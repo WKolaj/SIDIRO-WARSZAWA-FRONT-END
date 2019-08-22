@@ -19,7 +19,7 @@ export const getEvents = () => {
       header: "application/json",
       method: "GET",
       withCredentials: true,
-      xsrfCookieName: "XSRF-TOKEN"
+      xsrfCookieName: "XSRF-TOKEN",
     })
       .then(res => {
         //success
