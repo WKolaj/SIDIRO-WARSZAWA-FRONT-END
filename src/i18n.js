@@ -95,6 +95,50 @@ const resources = {
       powermonitorNotReadyLabel:
         "Strażnik mocy nie jest gotowy! Zaczekaj do zakończenia aktualnego okresu 15-minutowego",
 
+      //reports
+      reports: "Raporty",
+      reportsMenuEnergyReport: "Zużycie energii",
+      reportsMenu15MinPowerReport: "Moce 15-minutowe",
+      reportsMenuQualityReport: "Jakość zasilania",
+
+      reportsEnergyReportDateTimePickerTitle: "Wybierz miesiąc",
+      reportsEnergyReportGroupConsumptionTitle:
+        "Miesięczne zużycie energii czynnej",
+
+      reportsEnergyReportGroupName_building01: "Budynek 01",
+      reportsEnergyReportGroupName_building1: "Budynek 1",
+      reportsEnergyReportGroupName_building2: "Budynek 2",
+      reportsEnergyReportGroupName_building3: "Budynek 3",
+      reportsEnergyReportGroupName_parking: "Parking",
+      reportsEnergyReportGroupName_rest: "Pozostałe",
+      reportsEnergyReportGroupName_total: "Łącznie",
+      reportsEnergyReportGroupName_transformers: "Transformatory",
+
+      reportsEnergyReportTableInfeedColumnHeader: "Nazwa odbioru",
+      reportsEnergyReportTableInfeedColumnActiveEnergyConsumption:
+        "Zużycie energii czynnej",
+
+      reportsEnergyReportDailyConsumptionTitle:
+        "Dzienne zużycie energii czynnej",
+
+      reportsEnergyReportTableDateColumn: "Dzień miesiąca",
+      reportsEnergyReportTablePaginationFrom: "z",
+      reportsEnergyReportTablePaginationRows: "wierszy",
+      reportsEnergyReportTablePaginationPreviousPage: "Poprzednia strona",
+      reportsEnergyReportTablePaginationNextPage: "Następna strona",
+      reportsEnergyReportTablePaginationFirstPage: "Pierwsza strona",
+      reportsEnergyReportTablePaginationLastPage: "Ostatnia strona",
+      reportsEnergyReportTableExportTitle: "Eksport",
+      reportsEnergyReportTableExportAriaLabel: "Eksport",
+      reportsEnergyReportTableExportName: "Eksportuj do CSV",
+      reportsEnergyReportTableDataEmpty: "Brak danych",
+
+      reportsReactiveEnergyImportReportGroupConsumptionTitle:
+        "Dzienne zużycie energii biernej indukcyjnej",
+
+      reportsReactiveEnergyExportReportGroupConsumptionTitle:
+        "Dzienne zużycie energii biernej pojemnościowej",
+
       //slideUpDialog
       slideUpDialogTabOverview: "Przegląd",
       slideUpDialogTabVoltage: "Napięcie",
@@ -225,6 +269,50 @@ const resources = {
 
       powermonitorNotReadyLabel:
         "Load monitoring is not ready! Wait for the next 15-minute interval...",
+
+      //reports
+      reports: "Reports",
+      reportsMenuEnergyReport: "Energy consumption",
+      reportsMenu15MinPowerReport: "Power demand",
+      reportsMenuQualityReport: "Supply quality",
+
+      reportsEnergyReportDateTimePickerTitle: "Choose month",
+      reportsEnergyReportGroupConsumptionTitle:
+        "Monthly active energy consumption",
+      reportsEnergyReportGroupName_building01: "Building 01",
+      reportsEnergyReportGroupName_building1: "Building 1",
+      reportsEnergyReportGroupName_building2: "Building 2",
+      reportsEnergyReportGroupName_building3: "Building 3",
+      reportsEnergyReportGroupName_parking: "Parking",
+      reportsEnergyReportGroupName_rest: "Rest",
+      reportsEnergyReportGroupName_total: "Total",
+      reportsEnergyReportGroupName_transformers: "Transformers",
+
+      reportsEnergyReportTableInfeedColumnHeader: "Infeed name",
+      reportsEnergyReportTableInfeedColumnActiveEnergyConsumption:
+        "Active energy consumption",
+
+      reportsEnergyReportTableDateColumn: "Day in month",
+      reportsEnergyReportTablePaginationFrom: "of",
+      reportsEnergyReportTablePaginationRows: "rows",
+      reportsEnergyReportTablePaginationPreviousPage: "Previous page",
+      reportsEnergyReportTablePaginationNextPage: "Next page",
+      reportsEnergyReportTablePaginationFirstPage: "First page",
+      reportsEnergyReportTablePaginationLastPage: "Last page",
+      reportsEnergyReportTableExportTitle: "Export",
+      reportsEnergyReportTableExportAriaLabel: "Export",
+      reportsEnergyReportTableExportName: "Export as CSV",
+      reportsEnergyReportTableDataEmpty: "No data",
+
+      reportsEnergyReportDailyConsumptionTitle:
+        "Daily active energy consumption",
+
+      reportsReactiveEnergyImportReportGroupConsumptionTitle:
+        "Daily reactive energy import consumption",
+
+      reportsReactiveEnergyExportReportGroupConsumptionTitle:
+        "Daily reactive energy export consumption",
+
       //events
       events: "Events",
       event: "Event",

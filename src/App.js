@@ -14,6 +14,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import ViewArrayIcon from "@material-ui/icons/ViewArray";
 import EventIcon from "@material-ui/icons/Event";
 import LanguageIcon from "@material-ui/icons/Language";
+import BarChart from "@material-ui/icons/BarChart";
 import { withStyles } from "@material-ui/core/styles";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { withTranslation } from "react-i18next";
@@ -26,6 +27,7 @@ import { manageLanguageDialog } from "./actions/languageDialog";
 import { manageDrawerOpen } from "./actions/index";
 import LanguageDialog from "./components/LanguageSelectionDialog";
 import Powermonitor from "./components/Powermonitor/PowermonitorComponent";
+import Reports from "./components/Reports/ReportsComponent";
 import {
   getIntervalData1Min,
   getIntervalData15Min
@@ -33,7 +35,7 @@ import {
 import MultilineChart from "@material-ui/icons/MultilineChart";
 import BusyDialog from "./components/BusyDialog";
 import SnackbarNotifier from "./components/SnackbarNotifier";
-import { withSnackbar } from 'notistack';
+import { withSnackbar } from "notistack";
 
 const drawerWidth = 240;
 const styles = theme => ({
@@ -93,15 +95,14 @@ class App extends React.Component {
   interval15min = null;
 
   componentDidMount() {
-    this.props.getIntervalData1Min();
-    this.props.getIntervalData15Min();
-
-    this.interval15sec = setInterval(() => {
-      this.props.getIntervalData1Min();
-    }, 30000);
-    this.interval15min = setInterval(() => {
-      this.props.getIntervalData15Min();
-    }, 900000);
+    // this.props.getIntervalData1Min();
+    // this.props.getIntervalData15Min();
+    // this.interval15sec = setInterval(() => {
+    //   this.props.getIntervalData1Min();
+    // }, 30000);
+    // this.interval15min = setInterval(() => {
+    //   this.props.getIntervalData15Min();
+    // }, 900000);
   }
 
   componentWillUnmount() {
@@ -110,11 +111,13 @@ class App extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(prevProps.checkStates.syncError === false && this.props.checkStates.syncError === true)
-    {
-      this.props.enqueueSnackbar(this.props.t('snackbarsConnectionError'), {
-        variant: 'error',
-    });
+    if (
+      prevProps.checkStates.syncError === false &&
+      this.props.checkStates.syncError === true
+    ) {
+      this.props.enqueueSnackbar(this.props.t("snackbarsConnectionError"), {
+        variant: "error"
+      });
     }
   }
 
@@ -180,6 +183,12 @@ class App extends React.Component {
                 </ListItemIcon>
                 <ListItemText primary={t("powermonitor")} />
               </ListItem>
+              <ListItem button component={Link} to="/reports">
+                <ListItemIcon>
+                  <BarChart />
+                </ListItemIcon>
+                <ListItemText primary={t("reports")} />
+              </ListItem>
               <Divider />
               <ListItem
                 button
@@ -199,6 +208,7 @@ class App extends React.Component {
               <Route path="/elewacja" component={Elevation} />
               <Route path="/zdarzenia" component={Events} />
               <Route path="/powermonitor" component={Powermonitor} />
+              <Route path="/reports" component={Reports} />
               <Route path="/" component={Overview} />
             </Switch>
           </main>

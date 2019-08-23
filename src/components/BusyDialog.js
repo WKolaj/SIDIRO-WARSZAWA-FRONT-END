@@ -12,7 +12,7 @@ const styles = theme => {
     progress: {
       width: 200,
       height: 200,
-      color: "black"
+      color: "#055f87"
     }
   };
 };
