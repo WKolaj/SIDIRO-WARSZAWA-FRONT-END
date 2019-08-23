@@ -8,8 +8,7 @@ import PowermonitorDetailsPaperComponent from "./PowermonitorDetailsPaperCompone
 
 const styles = theme => ({
   root: {
-    width: "100%",
-    height: "calc(100% - 45px)"
+    width: "100%"
   }
 });
 
@@ -22,15 +21,16 @@ class PowermonitorOverviewComponent extends Component {
 
     return (
       <Grid container spacing={3} className={classes.root}>
-        <Grid item xs={12} sm={12} md={4} style={{ minWidth: 300 }}>
+        <Grid item xs={12} sm={12} md={12} lg={4} style={{ minWidth: 300 }}>
           <PowermonitorDetailsPaperComponent />
         </Grid>
         <Grid
           item
           xs={12}
           sm={12}
-          md={8}
-          style={{ minWidth: 600, minHeight: 500 }}
+          md={12}
+          lg={8}
+          style={{ minWidth: 600, minHeight: 700 }}
         >
           <PowermonitorEnergyTrend />
         </Grid>

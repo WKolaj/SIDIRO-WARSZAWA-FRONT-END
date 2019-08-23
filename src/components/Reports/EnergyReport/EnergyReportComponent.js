@@ -23,6 +23,11 @@ const styles = theme => ({
 });
 
 class EnergyReportComponent extends Component {
+  componentDidMount = () => {
+    let now = new Date(Date.now());
+    this.props.fetchEnergyReport(now.getFullYear(), now.getMonth());
+  };
+
   handleDateChange = date => {
     let { fetchEnergyReport, energyReport } = this.props;
 

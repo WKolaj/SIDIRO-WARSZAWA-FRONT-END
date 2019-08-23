@@ -111,7 +111,7 @@ class Powermonitor15MinComponent extends Component {
       activePowerLimitWarning
     } = powermonitorData.data;
 
-    let validColor = "rgba(125, 125, 125, 1)";
+    let validColor = "#055f8788";
     let alertColor = "rgba(255, 0, 0, 1)";
     let warningColor = "rgba(255, 150, 0, 1)";
 

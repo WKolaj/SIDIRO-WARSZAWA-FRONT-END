@@ -14,6 +14,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Button from "@material-ui/core/Button";
+
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { settingsSchema } from "../../validation/Powermonitor";
 import {
@@ -44,12 +45,9 @@ const BlackCheckbox = withStyles({
 
 const styles = theme => ({
   settingsPaper: {
-    backgroundColor: theme.palette.background.paper,
     heigh: "100%",
-    minWidth: 400
-  },
-  mainGrid: {
-    height: "calc(100% - 45px)"
+    minWidth: 400,
+    padding: theme.spacing(2)
   },
   settingsGrid: {
     height: "100%"
@@ -92,7 +90,7 @@ const styles = theme => ({
     color: "red"
   },
   emailListPaper: {
-    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(2),
     height: "100%",
     minWidth: 400
   },
@@ -118,12 +116,9 @@ class PowermonitorSettingsComponent extends Component {
 
     return (
       <Grid item>
-        <List>
-          <ListItem className={classes.listHeader}>
-            {t("powermonitorSettingsTitle")}
-          </ListItem>
-          <Divider />
-        </List>
+        <Typography variant="h5" gutterBottom>
+          {t("powermonitorSettingsTitle")}
+        </Typography>
       </Grid>
     );
   };
@@ -133,12 +128,9 @@ class PowermonitorSettingsComponent extends Component {
 
     return (
       <Grid item>
-        <List>
-          <ListItem className={classes.listHeader}>
-            {t("powermonitorSettingsEmailListTitle")}
-          </ListItem>
-          <Divider />
-        </List>
+        <Typography variant="h5" gutterBottom>
+          {t("powermonitorSettingsEmailListTitle")}
+        </Typography>
       </Grid>
     );
   };
@@ -365,18 +357,20 @@ class PowermonitorSettingsComponent extends Component {
                       </Grid>
                     </Grid>
                   </Grid>
-                  <List>
-                    <Divider />
-                  </List>
+
                   <Grid item className={classes.footer}>
                     <Button
                       type="submit"
                       disabled={this.checkConfirmButtonDisable()}
                     >
-                      {t("powermonitorSettingsConfirmButton")}
+                      <Typography variant="h6" gutterBottom>
+                        {t("powermonitorSettingsConfirmButton")}
+                      </Typography>
                     </Button>
                     <Button onClick={this.handleResetButtonClick}>
-                      {t("powermonitorSettingsResetButton")}
+                      <Typography variant="h6" gutterBottom>
+                        {t("powermonitorSettingsResetButton")}
+                      </Typography>
                     </Button>
                   </Grid>
                 </Grid>
@@ -399,14 +393,14 @@ class PowermonitorSettingsComponent extends Component {
                       component={this.renderEmailTable}
                     />
                   </Grid>
-                  <List>
-                    <Divider />
-                  </List>
+
                   <Grid item className={classes.emailListFooter}>
                     <Button
                       onClick={() => this.handleAddRecipientButtonClick()}
                     >
-                      {t("powermonitorSettingsAddRecipientButton")}
+                      <Typography variant="h6" gutterBottom>
+                        {t("powermonitorSettingsAddRecipientButton")}
+                      </Typography>
                     </Button>
                   </Grid>
                 </Grid>

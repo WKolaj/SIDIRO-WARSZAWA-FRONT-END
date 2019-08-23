@@ -23,17 +23,13 @@ import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
 
 const styles = theme => ({
-  title: {
-    fontSize: 14,
-    fontWeight: "bold"
-  },
   dateField: {
-    fontSize: 10
+    fontSize: 12
   },
   valueField: {},
   transgretionField: {},
   severityField: {
-    fontSize: 10
+    fontSize: 12
   },
   table: {}
 });
@@ -81,6 +77,10 @@ class Powermonitor15MinTableComponent extends React.Component {
     const { transgressions } = powermonitorActivePower;
     return (
       <MaterialTable
+        components={{
+          Container: props => props.children
+        }}
+        title=""
         className={classes.table}
         icons={tableIcons}
         columns={[
@@ -124,13 +124,12 @@ class Powermonitor15MinTableComponent extends React.Component {
           }
         ]}
         data={transgressions}
-        title={renderTitle(t, classes)}
         options={{
-          pageSize: 7,
+          pageSize: 10,
           showTitle: true,
           search: false,
           filtering: false,
-          pageSizeOptions: [7],
+          pageSizeOptions: [10],
           padding: "dense",
           exportButton: true,
           exportFileName: "transgressions.csv"
