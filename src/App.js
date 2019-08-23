@@ -20,6 +20,7 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { withTranslation } from "react-i18next";
 import Overview from "./components/Overview";
 import Elevation from "./components/Elevation";
+import Reports from "./components/Reports/ReportsComponent";
 import Events from "./components/Events";
 import SlideupDialog from "./components/SlideupDialog";
 import { connect } from "react-redux";
@@ -87,6 +88,11 @@ const styles = theme => ({
 class App extends React.Component {
   handleDrawerOpen = open => {
     this.props.manageDrawerOpen(open);
+  };
+
+  //Setting default lang to pl - bug fix with default lang of MuiPickersUtilsProvider
+  componentDidMount = () => {
+    this.props.i18n.changeLanguage("pl");
   };
 
   componentDidUpdate(prevProps) {

@@ -4,7 +4,6 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import "typeface-roboto";
-import DateFnsUtils from "@date-io/date-fns";
 
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
@@ -15,13 +14,11 @@ import { SnackbarProvider } from "notistack";
 //i18n
 import "./i18n";
 
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
   palette: {
-    primary: { 500: '#055f87' },
+    primary: { 500: "#055f87" },
     secondary: red
   }
 });
@@ -31,11 +28,9 @@ const store = createStore(rootReducer, applyMiddleware(thunk));
 ReactDOM.render(
   <Provider store={store}>
     <MuiThemeProvider theme={theme}>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <SnackbarProvider maxSnack={1}>
-          <App />
-        </SnackbarProvider>
-      </MuiPickersUtilsProvider>
+      <SnackbarProvider maxSnack={1}>
+        <App />
+      </SnackbarProvider>
     </MuiThemeProvider>
   </Provider>,
   document.getElementById("root")
