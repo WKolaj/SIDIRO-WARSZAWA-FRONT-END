@@ -8,7 +8,6 @@ import DateFnsUtils from "@date-io/date-fns";
 
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
-import teal from "@material-ui/core/colors/teal";
 import red from "@material-ui/core/colors/red";
 import thunk from "redux-thunk";
 import rootReducer from "./reducers/rootReducer";
@@ -22,7 +21,7 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
   palette: {
-    primary: teal,
+    primary: { 500: '#055f87' },
     secondary: red
   }
 });

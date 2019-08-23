@@ -1,5 +1,6 @@
 import axios from "axios";
 import moment from "moment";
+import i18n from '../i18n';
 import { showBusyDialogActionCreator, hideBusyDialogActionCreator } from "./busyDialog"
 //chart data
 export const GET_DATA_REQUESTED = "GET_DATA_REQUESTED";
@@ -39,82 +40,83 @@ export const chartSetRewindDirection = direction => ({
 
 export const getData = (device, tabIndex, toTime, loadingCircle = false) => {
   let from = null;
-  switch(tabIndex) {
+  let to = moment(toTime).startOf("minute").toISOString();
+  switch (tabIndex) {
     case 'powerTab':
-      from = moment(toTime)
-      .subtract(1, "day")
-      .toISOString();
-    break;
-    default: 
-    from = moment(toTime)
-    .subtract(15, "minute")
-    .toISOString();
-    break;
+      from = moment(toTime).startOf("day").subtract(10, 'minutes').toISOString();
+      to = moment(toTime).endOf("day").toISOString();
+      break;
+    case 'THDUtab':
+      from = moment(toTime).startOf("hour").subtract(1, 'minutes').toISOString();
+      to = moment(toTime).endOf("hour").add(1, 'minutes').toISOString();
+      break;
+    case 'THDItab':
+      from = moment(toTime).startOf("hour").subtract(1, 'minutes').toISOString();
+      to = moment(toTime).endOf("hour").add(1, 'minutes').toISOString();
+      break;
+    default:
+      from = moment(toTime).startOf("minute")
+        .subtract(1, "minute")
+        .toISOString();
+      break;
   }
 
-  let to = moment(toTime).toISOString();
   return dispatch => {
     let datasets = [];
     let colors = [
-      "#ff4000",
-      "#ff8000",
-      "#ffbf00",
-      "#ffff00",
-      "#bfff00",
-      "#80ff00",
-      "#40ff00",
-      "#00ff00",
-      "#00ff40",
-      "#00ff80",
-      "#00ffbf",
-      "#00ffff",
-      "#00bfff",
-      "#0080ff",
-      "#0040ff",
-      "#0000ff",
-      "#4000ff",
-      "#8000ff",
-      "#bf00ff",
-      "#ff00ff",
-      "#ff00bf",
-      "#ff0080",
-      "#ff0040",
-      "#ff0000"
+      "#f70c0c", //red
+      "#169407", //green
+      "#093eb3", //blue
+      "#720c9c", //violet
+      "#12edfc" //orange
     ];
 
     let color = 0;
     let variablesToGET = null;
     switch (tabIndex) {
-      case "voltageTab":
+      case "voltageLLTab":
         variablesToGET = [
           "Voltage_L1_L2",
-          "Voltage_L1_N",
           "Voltage_L2_L3",
-          "Voltage_L2_N",
           "Voltage_L3_L1",
-          "Voltage_L3_N"
+        ];
+        break;
+      case "voltageLNTab":
+        variablesToGET = [
+          "Voltage_L1_N",
+          "Voltage_L2_N",
+          "Voltage_L3_N",
         ];
         break;
       case "currentTab":
-        variablesToGET = ["Current_L1", "Current_L2", "Current_L3"];
+        variablesToGET = ['Current_L1', 'Current_L2', 'Current_L3'];
         break;
       case "powerTab":
-        if(device === 'TR2_15_min' || device === 'TR1_15_min' || device === 'GEN_15_min')
-        {
-          variablesToGET = ['Total_active_power_import', 'Total_reactive_power_import', 'Total_apparent_power']
+        if (device === 'TR2_15_min' || device === 'TR1_15_min' || device === 'GEN_15_min') {
+          variablesToGET = ['Total_active_power_import', 'Total_reactive_power_import', 'Total_apparent_power', 'Total_active_power_export', 'Total_reactive_power_export']
         }
         else {
-          variablesToGET = ['Active_power_import_15_min', 'Reactive_power_import_15_min']
+          variablesToGET = ['Active_power_import_15_min', 'Reactive_power_import_15_min', 'Active_power_export_15_min', 'Reactive_power_export_15_min']
+        }
+        break;
+      case "THDUtab":
+        variablesToGET = ['THD_voltage_L1', 'THD_voltage_L2', 'THD_voltage_L3'];
+        break;
+      case "THDItab":
+        if (device.indexOf('TR') !== -1) {
+          variablesToGET = ['THD_current_L1', 'THD_current_L2', 'THD_current_L3'];
+        }
+        else {
+          variablesToGET = ['THD_Current_L1', 'THD_Current_L2', 'THD_Current_L3'];
         }
         break;
       default:
-        variablesToGET = ["Current_L1", "Current_L2", "Current_L3"];
+        variablesToGET = ['Current_L1', 'Current_L2', 'Current_L3'];
         break;
     }
 
     // set state to "loading"
-    if(loadingCircle === true)
-    {
+    if (loadingCircle === true) {
       dispatch(showBusyDialogActionCreator())
     }
     dispatch(getDataRequested());
@@ -128,19 +130,19 @@ export const getData = (device, tabIndex, toTime, loadingCircle = false) => {
       .then(res => {
         //success
         if (res.data.length > 0) {
-          Object.keys(res.data[0]).forEach(function(key) {
+          Object.keys(res.data[0]).forEach(function (key) {
             if (key.indexOf("_qc") === -1 && key.indexOf("_time") === -1) {
-              color++;
+              let label = i18n.t(key)
               let xyData = [];
               res.data.map(singlePoint => {
                 return xyData.unshift({
-                  x: new Date(singlePoint._time).toISOString(),
-                  y: singlePoint[key].toFixed(3)
+                  x: new Date(singlePoint._time),
+                  y: tabIndex === 'powerTab' ? parseFloat((singlePoint[key] / 1000).toFixed(3)) : parseFloat(singlePoint[key].toFixed(3))
                 });
               });
               //if replace whole datasets > tab changed
               datasets.push({
-                label: key,
+                label: label,
                 backgroundColor:
                   color <= colors.length ? colors[color] : "#000000",
                 borderColor: color <= colors.length ? colors[color] : "#000000",
@@ -151,20 +153,18 @@ export const getData = (device, tabIndex, toTime, loadingCircle = false) => {
                 lineTension: 0,
                 borderWidth: 2
               });
+              color++;
             }
           });
         }
-        if(loadingCircle === true)
-        {
+        if (loadingCircle === true) {
           dispatch(hideBusyDialogActionCreator())
         }
-        
         dispatch(getDataDone(datasets));
       })
       .catch(error => {
         // error
-        if(loadingCircle === true)
-        {
+        if (loadingCircle === true) {
           dispatch(hideBusyDialogActionCreator())
         }
         dispatch(getDataFailed(error));
