@@ -6,6 +6,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { withSnackbar } from "notistack";
 import GroupConsumptionComponent from "./GroupConsumptionComponent";
 import DailyConsumptionComponent from "./DailyConsumptionComponent";
+import PowerFactorDailyConsumptionComponent from "./PowerFactorDailyConsumptionComponent";
 import ReactiveEnergyImportDailyConsumptionComponent from "./ReactiveEnergyImportDailyConsumptionComponent";
 import ReactiveEnergyExportDailyConsumptionComponent from "./ReactiveEnergyExportDailyConsumptionComponent";
 import { Grid } from "@material-ui/core";
@@ -62,6 +63,9 @@ class EnergyReportComponent extends Component {
       <React.Fragment>
         <Grid item>
           <GroupConsumptionComponent />
+        </Grid>
+        <Grid item>
+          <PowerFactorDailyConsumptionComponent />
         </Grid>
         <Grid item>
           <DailyConsumptionComponent />

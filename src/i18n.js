@@ -139,6 +139,15 @@ const resources = {
       reportsReactiveEnergyExportReportGroupConsumptionTitle:
         "Dzienne zużycie energii biernej pojemnościowej",
 
+      reportsPowerFactorEnergyReportDailyConsumptionTitle:
+        "Przebieg współczynnika mocy",
+
+      reportsPowerFactorImportEnergyReportDailyConsumptionTrendLabel:
+        "Współczynnik mocy biernej indukcyjnej",
+
+      reportsPowerFactorExportEnergyReportDailyConsumptionTrendLabel:
+        "Współczynnik mocy biernej pojemnościowej",
+
       //slideUpDialog
       slideUpDialogTabOverview: "Przegląd",
       slideUpDialogTabVoltage: "Napięcie",
@@ -151,12 +160,14 @@ const resources = {
       slideUpDialogBreakerStateClosed: "Załączony",
       slideUpDialogBreakerStateOpen: "Wyłączony",
       slideUpDialogLastTripTitle: "Ostatnie wyzwolenie",
-      slideUpDialogLastTripReason0: "Brak operacji wyzwolenia lub ostatnie wyzwolenie potwierdzone",
+      slideUpDialogLastTripReason0:
+        "Brak operacji wyzwolenia lub ostatnie wyzwolenie potwierdzone",
       slideUpDialogLastTripReason1: "Wyzwolenie przeciążeniowe (L)",
       slideUpDialogLastTripReason2: "Wyzwolenie bezzwłoczne zwarciowe (I)",
       slideUpDialogLastTripReason3: "Wyzwolenie krótkozwłoczne zwarciowe (sd)",
       slideUpDialogLastTripReason4: "Zwarcie doziemne",
-      slideUpDialogLastTripReason5: "Wyzwolenie na skutek rozszerzonej funkcji ochronnej",
+      slideUpDialogLastTripReason5:
+        "Wyzwolenie na skutek rozszerzonej funkcji ochronnej",
       slideUpDialogLastTripReason6: "Przeciążenie przewodu neutralnego (N)",
       slideUpDialogLastTripReason7: "Reserved",
       slideUpDialogActivePower: "Moc czynna",
@@ -356,6 +367,14 @@ const resources = {
       reportsReactiveEnergyExportReportGroupConsumptionTitle:
         "Daily reactive energy export consumption",
 
+      reportsPowerFactorEnergyReportDailyConsumptionTitle: "Power factor trend",
+
+      reportsPowerFactorImportEnergyReportDailyConsumptionTrendLabel:
+        "Power factor of reactive power import",
+
+      reportsPowerFactorExportEnergyReportDailyConsumptionTrendLabel:
+        "Power factor of reactive power export",
+
       //events
       events: "Events",
       event: "Event",
@@ -383,12 +402,14 @@ const resources = {
       slideUpDialogBreakerStateClosed: "Closed",
       slideUpDialogBreakerStateOpen: "Open",
       slideUpDialogLastTripTitle: "Last trip",
-      slideUpDialogLastTripReason0: "No tripping operation or last tripping operation acknowledged",
+      slideUpDialogLastTripReason0:
+        "No tripping operation or last tripping operation acknowledged",
       slideUpDialogLastTripReason1: "Overload tripping (L)",
       slideUpDialogLastTripReason2: "Instantaneous short circuit (I)",
       slideUpDialogLastTripReason3: "Short-time delayed short circuit (sd)",
       slideUpDialogLastTripReason4: "Ground fault",
-      slideUpDialogLastTripReason5: "Tripping operation as a result of extended protection function",
+      slideUpDialogLastTripReason5:
+        "Tripping operation as a result of extended protection function",
       slideUpDialogLastTripReason6: "Overload in neutral conductor (N)",
       slideUpDialogLastTripReason7: "Reserved",
       slideUpDialogActivePower: "Active power",

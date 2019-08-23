@@ -160,7 +160,9 @@ class EnergyCalculator {
       activeEnergyImport: 0,
       activeEnergyExport: 0,
       reactiveEnergyImport: 0,
-      reactiveEnergyExport: 0
+      reactiveEnergyExport: 0,
+      powerFactorImport: 0,
+      powerFactorExport: 0
     };
 
     for (let group of this.AllEnergyGroups) {
@@ -179,7 +181,9 @@ class EnergyCalculator {
           groupInitialCounter.reactiveEnergyImport,
         reactiveEnergyExport:
           groupEndCounter.reactiveEnergyExport -
-          groupInitialCounter.reactiveEnergyExport
+          groupInitialCounter.reactiveEnergyExport,
+        powerFactorImport: 0,
+        powerFactorExport: 0
       };
 
       if (Math.abs(groupConsumption.activeEnergyImport) < consumptionMinDelta)
@@ -194,7 +198,31 @@ class EnergyCalculator {
       if (Math.abs(groupConsumption.reactiveEnergyExport) < consumptionMinDelta)
         groupConsumption.reactiveEnergyExport = 0;
 
+      if (Math.abs(groupConsumption.reactiveEnergyExport) < consumptionMinDelta)
+        groupConsumption.reactiveEnergyExport = 0;
+
       countersToReturn[group] = groupConsumption;
+
+      let apparentEnergyConsumptionImport = Math.sqrt(
+        groupConsumption.activeEnergyImport *
+          groupConsumption.activeEnergyImport +
+          groupConsumption.reactiveEnergyImport *
+            groupConsumption.reactiveEnergyImport
+      );
+      let apparentEnergyConsumptionExport = Math.sqrt(
+        groupConsumption.activeEnergyImport *
+          groupConsumption.activeEnergyImport +
+          groupConsumption.reactiveEnergyExport *
+            groupConsumption.reactiveEnergyExport
+      );
+
+      if (apparentEnergyConsumptionImport !== 0)
+        groupConsumption.powerFactorImport =
+          groupConsumption.activeEnergyImport / apparentEnergyConsumptionImport;
+
+      if (apparentEnergyConsumptionExport !== 0)
+        groupConsumption.powerFactorExport =
+          groupConsumption.activeEnergyImport / apparentEnergyConsumptionExport;
 
       if (group !== "total") {
         calculatedTotalConsumption.activeEnergyImport +=
@@ -220,8 +248,33 @@ class EnergyCalculator {
         calculatedTotalConsumption.reactiveEnergyImport,
       reactiveEnergyExport:
         countersToReturn.total.reactiveEnergyExport -
-        calculatedTotalConsumption.reactiveEnergyExport
+        calculatedTotalConsumption.reactiveEnergyExport,
+      powerFactorImport: 0,
+      powerFactorExport: 0
     };
+
+    let apparentEnergyConsumptionImport = Math.sqrt(
+      countersToReturn["rest"].activeEnergyImport *
+        countersToReturn["rest"].activeEnergyImport +
+        countersToReturn["rest"].reactiveEnergyImport *
+          countersToReturn["rest"].reactiveEnergyImport
+    );
+    let apparentEnergyConsumptionExport = Math.sqrt(
+      countersToReturn["rest"].activeEnergyImport *
+        countersToReturn["rest"].activeEnergyImport +
+        countersToReturn["rest"].reactiveEnergyExport *
+          countersToReturn["rest"].reactiveEnergyExport
+    );
+
+    if (apparentEnergyConsumptionImport !== 0)
+      countersToReturn["rest"].powerFactorImport =
+        countersToReturn["rest"].activeEnergyImport /
+        apparentEnergyConsumptionImport;
+
+    if (apparentEnergyConsumptionExport !== 0)
+      countersToReturn["rest"].powerFactorExport =
+        countersToReturn["rest"].activeEnergyImport /
+        apparentEnergyConsumptionExport;
 
     let trafoConsumption = this._calculateTrafoLosses(
       filteredTime[0],
@@ -232,6 +285,29 @@ class EnergyCalculator {
     countersToReturn["transformers"] = {
       activeEnergyImport: trafoConsumption
     };
+
+    let trafoApparentEnergyConsumptionImport = Math.sqrt(
+      countersToReturn["total"].activeEnergyImport *
+        countersToReturn["total"].activeEnergyImport +
+        countersToReturn["total"].reactiveEnergyImport *
+          countersToReturn["total"].reactiveEnergyImport
+    );
+    let trafoApparentEnergyConsumptionExport = Math.sqrt(
+      countersToReturn["total"].activeEnergyImport *
+        countersToReturn["total"].activeEnergyImport +
+        countersToReturn["total"].reactiveEnergyExport *
+          countersToReturn["total"].reactiveEnergyExport
+    );
+
+    if (trafoApparentEnergyConsumptionImport !== 0)
+      countersToReturn["total"].powerFactorImport =
+        countersToReturn["total"].activeEnergyImport /
+        trafoApparentEnergyConsumptionImport;
+
+    if (trafoApparentEnergyConsumptionExport !== 0)
+      countersToReturn["total"].powerFactorExport =
+        countersToReturn["total"].activeEnergyImport /
+        trafoApparentEnergyConsumptionExport;
 
     return countersToReturn;
   };
