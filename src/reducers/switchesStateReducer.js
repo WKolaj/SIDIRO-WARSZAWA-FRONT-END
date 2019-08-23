@@ -8,7 +8,8 @@ import {
     GET_SOURCE_15_MIN_DATA_FROM_MS_DONE,
     GET_3VA_BREAKER_15_MIN_DATA_FROM_MS_DONE,
     GET_DATA_INTERVAL_SYNCHRONIZE_FAILED,
-    GET_GEN_READY_STARTED
+    GET_GEN_READY_STARTED,
+    GET_ATSE_STATE
 } from '../actions/mindsphereDataUpdateInterval';
 
 const initialState = {
@@ -910,6 +911,12 @@ const initialState = {
             Reactive_power_import_15_min: 0,
             _time: ''
         },
+        ATSE: {
+            notReady: false,
+            manual: false,
+            auto: false,
+            alarm: false
+        }
     }
 };
 
@@ -1018,6 +1025,18 @@ export const switchesStateReducer = (state = initialState, action) => {
                     ...state.sources,
                     [action.deviceName]: {
                         ...state.sources[action.deviceName],
+                        ...action.data
+                    }
+                }
+            }
+        case GET_ATSE_STATE:
+            return {
+                ...state,
+                syncError: false,
+                breakers: {
+                    ...state.breakers,
+                    ATSE: {
+                        ...state.breakers.ATSE,
                         ...action.data
                     }
                 }

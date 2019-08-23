@@ -4,12 +4,18 @@ import { showBusyDialogActionCreator, hideBusyDialogActionCreator } from "./busy
 export const GET_EVENTS_REQUESTED = "GET_EVENTS_REQUESTED";
 export const GET_EVENTS_DONE = "GET_EVENTS_DONE";
 export const GET_EVENTS_FAILED = "GET_EVENTS_FAILED";
+export const SET_FILTER_FROM_DATE = "SET_FILTER_FROM_DATE";
+export const SET_FILTER_TO_DATE = "SET_FILTER_TO_DATE";
 
 export const getEventsRequested = () => ({ type: GET_EVENTS_REQUESTED });
 export const getEventsDone = (data) => ({ type: GET_EVENTS_DONE, data });
 export const getEventsFailed = () => ({ type: GET_EVENTS_FAILED });
+export const setEventsFilterFromDate = (fromDate) => ({ type: SET_FILTER_FROM_DATE, fromDate });
+export const setEventsFilterToDate = (toDate) => ({ type: SET_FILTER_TO_DATE, toDate });
 
-export const getEvents = () => {
+export const getEvents = (fromDate, toDate) => {
+  console.log(fromDate)
+  console.log(toDate)
   return dispatch => {
     // set state to "loading"
     dispatch(getEventsRequested());
@@ -20,6 +26,13 @@ export const getEvents = () => {
       method: "GET",
       withCredentials: true,
       xsrfCookieName: "XSRF-TOKEN",
+      params: {
+        filter: {
+          'timestamp': {
+            'between': `[${fromDate},${toDate})`
+          }
+        }
+      }
     })
       .then(res => {
         //success

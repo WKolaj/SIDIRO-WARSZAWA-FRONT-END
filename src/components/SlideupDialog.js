@@ -146,12 +146,11 @@ class SlideupDialog extends React.Component {
   getLastTripReason = () => {
     let t = this.props.t;
     let device = this.props.selectedDevice
-    if(device && device.indexOf('cb_')!==-1)
-    {
+    if (device && device.indexOf('cb_') !== -1) {
       return t(`slideUpDialogLastTripReason${this.props.breakers[device].lastTripReason}`)
     }
     else {
-     return 0
+      return 0
     }
   }
 
@@ -160,14 +159,14 @@ class SlideupDialog extends React.Component {
     if (this.props.params.selectedDevice !== '' && this.props.params.selectedDevice !== undefined) {
       if (this.props.params.selectedDevice.indexOf('cb_') !== -1) {
         //case breaker
-        switch(variable) {
+        switch (variable) {
           case 'Total_apparent_power_15_min':
             divider = 1000;
             return !isNaN(Math.sqrt(Math.pow(this.props.breakers[this.props.params.selectedDevice].Active_power_import_15_min, 2) +
-            Math.pow(this.props.breakers[this.props.params.selectedDevice].Reactive_power_import_15_min, 2))) ?
-            (Math.sqrt(Math.pow(this.props.breakers[this.props.params.selectedDevice].Active_power_import_15_min, 2) +
-              Math.pow(this.props.breakers[this.props.params.selectedDevice].Reactive_power_import_15_min, 2))) / 1000
-            : 0.00;
+              Math.pow(this.props.breakers[this.props.params.selectedDevice].Reactive_power_import_15_min, 2))) ?
+              (Math.sqrt(Math.pow(this.props.breakers[this.props.params.selectedDevice].Active_power_import_15_min, 2) +
+                Math.pow(this.props.breakers[this.props.params.selectedDevice].Reactive_power_import_15_min, 2))) / 1000
+              : 0.00;
           case 'Total_power_factor_1_min':
             divider = 1000;
             return !isNaN(this.props.breakers[this.props.params.selectedDevice].Active_power_import_15_min /
@@ -177,16 +176,18 @@ class SlideupDialog extends React.Component {
                 Math.sqrt(Math.pow(this.props.breakers[this.props.params.selectedDevice].Active_power_import_15_min, 2) +
                   Math.pow(this.props.breakers[this.props.params.selectedDevice].Reactive_power_import_15_min, 2)))
               : 0.00
-            case 'Active_power_import_15_min':
-              divider = 1000;
-              break;
-            case 'Reactive_power_import_15_min':
-              divider = 1000;
-              break;
+          case 'Active_power_import_15_min':
+            divider = 1000;
+            break;
+          case 'Reactive_power_import_15_min':
+            divider = 1000;
+            break;
+          default:
+            break;
         }
 
-          return this.props.breakers[this.props.params.selectedDevice][variable] / divider
-        
+        return this.props.breakers[this.props.params.selectedDevice][variable] / divider
+
       }
       else {
         //modify params in case of infeed
@@ -247,27 +248,25 @@ class SlideupDialog extends React.Component {
     let genStarted = this.props.sources.GEN.started;
     let genReady = this.props.sources.GEN.ready;
     let t = this.props.t;
-    if(requestedParam === 'ready')
-    {
-      return genReady === true? {
+    if (requestedParam === 'ready') {
+      return genReady === true ? {
         state: t('slideUpDialogGeneratorStateReady'),
         textColor: '#00A000'
-      }:
-      {
-        state: t('slideUpDialogGeneratorStateNotReady'),
-        textColor: '#ff0000'
-      }
+      } :
+        {
+          state: t('slideUpDialogGeneratorStateNotReady'),
+          textColor: '#ff0000'
+        }
     }
-    else if(requestedParam === 'started')
-    {
-      return genStarted === true? {
+    else if (requestedParam === 'started') {
+      return genStarted === true ? {
         state: 'Start',
         textColor: '#00A000'
-      }:
-      {
-        state: 'Stop',
-        textColor: '#ff0000'
-      }
+      } :
+        {
+          state: 'Stop',
+          textColor: '#ff0000'
+        }
     }
   }
 
@@ -470,18 +469,18 @@ class SlideupDialog extends React.Component {
                 onChange={this.handleChangeTabs}
                 indicatorColor="primary"
                 textColor="primary"
-                centered
                 scrollButtons="auto"
+                variant="scrollable"
               >
                 <Tab label={t('slideUpDialogTabOverview')} value="overviewTab" />
-                <Tab label={`${t('slideUpDialogTabVoltage')} L-N`} value="voltageLNTab" 
-                style={{display: this.props.selectedDevice && this.props.selectedDevice.indexOf('cb_') === -1 ?'flex':'none'}}/> 
-                <Tab label={`${t('slideUpDialogTabVoltage')} L-L`} value="voltageLLTab" 
-                style={{display: this.props.selectedDevice && this.props.selectedDevice.indexOf('cb_') === -1 ?'flex':'none'}}/>
+                <Tab label={`${t('slideUpDialogTabVoltage')} L-N`} value="voltageLNTab"
+                  style={{ display: this.props.selectedDevice && this.props.selectedDevice.indexOf('cb_') === -1 ? 'flex' : 'none' }} />
+                <Tab label={`${t('slideUpDialogTabVoltage')} L-L`} value="voltageLLTab"
+                  style={{ display: this.props.selectedDevice && this.props.selectedDevice.indexOf('cb_') === -1 ? 'flex' : 'none' }} />
                 <Tab label={t('slideUpDialogTabCurrent')} value="currentTab" />
                 <Tab label={t('slideUpDialogTabPower')} value="powerTab" />
-                <Tab label={t('slideUpDialogTabTHDV')} value="THDUtab" 
-                style={{display: this.props.selectedDevice && this.props.selectedDevice.indexOf('cb_') === -1 ?'flex':'none'}}/>
+                <Tab label={t('slideUpDialogTabTHDV')} value="THDUtab"
+                  style={{ display: this.props.selectedDevice && this.props.selectedDevice.indexOf('cb_') === -1 ? 'flex' : 'none' }} />
                 <Tab label={t('slideUpDialogTabTHDI')} value="THDItab" />
               </Tabs>
             </AppBar>
@@ -503,14 +502,14 @@ class SlideupDialog extends React.Component {
                     <Typography variant="body1"><span style={{ color: this.getCurrentDeviceStatusTextColor() }}>{this.getCurrentDeviceStatus()}</span></Typography>
                   </Paper>
                 </Grid>
-                {this.props.selectedDevice && this.props.selectedDevice === 'GEN'?
-                <Grid item xs={12}>
-                  <Paper className={classes.paper}>
-                  <Typography variant="h5" gutterBottom>{t('slideUpDialogGeneratorStateTitle')}</Typography>
-                  <Typography variant="body1"><span style={{ color: this.getGenReadyStartStop('ready').textColor }}>{this.getGenReadyStartStop('ready').state}</span></Typography>
-                  <Typography variant="body1"><span style={{ color: this.getGenReadyStartStop('started').textColor }}>{this.getGenReadyStartStop('started').state}</span></Typography>
-                  </Paper>
-                </Grid>:null
+                {this.props.selectedDevice && this.props.selectedDevice === 'GEN' ?
+                  <Grid item xs={12}>
+                    <Paper className={classes.paper}>
+                      <Typography variant="h5" gutterBottom>{t('slideUpDialogGeneratorStateTitle')}</Typography>
+                      <Typography variant="body1"><span style={{ color: this.getGenReadyStartStop('ready').textColor }}>{this.getGenReadyStartStop('ready').state}</span></Typography>
+                      <Typography variant="body1"><span style={{ color: this.getGenReadyStartStop('started').textColor }}>{this.getGenReadyStartStop('started').state}</span></Typography>
+                    </Paper>
+                  </Grid> : null
                 }
                 {params.currentDeviceType !== 'topDevice' ?
                   <Grid item xs={12}>
@@ -579,10 +578,10 @@ class SlideupDialog extends React.Component {
                     <Paper className={classes.paper}>
                       <Typography variant="h5" gutterBottom>{t('slideUpDialogTabVoltage')} L-L
                       <Tooltip title={t('slideUpDialogTooltipShowVoltageLLChart')} placement="top">
-                        <IconButton className={classes.marginFAB} onClick={() => this.handleChangeTabs(null, 'voltageLLTab')}>
-                          <TimelineIcon />
-                        </IconButton>
-                      </Tooltip>
+                          <IconButton className={classes.marginFAB} onClick={() => this.handleChangeTabs(null, 'voltageLLTab')}>
+                            <TimelineIcon />
+                          </IconButton>
+                        </Tooltip>
                       </Typography>
                       <div>
                         <Typography variant="body1" display="inline">{t('slideUpDialogTabVoltage')} L1-L2</Typography>
@@ -604,10 +603,10 @@ class SlideupDialog extends React.Component {
                     <Paper className={classes.paper}>
                       <Typography variant="h5" gutterBottom>{t('slideUpDialogTabVoltage')} L-N
                       <Tooltip title={t('slideUpDialogTooltipShowVoltageLNChart')} placement="top">
-                        <IconButton className={classes.marginFAB} onClick={() => this.handleChangeTabs(null, 'voltageLNTab')}>
-                          <TimelineIcon />
-                        </IconButton>
-                      </Tooltip>
+                          <IconButton className={classes.marginFAB} onClick={() => this.handleChangeTabs(null, 'voltageLNTab')}>
+                            <TimelineIcon />
+                          </IconButton>
+                        </Tooltip>
                       </Typography>
                       <div>
                         <Typography variant="body1" display="inline">{t('slideUpDialogTabVoltage')} L1-N</Typography>
@@ -627,7 +626,7 @@ class SlideupDialog extends React.Component {
                 <Grid item xs={12}>
                   <Paper className={classes.paper}>
                     <Typography variant="h5" gutterBottom>{t('slideUpDialogTHDI')}
-                    <Tooltip title={t('slideUpDialogTooltipShowTHDIChart')} placement="top">
+                      <Tooltip title={t('slideUpDialogTooltipShowTHDIChart')} placement="top">
                         <IconButton className={classes.marginFAB} onClick={() => this.handleChangeTabs(null, 'THDItab')}>
                           <TimelineIcon />
                         </IconButton>
@@ -676,7 +675,7 @@ class SlideupDialog extends React.Component {
             </Grid>
             </TabContainer>}
             {params.tabIndex === 'voltageLNTab' && this.props.selectedDevice && this.props.selectedDevice.indexOf('cb_') === -1 && <TabContainer>
-            <TimeSeriesChart />
+              <TimeSeriesChart />
               <Grid container spacing={1} direction="row" justify="center" alignItems="center">
                 <Grid item xs={11}>
                   <ChartDataRangeTimeSlider />
@@ -686,16 +685,16 @@ class SlideupDialog extends React.Component {
                 <Grid item xs={12}>
                   <Typography variant="h6">{t('chartSettings')}</Typography>
                 </Grid>
-                
-                  <ChartDataRangeTimePicker />
-                
+
+                <ChartDataRangeTimePicker />
+
                 <Grid item xs={12}>
                   <ChartLiveUpdateControls />
                 </Grid>
               </Grid>
             </TabContainer>}
             {(params.tabIndex === 'voltageLLTab' && this.props.selectedDevice && this.props.selectedDevice.indexOf('cb_') === -1) && <TabContainer>
-            <TimeSeriesChart />
+              <TimeSeriesChart />
               <Grid container spacing={1} direction="row" justify="center" alignItems="center">
                 <Grid item xs={11}>
                   <ChartDataRangeTimeSlider />
@@ -705,9 +704,9 @@ class SlideupDialog extends React.Component {
                 <Grid item xs={12}>
                   <Typography variant="h6">{t('chartSettings')}</Typography>
                 </Grid>
-                
-                  <ChartDataRangeTimePicker />
-                
+
+                <ChartDataRangeTimePicker />
+
                 <Grid item xs={12}>
                   <ChartLiveUpdateControls />
                 </Grid>
@@ -724,43 +723,43 @@ class SlideupDialog extends React.Component {
                 <Grid item xs={12}>
                   <Typography variant="h6">{t('chartSettings')}</Typography>
                 </Grid>
-                  <ChartDataRangeTimePicker />
+                <ChartDataRangeTimePicker />
                 <Grid item xs={12}>
                   <ChartLiveUpdateControls />
                 </Grid>
               </Grid>
             </TabContainer>}
             {params.tabIndex === 'powerTab' && <TabContainer>
-            <TimeSeriesChart />
+              <TimeSeriesChart />
               <Grid container spacing={2} justify="flex-start" alignItems="flex-start" alignContent="space-around" className={classes.chartControls}>
                 <Grid item xs={12}>
                   <Typography variant="h6">{t('chartSettings')}</Typography>
                 </Grid>
-                  <ChartDataRangeTimePicker />
+                <ChartDataRangeTimePicker />
                 <Grid item xs={12}>
                   <ChartLiveUpdateControls />
                 </Grid>
               </Grid>
             </TabContainer>}
             {params.tabIndex === 'THDUtab' && <TabContainer>
-            <TimeSeriesChart />
+              <TimeSeriesChart />
               <Grid container spacing={2} justify="flex-start" alignItems="flex-start" alignContent="space-around" className={classes.chartControls}>
                 <Grid item xs={12}>
                   <Typography variant="h6">{t('chartSettings')}</Typography>
                 </Grid>
-                  <ChartDataRangeTimePicker />
+                <ChartDataRangeTimePicker />
                 <Grid item xs={12}>
                   <ChartLiveUpdateControls />
                 </Grid>
               </Grid>
             </TabContainer>}
             {params.tabIndex === 'THDItab' && <TabContainer>
-            <TimeSeriesChart />
+              <TimeSeriesChart />
               <Grid container spacing={2} justify="flex-start" alignItems="flex-start" alignContent="space-around" className={classes.chartControls}>
                 <Grid item xs={12}>
                   <Typography variant="h6">{t('chartSettings')}</Typography>
                 </Grid>
-                  <ChartDataRangeTimePicker />
+                <ChartDataRangeTimePicker />
                 <Grid item xs={12}>
                   <ChartLiveUpdateControls />
                 </Grid>

@@ -26,14 +26,13 @@ import { manageLanguageDialog } from "./actions/languageDialog";
 import { manageDrawerOpen } from "./actions/index";
 import LanguageDialog from "./components/LanguageSelectionDialog";
 import Powermonitor from "./components/Powermonitor/PowermonitorComponent";
-import {
-  getIntervalData1Min,
-  getIntervalData15Min
-} from "./actions/mindsphereDataUpdateInterval";
 import MultilineChart from "@material-ui/icons/MultilineChart";
 import BusyDialog from "./components/BusyDialog";
 import SnackbarNotifier from "./components/SnackbarNotifier";
 import { withSnackbar } from 'notistack';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from "@date-io/date-fns";
+import { pl, enGB } from 'date-fns/locale'
 
 const drawerWidth = 240;
 const styles = theme => ({
@@ -85,29 +84,10 @@ const styles = theme => ({
 });
 
 class App extends React.Component {
+
   handleDrawerOpen = open => {
     this.props.manageDrawerOpen(open);
   };
-
-  interval15sec = null;
-  interval15min = null;
-
-  componentDidMount() {
-    this.props.getIntervalData1Min();
-    this.props.getIntervalData15Min();
-
-    this.interval15sec = setInterval(() => {
-      this.props.getIntervalData1Min();
-    }, 30000);
-    this.interval15min = setInterval(() => {
-      this.props.getIntervalData15Min();
-    }, 900000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval15sec);
-    clearInterval(this.interval15min);
-  }
 
   componentDidUpdate(prevProps) {
     if(prevProps.checkStates.syncError === false && this.props.checkStates.syncError === true)
@@ -122,6 +102,7 @@ class App extends React.Component {
     const { classes, t } = this.props;
     let open = this.props.drawerOpen;
     return (
+      <MuiPickersUtilsProvider utils={DateFnsUtils} locale={this.props.i18n.language==='pl'?pl:enGB}>
       <div className={classes.root}>
         <SnackbarNotifier />
         <Router>
@@ -206,6 +187,7 @@ class App extends React.Component {
           <LanguageDialog />
         </Router>
       </div>
+      </MuiPickersUtilsProvider>
     );
   }
 }
@@ -221,9 +203,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   manageLanguageDialog,
-  manageDrawerOpen,
-  getIntervalData1Min,
-  getIntervalData15Min
+  manageDrawerOpen
 };
 
 export default connect(

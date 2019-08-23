@@ -179,7 +179,16 @@ const resources = {
       THD_Current_L3: "THD I L3",
       //connectionErrorNotification
       snackbarsConnectionError: "Błąd połączenia",
-      eventSeverity: "Ważność"
+      //events
+      eventSeverity: "Ważność",
+      eventsTimeFrom: "Od",
+      eventsTimeTo: "Do",
+      //ATSE
+      atseNotReady: "Nie gotowy",
+      atseManual: "Ręczny",
+      atseAuto: "Auto",
+      atseAlarm: "Alarm",
+      atseMode: "Tryb SZR:"
     }
   },
   en: {
@@ -359,7 +368,15 @@ const resources = {
       //connectionErrorNotification
       snackbarsConnectionError: "Connection error",
       //events
-      eventSeverity: "Severity"
+      eventSeverity: "Severity",
+      eventsTimeFrom: "From",
+      eventsTimeTo: "To",
+      //ATSE
+      atseNotReady: "Not ready",
+      atseManual: "Manual",
+      atseAuto: "Auto",
+      atseAlarm: "Alarm",
+      atseMode: "ATSE Mode:"
     }
   }
 };

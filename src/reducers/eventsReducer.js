@@ -1,10 +1,16 @@
+import moment from 'moment';
+
 import { GET_EVENTS_REQUESTED,
-    GET_EVENTS_DONE, GET_EVENTS_FAILED } from '../actions/eventManagementApi';
+    GET_EVENTS_DONE, GET_EVENTS_FAILED,
+    SET_FILTER_FROM_DATE,
+    SET_FILTER_TO_DATE } from '../actions/eventManagementApi';
 
 const initialState = {
     eventsFetchError: false,
     eventsFetchPending: false,
-    events: []
+    events: [],
+    eventsFromTimeFilter: moment().subtract(1, 'month').toISOString(),
+    eventsToTimeFilter: moment().toISOString()
 };
 
 export const eventsReducer = (state = initialState, action) => {
@@ -28,6 +34,17 @@ export const eventsReducer = (state = initialState, action) => {
                 eventsFetchError: false,
                 events: action.data
             }
+        case SET_FILTER_FROM_DATE: 
+            return {
+                ...state,
+                eventsFromTimeFilter: action.fromDate
+            }
+        case SET_FILTER_TO_DATE:
+            return {
+                ...state,
+                eventsToTimeFilter: action.toDate
+            }
+
         default:
             return state;
     }

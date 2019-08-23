@@ -16,7 +16,7 @@ class ChartDataRangeTimeSlider extends React.Component {
 
     marks = [];
     minSliderValue = 0;
-    maxSliderValue = 1;
+    maxSliderValue = 59;
 
     valuetext = (value) => {
         return `${value}`;
@@ -30,13 +30,11 @@ class ChartDataRangeTimeSlider extends React.Component {
         let marks = []
         let currentTab = this.props.tabIndex;
         let _15minWindowSliderTabs = ['currentTab', 'voltageLLTab', 'voltageLNTab'];
-        if(_15minWindowSliderTabs.indexOf(currentTab)!==-1)
-        {
-            for (let i=0; i<=15; i++)
-            {
-                marks.push({value: i, label: i})
+        if (_15minWindowSliderTabs.indexOf(currentTab) !== -1) {
+            for (let i = 0; i <= 59; i++) {
+                marks.push({ value: i, label: i%4===0?i:'' })
             }
-            this.maxSliderValue = 15
+            this.maxSliderValue = 59
         }
         return marks
     }
@@ -45,23 +43,20 @@ class ChartDataRangeTimeSlider extends React.Component {
         let sliderValue = 0;
         let currentTimeInHHmmFormat = moment(this.props.timeRange).format('HH:mm');
         let minutes = parseInt(currentTimeInHHmmFormat.substring(3, currentTimeInHHmmFormat.length))
-        if(minutes > 15 && minutes <= 30)
-        {
-            sliderValue = minutes - 15
-        }
-        else if(minutes > 30 && minutes <=45)
-        {
-            sliderValue = minutes - 30
-        }
-        else if(minutes > 45)
-        {
-            sliderValue = minutes - 45
-        }
-        else {
-            sliderValue = minutes
-        }
+        // if (minutes > 15 && minutes <= 30) {
+        //     sliderValue = minutes - 15
+        // }
+        // else if (minutes > 30 && minutes <= 45) {
+        //     sliderValue = minutes - 30
+        // }
+        // else if (minutes > 45) {
+        //     sliderValue = minutes - 45
+        // }
+        // else {
+        //     sliderValue = minutes
+        // }
+        sliderValue = minutes;
         return sliderValue
-        
     }
 
     setTimeRange = (value, turnOnLiveUpdate = false) => {
@@ -74,22 +69,19 @@ class ChartDataRangeTimeSlider extends React.Component {
         let timeRange = this.props.timeRange;
         let startOfHour = moment(timeRange).startOf("hour");
         let add = 0;
-        if(moment(timeRange).minutes() > 15 && moment(timeRange).minutes() <= 30)
-        {
-            add = addMinutes + 15
-        }
-        else if(moment(timeRange).minutes() > 30 && moment(timeRange).minutes() <= 45)
-        {
-            add = addMinutes + 30
-        }
-        else if(moment(timeRange).minutes() > 45)
-        {
-            add = addMinutes + 45
-        }
-        else {
-            add = addMinutes
-        }
-        let addedMinutes = startOfHour.add(add, "minutes").toISOString()
+        // if (moment(timeRange).minutes() > 15 && moment(timeRange).minutes() <= 30) {
+        //     add = addMinutes + 15
+        // }
+        // else if (moment(timeRange).minutes() > 30 && moment(timeRange).minutes() <= 45) {
+        //     add = addMinutes + 30
+        // }
+        // else if (moment(timeRange).minutes() > 45) {
+        //     add = addMinutes + 45
+        // }
+        // else {
+        //     add = addMinutes
+        // }
+        let addedMinutes = startOfHour.add(addMinutes, "minutes").toISOString()
         this.props.sliderSetTimerange(addedMinutes);
         this.props.sliderSetStepValue(addMinutes);
         let device = getDeviceNameForApiCall(this.props.tabIndex, this.props.deviceNameForApiCall)

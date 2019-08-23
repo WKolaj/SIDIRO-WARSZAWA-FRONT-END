@@ -18,26 +18,33 @@ class TimeSeriesChart extends React.Component {
     updateInterval = null;
     tabIndex = this.props.tabIndex;
 
-    translatedLabels = {
-        Voltage_L1_L2: this.props.t('voltageL1L2'),
-        Voltage_L1_N: this.props.t('voltageL1N'),
-        Voltage_L2_L3: this.props.t('voltageL2L3'),
-        Voltage_L2_N: this.props.t('voltageL2N'),
-        Voltage_L3_L1: this.props.t('voltageL3L1'),
-        Voltage_L3_N: this.props.t('voltageL3N'),
-        Current_L1: this.props.t('currentL1'),
-        Current_L2: this.props.t('currentL2'),
-        Current_L3: this.props.t('currentL3'),
-    }
-
     calculateMinMaxRange = () => {
         let datasets = this.props.datasets;
         let zoomedRewindDirection = this.props.zoomedRewindDirection; // -1,0,1
+        let minDate = null;
+        let maxDate = null;
         if (datasets.length > 0) {
             let zoom = this.props.zoom;
-            let minDate = new Date(datasets[0].data[0].x).valueOf();
-            let maxDate = new Date(datasets[0].data[datasets[0].data.length - 1].x).valueOf();
-
+            if(this.props.tabIndex === 'THDItab' || this.props.tabIndex === 'THDUtab')
+            {
+                minDate = moment(this.props.timeRangeSlider).startOf('hour')
+                maxDate = moment(this.props.timeRangeSlider).endOf('hour')
+            }
+            else if (this.props.tabIndex === 'voltageLLtab' || this.props.tabIndex === 'voltageLNtab' || this.props.tabIndex === 'currentTab')
+            {
+                minDate = moment(this.props.timeRangeSlider).startOf('minute').subtract(1, 'minute')
+                maxDate = moment(this.props.timeRangeSlider).startOf('minute').add(1, 'second')
+            }
+            else if (this.props.tabIndex === 'powerTab')
+            {
+                minDate = moment(this.props.timeRangeSlider).startOf('day')
+                maxDate = moment(this.props.timeRangeSlider).endOf('day')
+            }
+            else {
+                minDate = new Date(datasets[0].data[0].x).valueOf();
+                maxDate = new Date(datasets[0].data[datasets[0].data.length - 1].x).valueOf();
+            }
+            
             //Get the difference
             let range = maxDate - minDate;
             let rangeCenter = range / 2;
@@ -64,24 +71,15 @@ class TimeSeriesChart extends React.Component {
         }
     }
 
-    // translateLabels = (datasets) => {
-    //     let arrToReturn = []
-    //     datasets.map(dataset => {
-    //         dataset.label = this.translatedLabels[dataset.label]
-    //         arrToReturn.push(dataset)
-    //     })
-    //     return arrToReturn
-    // }
-
     processChartData = () => {
         const { datasets, t } = this.props;
         return {
-            type: 'bar',
+            type: 'line',
             data: {
                 datasets: [...datasets]
             },
             options: {
-                aspectRatio: 3,
+                aspectRatio: this.updateChartAspectRatio(),
                 scales: {
                     xAxes: [{
                         type: 'time',
@@ -96,12 +94,10 @@ class TimeSeriesChart extends React.Component {
                                 hour: 'HH'
                             },
                         },
-
-                        distribution: 'series',
+                        distribution: 'linear',
                         ticks: {
-                            source: 'data',
+                            source: 'auto',
                             autoSkip: true,
-
                         },
                         scaleLabel: {
                             display: true,
@@ -134,6 +130,8 @@ class TimeSeriesChart extends React.Component {
 
     updateChart = () => {
         this.calculateMinMaxRange()
+        // myLineChart.options.scales.xAxes[0].time.min = this.min;
+        // myLineChart.options.scales.xAxes[0].time.max = this.max;
         myLineChart.options.scales.xAxes[0].time.min = this.min;
         myLineChart.options.scales.xAxes[0].time.max = this.max;
 
@@ -153,6 +151,7 @@ class TimeSeriesChart extends React.Component {
                 datasets: [...this.props.datasets]
             }
         }
+        
         myLineChart.update()
     }
 
@@ -161,10 +160,19 @@ class TimeSeriesChart extends React.Component {
         this.updateChartWithInterval()
     }
 
+    updateChartAspectRatio = () => {
+        let screenWidth = Math.max(window.innerWidth, window.innerHeight);
+        if (screenWidth >= 992) {
+            return 3
+        }
+        else {
+            return 1.5
+        }
+    }
+
     componentDidUpdate(prevProps) {
         this.updateChart()
         //this.setLiveUpdate()
-
         if (prevProps.dataUpdateFailed === false && this.props.dataUpdateFailed === true) {
             this.props.chartLiveUpdate(false)
             this.props.enqueueSnackbar(this.props.t('snackbarsConnectionError'), {
@@ -178,15 +186,14 @@ class TimeSeriesChart extends React.Component {
     }
 
     updateChartWithInterval = () => {
-        if(this.props.liveDataUpdate === false)
-        {
+        if (this.props.liveDataUpdate === false) {
             clearInterval(this.updateInterval)
         }
-        this.props.getData(getDeviceNameForApiCall(this.props.tabIndex, this.props.deviceNameForApiCall),this.tabIndex, this.props.timeRangeSlider, true)
+        this.props.getData(getDeviceNameForApiCall(this.props.tabIndex, this.props.deviceNameForApiCall), this.tabIndex, this.props.timeRangeSlider, true)
         this.updateInterval = setInterval(() => {
             if (this.props.liveDataUpdate === true) {
                 this.props.sliderSetTimerange(new Date().toISOString())
-                this.props.getData(getDeviceNameForApiCall(this.props.tabIndex, this.props.deviceNameForApiCall),this.tabIndex, moment().toISOString(), false)
+                this.props.getData(getDeviceNameForApiCall(this.props.tabIndex, this.props.deviceNameForApiCall), this.tabIndex, moment().toISOString(), false)
             }
         }, 30000)
     }

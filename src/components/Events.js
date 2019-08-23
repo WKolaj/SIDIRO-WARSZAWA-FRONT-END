@@ -25,8 +25,9 @@ import ViewColumn from '@material-ui/icons/ViewColumn';
 import InfoIcon from '@material-ui/icons/Info';
 import WarningIcon from '@material-ui/icons/Warning';
 import ErrorIcon from '@material-ui/icons/Error';
-import { getEvents } from '../actions/eventManagementApi';
+import { getEvents, setEventsFilterFromDate, setEventsFilterToDate } from '../actions/eventManagementApi';
 import { styled } from '@material-ui/styles';
+import { DateTimePicker } from "@material-ui/pickers";
 
 const BlueInfoIcon = styled(InfoIcon)({
     color: '#0084ff',
@@ -67,17 +68,37 @@ class Events extends React.Component {
         if(this.props.events.length>0)
         {
             this.props.events.map(event => {
-                return filteredEventsJSON.push({eventSeverity: event.severity===20?<RedErrorIcon/>:event.severity===30?
-                <OrangeWarningIcon/>:<BlueInfoIcon/>, eventDescription: event.description, 
-                    eventTimestamp: moment(event.timestamp).format('DD-MM-YYYY, HH:mm:ss')})
+                if(event.description!=='SZR – przejście w tryb odstawiony')
+                {
+                    return filteredEventsJSON.push({eventSeverity: event.severity===20?<RedErrorIcon/>:event.severity===30?
+                        <OrangeWarningIcon/>:<BlueInfoIcon/>, eventDescription: event.description, 
+                            eventTimestamp: moment(event.timestamp).format('DD-MM-YYYY, HH:mm:ss')})
+                }
             })
         }
         return filteredEventsJSON;
     }
 
-    componentDidMount() {
-        this.props.getEvents()
+    handleChangeTimeFrom = (value) => {
+        this.props.setEventsFilterFromDate(value.toISOString())
+        this.props.getEvents(value.toISOString(), this.props.eventsToTimeFilter)
     }
+
+    handleChangeTimeTo = (value) => {
+        this.props.setEventsFilterToDate(value.toISOString())
+        this.props.getEvents(this.props.eventsFromTimeFilter, value.toISOString())
+    }
+
+    componentDidMount() {
+        this.props.getEvents(this.props.eventsFromTimeFilter, this.props.eventsToTimeFilter)
+    }
+
+    // componentDidUpdate(prevProps) {
+    //     if(prevProps.eventsFromTimeFilter !== this.props.eventsFromTimeFilter || prevProps.eventsToTimeFilter !== this.props.eventsToTimeFilter)
+    //     {
+    //         this.props.getEvents(this.props.eventsFromTimeFilter, this.props.eventsToTimeFilter)
+    //     }
+    // }
 
     render() {
         const { t } = this.props;
@@ -88,6 +109,28 @@ class Events extends React.Component {
                         {t('events')}
                         </Typography>
                     <Divider />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                <DateTimePicker style={{display: 'flex'}}
+                maxDate={this.props.eventsToTimeFilter}
+                    autoOk
+                    ampm={false}
+                    disableFuture
+                    value={this.props.eventsFromTimeFilter}
+                    onChange={this.handleChangeTimeFrom}
+                    label={t('eventsTimeFrom')}
+                />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                <DateTimePicker style={{display: 'flex'}}
+                minDate={this.props.eventsFromTimeFilter}
+                    autoOk
+                    ampm={false}
+                    disableFuture
+                    value={this.props.eventsToTimeFilter}
+                    onChange={this.handleChangeTimeTo}
+                    label={t('eventsTimeTo')}
+                />
                 </Grid>
                 <Grid item xs={12}>
                     <MaterialTable
@@ -133,12 +176,16 @@ class Events extends React.Component {
 function mapStateToProps(state) {
     return {
       events: state.eventsReducer.events,
-      eventsFetchPending: state.eventsReducer.eventsFetchPending
+      eventsFetchPending: state.eventsReducer.eventsFetchPending,
+      eventsFromTimeFilter: state.eventsReducer.eventsFromTimeFilter,
+      eventsToTimeFilter: state.eventsReducer.eventsToTimeFilter
     };
   }
   
   const mapDispatchToProps = {
-    getEvents
+    getEvents,
+    setEventsFilterFromDate,
+    setEventsFilterToDate
   };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Events));

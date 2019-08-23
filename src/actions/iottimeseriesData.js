@@ -41,34 +41,34 @@ export const chartSetRewindDirection = direction => ({
 export const getData = (device, tabIndex, toTime, loadingCircle = false) => {
   let from = null;
   let to = moment(toTime).startOf("minute").toISOString();
-  switch(tabIndex) {
+  switch (tabIndex) {
     case 'powerTab':
       from = moment(toTime).startOf("day").subtract(10, 'minutes').toISOString();
       to = moment(toTime).endOf("day").toISOString();
-    break;
+      break;
     case 'THDUtab':
       from = moment(toTime).startOf("hour").subtract(1, 'minutes').toISOString();
       to = moment(toTime).endOf("hour").add(1, 'minutes').toISOString();
       break;
     case 'THDItab':
       from = moment(toTime).startOf("hour").subtract(1, 'minutes').toISOString();
-      to = moment(toTime).endOf("hour").toISOString();
+      to = moment(toTime).endOf("hour").add(1, 'minutes').toISOString();
       break;
-    default: 
-    from = moment(toTime).startOf("minute")
-    .subtract(2, "minute")
-    .toISOString();
-    break;
+    default:
+      from = moment(toTime).startOf("minute")
+        .subtract(1, "minute")
+        .toISOString();
+      break;
   }
-  
+
   return dispatch => {
     let datasets = [];
     let colors = [
-      "#c90000", //red
-      "#0f9100", //green
-      "#0000f0", //blue
-      "#a500c2", //violet
-      "#00e5ff" //lightblue
+      "#f70c0c", //red
+      "#169407", //green
+      "#093eb3", //blue
+      "#720c9c", //violet
+      "#12edfc" //orange
     ];
 
     let color = 0;
@@ -92,8 +92,7 @@ export const getData = (device, tabIndex, toTime, loadingCircle = false) => {
         variablesToGET = ['Current_L1', 'Current_L2', 'Current_L3'];
         break;
       case "powerTab":
-        if(device === 'TR2_15_min' || device === 'TR1_15_min' || device === 'GEN_15_min')
-        {
+        if (device === 'TR2_15_min' || device === 'TR1_15_min' || device === 'GEN_15_min') {
           variablesToGET = ['Total_active_power_import', 'Total_reactive_power_import', 'Total_apparent_power', 'Total_active_power_export', 'Total_reactive_power_export']
         }
         else {
@@ -104,8 +103,7 @@ export const getData = (device, tabIndex, toTime, loadingCircle = false) => {
         variablesToGET = ['THD_voltage_L1', 'THD_voltage_L2', 'THD_voltage_L3'];
         break;
       case "THDItab":
-        if(device.indexOf('TR')!==-1)
-        {
+        if (device.indexOf('TR') !== -1) {
           variablesToGET = ['THD_current_L1', 'THD_current_L2', 'THD_current_L3'];
         }
         else {
@@ -118,8 +116,7 @@ export const getData = (device, tabIndex, toTime, loadingCircle = false) => {
     }
 
     // set state to "loading"
-    if(loadingCircle === true)
-    {
+    if (loadingCircle === true) {
       dispatch(showBusyDialogActionCreator())
     }
     dispatch(getDataRequested());
@@ -133,14 +130,14 @@ export const getData = (device, tabIndex, toTime, loadingCircle = false) => {
       .then(res => {
         //success
         if (res.data.length > 0) {
-          Object.keys(res.data[0]).forEach(function(key) {
+          Object.keys(res.data[0]).forEach(function (key) {
             if (key.indexOf("_qc") === -1 && key.indexOf("_time") === -1) {
               let label = i18n.t(key)
               let xyData = [];
               res.data.map(singlePoint => {
                 return xyData.unshift({
-                  x: new Date(singlePoint._time).toISOString(),
-                  y: tabIndex === 'powerTab'? (singlePoint[key]/1000).toFixed(3) : singlePoint[key].toFixed(3)
+                  x: new Date(singlePoint._time),
+                  y: tabIndex === 'powerTab' ? parseFloat((singlePoint[key] / 1000).toFixed(3)) : parseFloat(singlePoint[key].toFixed(3))
                 });
               });
               //if replace whole datasets > tab changed
@@ -160,17 +157,14 @@ export const getData = (device, tabIndex, toTime, loadingCircle = false) => {
             }
           });
         }
-        if(loadingCircle === true)
-        {
+        if (loadingCircle === true) {
           dispatch(hideBusyDialogActionCreator())
         }
-        
         dispatch(getDataDone(datasets));
       })
       .catch(error => {
         // error
-        if(loadingCircle === true)
-        {
+        if (loadingCircle === true) {
           dispatch(hideBusyDialogActionCreator())
         }
         dispatch(getDataFailed(error));
