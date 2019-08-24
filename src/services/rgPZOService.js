@@ -1,6 +1,8 @@
-import { getAggregateData } from "./mindsphereService";
+import { getAggregateData, getDataFromRange } from "./mindsphereService";
 import { exists, existsAndIsNotEmpty, snooze } from "../utils/utilities";
 import _ from "lodash";
+
+let MOCK_SERVICE = false;
 
 const assetIdRGPZO = "a5eebd59cd1348c5b38f8d74ab432780";
 
@@ -23,6 +25,17 @@ const pacActivePowerImportVariableName = "Total_active_power_import";
 const pacActivePowerExportVariableName = "Total_active_power_export";
 const pacReactivePowerImportVariableName = "Total_reactive_power_import";
 const pacReactivePowerExportVariableName = "Total_reactive_power_export";
+
+let addDaysToDate = (date, days) => {
+  var result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+};
+
+let addMonthsToDate = (date, months) => {
+  var result = new Date(date);
+  return new Date(result.setMonth(result.getMonth() + months));
+};
 
 const numberOfDaysInMonth = (month, year) => {
   return new Date(year, month + 1, 0).getDate();
@@ -273,6 +286,220 @@ export async function getEnergyMonthly(year, month) {
     let elementName = elementNames[i];
     let elementData = allData[i];
     dataToReturn[elementName] = elementData;
+  }
+
+  return dataToReturn;
+}
+
+const getBreakerActivePower = async (breakerName, fromDate, toDate) => {
+  let powerData = await getDataFromRange(
+    assetIdRGPZO,
+    getElement15minAspectName(breakerName),
+    [breakerActivePowerImportVariableName],
+    fromDate.toISOString(),
+    toDate.toISOString(),
+    2000
+  );
+
+  return powerData;
+};
+
+const getPACActivePower = async (PACName, fromDate, toDate) => {
+  let powerData = await getDataFromRange(
+    assetIdRGPZO,
+    getElement15minAspectName(PACName),
+    [pacActivePowerImportVariableName],
+    fromDate.toISOString(),
+    toDate.toISOString(),
+    2000
+  );
+
+  return powerData;
+};
+
+export async function getBreakerActivePowerMonthData(
+  breakerName,
+  yearNumber,
+  monthNumber
+) {
+  let startDate = new Date(yearNumber, monthNumber, 1);
+  let endDate = addMonthsToDate(startDate, 1);
+  let firstQueryEnd = addDaysToDate(startDate, 16);
+
+  let result = await Promise.all([
+    new Promise(async (resolve, reject) => {
+      try {
+        return resolve(
+          await getBreakerActivePower(breakerName, startDate, firstQueryEnd)
+        );
+      } catch (err) {
+        return reject(err);
+      }
+    }),
+    new Promise(async (resolve, reject) => {
+      try {
+        return resolve(
+          await getBreakerActivePower(breakerName, firstQueryEnd, endDate)
+        );
+      } catch (err) {
+        return reject(err);
+      }
+    })
+  ]);
+  let dataArray = [...result[0], ...result[1]];
+
+  return dataArray;
+}
+
+export async function getPACActivePowerMonthData(
+  PACName,
+  yearNumber,
+  monthNumber
+) {
+  let startDate = new Date(yearNumber, monthNumber, 1);
+  let endDate = addMonthsToDate(startDate, 1);
+  let firstQueryEnd = addDaysToDate(startDate, 16);
+
+  let result = await Promise.all([
+    new Promise(async (resolve, reject) => {
+      try {
+        return resolve(
+          await getPACActivePower(PACName, startDate, firstQueryEnd)
+        );
+      } catch (err) {
+        return reject(err);
+      }
+    }),
+    new Promise(async (resolve, reject) => {
+      try {
+        return resolve(
+          await getPACActivePower(PACName, firstQueryEnd, endDate)
+        );
+      } catch (err) {
+        return reject(err);
+      }
+    })
+  ]);
+  let dataArray = [...result[0], ...result[1]];
+
+  return dataArray;
+}
+
+export async function getPowerMonthly(year, month) {
+  const getBreakerPowerAction = (breakerName, year, month) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        return resolve(
+          await getBreakerActivePowerMonthData(breakerName, year, month)
+        );
+      } catch (err) {
+        return reject(err);
+      }
+    });
+  };
+
+  const getPACPowerAction = (PACName, year, month) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        return resolve(await getPACActivePowerMonthData(PACName, year, month));
+      } catch (err) {
+        return reject(err);
+      }
+    });
+  };
+
+  let elementNames = [
+    "1F1",
+    "1F2",
+    "1F3",
+    "1F4",
+    "1F5",
+    "1F6",
+    "1F7",
+    "1FP1",
+    "1FP2",
+    "2F1",
+    "2F2",
+    "2F3",
+    "2F4",
+    "2F5",
+    "2F6",
+    "2FP1",
+    "2FP2",
+    "3F1",
+    "3F2",
+    "TR1",
+    "TR2",
+    "GEN"
+  ];
+
+  let allActions = [
+    getBreakerPowerAction(elementNames[0], year, month),
+    getBreakerPowerAction(elementNames[1], year, month),
+    getBreakerPowerAction(elementNames[2], year, month),
+    getBreakerPowerAction(elementNames[3], year, month),
+    getBreakerPowerAction(elementNames[4], year, month),
+    getBreakerPowerAction(elementNames[5], year, month),
+    getBreakerPowerAction(elementNames[6], year, month),
+    getBreakerPowerAction(elementNames[7], year, month),
+    getBreakerPowerAction(elementNames[8], year, month),
+    getBreakerPowerAction(elementNames[9], year, month),
+    getBreakerPowerAction(elementNames[10], year, month),
+    getBreakerPowerAction(elementNames[11], year, month),
+    getBreakerPowerAction(elementNames[12], year, month),
+    getBreakerPowerAction(elementNames[13], year, month),
+    getBreakerPowerAction(elementNames[14], year, month),
+    getBreakerPowerAction(elementNames[15], year, month),
+    getBreakerPowerAction(elementNames[16], year, month),
+    getBreakerPowerAction(elementNames[17], year, month),
+    getBreakerPowerAction(elementNames[18], year, month),
+    getPACPowerAction(elementNames[19], year, month),
+    getPACPowerAction(elementNames[20], year, month),
+    getPACPowerAction(elementNames[21], year, month)
+  ];
+
+  let allData = MOCK_SERVICE
+    ? require("./mockActivePower.json")
+    : await Promise.all(allActions);
+
+  let dataToReturn = {};
+
+  //inserting breakers data - element 0 - 18
+  for (let i = 0; i <= 18; i++) {
+    let elementName = elementNames[i];
+    let elementData = allData[i];
+    dataToReturn[elementName] = {};
+
+    for (let row of elementData) {
+      let timestamp = row["_time"];
+      let value = row[breakerActivePowerImportVariableName];
+      if (exists(timestamp) && exists(value)) {
+        let date = new Date(timestamp);
+        dataToReturn[elementName][date.getTime()] = {
+          date,
+          value
+        };
+      }
+    }
+  }
+
+  //inserting pac data - element 19 - 21
+  for (let i = 18; i <= 21; i++) {
+    let elementName = elementNames[i];
+    let elementData = allData[i];
+    dataToReturn[elementName] = {};
+
+    for (let row of elementData) {
+      let timestamp = row["_time"];
+      let value = row[pacActivePowerImportVariableName];
+      if (exists(timestamp) && exists(value)) {
+        let date = new Date(timestamp);
+        dataToReturn[elementName][date.getTime()] = {
+          date,
+          value
+        };
+      }
+    }
   }
 
   return dataToReturn;

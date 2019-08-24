@@ -7,6 +7,7 @@ import { fetchEnergyReportActionCreator } from "../../actions/energyReportData";
 import ReportMenuComponent from "./ReportMenuComponent";
 import { isObjectEmpty } from "../../utils/utilities";
 import EnergyReportComponent from "./EnergyReport/EnergyReportComponent";
+import Power15Min from "./Power15Min/Power15Min";
 
 const styles = theme => ({
   root: {},
@@ -20,6 +21,9 @@ class ReportsComponent extends Component {
     switch (pageNumber) {
       case 0: {
         return <EnergyReportComponent />;
+      }
+      case 1: {
+        return <Power15Min />;
       }
       default: {
         return null;

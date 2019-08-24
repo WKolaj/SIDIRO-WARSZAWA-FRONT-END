@@ -11,6 +11,7 @@ import { newRecipientDialogReducer } from "./newRecipientDialogReducer";
 import { powermonitorPowerDataReducer } from "./powermonitorActivePowerReducer";
 import { energyDataReducer } from "./energyReportReducer";
 import { reportDataReducer } from "./reportReducer";
+import { power15MinReportReducer } from "./power15MinReportReducer";
 import { reducer } from "redux-form";
 import snackbarReducer from "./snackbarReducer";
 
@@ -28,5 +29,6 @@ export default combineReducers({
   powermonitorPowerDataReducer: powermonitorPowerDataReducer,
   energyReport: energyDataReducer,
   snackbar: snackbarReducer,
-  reports: reportDataReducer
+  reports: reportDataReducer,
+  power15MinReport: power15MinReportReducer
 });
