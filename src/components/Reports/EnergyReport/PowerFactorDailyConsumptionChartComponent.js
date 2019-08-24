@@ -48,7 +48,18 @@ class DailyConsumptionChartComponent extends Component {
             type: "time",
             time: {
               min: startDate,
-              max: stopDate
+              max: stopDate,
+              displayFormats: {
+                millisecond: "YYYY-MM-DD",
+                second: "YYYY-MM-DD",
+                minute: "YYYY-MM-DD",
+                hour: "YYYY-MM-DD",
+                day: "YYYY-MM-DD",
+                week: "YYYY-MM-DD",
+                month: "YYYY-MM-DD",
+                quarter: "YYYY-MM-DD",
+                year: "YYYY-MM-DD"
+              }
             }
           }
         ]

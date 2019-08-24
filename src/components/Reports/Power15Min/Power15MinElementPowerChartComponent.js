@@ -17,27 +17,46 @@ const styles = theme => ({
 });
 
 let groupColors = {
-  "1F1": "#ff6384dd",
-  "1F2": "#36a2ebdd",
-  "1F3": "#4dc240dd",
-  "1F4": "#f7df43dd",
-  "1F5": "#8656ffdd",
-  "1F6": "#ff2b2bdd",
-  "1F7": "#f59300dd",
-  "2F1": "#c363ffdd",
-  "2F2": "#6863ffdd",
-  "2F3": "#63ff7add",
-  "2F4": "#ba6b5ddd",
-  "2F5": "#3b0207dd",
-  "2F6": "#382e2fdd",
-  "3F1": "#389488dd",
-  "3F2": "#88e3d7dd",
-  "1FP1": "#48a321dd",
-  "1FP2": "#edfa39dd",
-  "2FP1": "#010e36dd",
-  "2FP2": "#2a2f40dd",
-  transformers: "#290138dd",
-  rest: "#ff5900dd"
+  transformers: "#84c5fadd",
+  rest: "#9884fadd",
+
+  "2F6": "#fa84d3dd",
+
+  "1F2": "#ff2e17dd",
+
+  "1F5": "#ff5d17dd",
+
+  "3F1": "#ff8a57dd",
+
+  "2F2": "#ffc1a6dd",
+
+  "1F6": "#ffdaa6dd",
+
+  "2F4": "#fab757dd",
+
+  "2F1": "#fca223dd",
+
+  "1F7": "#fcc200dd",
+
+  "1F3": "#f5ee38dd",
+
+  "1F4": "#f5f17fdd",
+
+  "2F5": "#bad6b2dd",
+
+  "2FP2": "#76cf5bdd",
+
+  "1FP2": "#40d413dd",
+
+  "3F2": "#13d44add",
+
+  "2FP1": "#5acc9add",
+
+  "1FP1": "#9fc0d1dd",
+
+  "2F3": "#4994badd",
+
+  "1F1": "#0070a8dd"
 };
 
 class Power15MinElementPowerChartComponent extends Component {
