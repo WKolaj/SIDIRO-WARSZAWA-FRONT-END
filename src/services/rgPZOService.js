@@ -2,7 +2,7 @@ import { getAggregateData, getDataFromRange } from "./mindsphereService";
 import { exists, existsAndIsNotEmpty, snooze } from "../utils/utilities";
 import _ from "lodash";
 
-let MOCK_SERVICE = false;
+let MOCK_SERVICE = true;
 
 const assetIdRGPZO = "a5eebd59cd1348c5b38f8d74ab432780";
 

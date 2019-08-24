@@ -13,6 +13,21 @@ const styles = theme => ({
 });
 
 class Powermonitor15MinComponent extends Component {
+  renderTooltipLabel = (tooltipItem, data) => {
+    if (!exists(tooltipItem.datasetIndex)) return "";
+    if (!exists(tooltipItem.index)) return "";
+    if (!exists(data.datasets[tooltipItem.datasetIndex])) return "";
+    if (
+      !exists(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index])
+    )
+      return "";
+
+    let dataset = data.datasets[tooltipItem.datasetIndex];
+    let value = dataset.data[tooltipItem.index].y;
+
+    return `${value.toFixed(2)} kW`;
+  };
+
   calculatePowermonitorDataMaxValue = powermonitorPowerData => {
     return Math.max(...powermonitorPowerData.map(point => point.value));
   };
@@ -78,6 +93,11 @@ class Powermonitor15MinComponent extends Component {
             }
           }
         ]
+      },
+      tooltips: {
+        callbacks: {
+          label: this.renderTooltipLabel
+        }
       }
     };
   }

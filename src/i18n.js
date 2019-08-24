@@ -148,6 +148,9 @@ const resources = {
       reportsPowerFactorExportEnergyReportDailyConsumptionTrendLabel:
         "Współczynnik mocy biernej pojemnościowej",
 
+      reports15MinPowerReportTotalPowerTitle:
+        "Przebieg średniej mocy 15-minutowej",
+
       //slideUpDialog
       slideUpDialogTabOverview: "Przegląd",
       slideUpDialogTabVoltage: "Napięcie",
@@ -374,6 +377,8 @@ const resources = {
 
       reportsPowerFactorExportEnergyReportDailyConsumptionTrendLabel:
         "Power factor of reactive power export",
+
+      reports15MinPowerReportTotalPowerTitle: "Average active power 15-min",
 
       //events
       events: "Events",

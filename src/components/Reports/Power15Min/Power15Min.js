@@ -4,21 +4,21 @@ import { withTranslation } from "react-i18next";
 import { withStyles } from "@material-ui/core/styles";
 
 import { withSnackbar } from "notistack";
-// import GroupConsumptionComponent from "./GroupConsumptionComponent";
-// import DailyConsumptionComponent from "./DailyConsumptionComponent";
-// import PowerFactorDailyConsumptionComponent from "./PowerFactorDailyConsumptionComponent";
-// import ReactiveEnergyImportDailyConsumptionComponent from "./ReactiveEnergyImportDailyConsumptionComponent";
-// import ReactiveEnergyExportDailyConsumptionComponent from "./ReactiveEnergyExportDailyConsumptionComponent";
 import { Grid } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import { DatePicker } from "@material-ui/pickers";
 import { fetch15MinPowerReportActionCreator } from "../../../actions/power15MinReportData";
 import { exists, existsAndIsNotEmpty } from "../../../utils/utilities";
+import Power15MinTotalPowerComponent from "./Power15MinTotalPowerComponent";
+import Power15MinTransgressionsComponent from "./Power15MinTransgressionsComponent";
 
 const styles = theme => ({
   appBar: {
     padding: theme.spacing(2),
     position: "static"
+  },
+  navBarGridItem: {
+    width: "100%"
   }
 });
 
@@ -29,9 +29,10 @@ class Power15MinComponent extends Component {
   };
 
   handleDateChange = date => {
-    let { fetchEnergyReport, energyReport } = this.props;
+    let { fetchPower15MinReport } = this.props;
 
-    if (exists(date)) fetchEnergyReport(date.getFullYear(), date.getMonth());
+    if (exists(date))
+      fetchPower15MinReport(date.getFullYear(), date.getMonth());
   };
 
   renderNavBar = () => {
@@ -59,17 +60,27 @@ class Power15MinComponent extends Component {
 
     if (!existsAndIsNotEmpty(power15MinReport.data)) return null;
 
-    return null;
+    console.log(power15MinReport);
+    return (
+      <React.Fragment>
+        <Grid item>
+          <Power15MinTotalPowerComponent />
+        </Grid>
+        <Grid item>
+          <Power15MinTransgressionsComponent />
+        </Grid>
+      </React.Fragment>
+    );
   };
 
   render() {
     let { t, classes, power15MinReport } = this.props;
 
-    console.log(power15MinReport);
-
     return (
       <React.Fragment>
-        <Grid item>{this.renderNavBar()}</Grid>
+        <Grid item className={classes.navBarGridItem}>
+          {this.renderNavBar()}
+        </Grid>
         {this.renderReport()}
       </React.Fragment>
     );

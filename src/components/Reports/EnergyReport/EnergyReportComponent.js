@@ -56,7 +56,6 @@ class EnergyReportComponent extends Component {
 
   renderReport = () => {
     let { t, classes, energyReport } = this.props;
-    console.log(energyReport);
     if (
       !existsAndIsNotEmpty(energyReport.data) ||
       !existsAndIsNotEmpty(energyReport.totalConsumption) ||

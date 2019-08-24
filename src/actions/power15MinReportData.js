@@ -58,6 +58,32 @@ const normalizeData = monthlyPowerData => {
   return dataToReturn;
 };
 
+let calculateTransgressions = (totalPowerData, warningLimit, alarmLimit) => {
+  let transgressionsToReturn = [];
+
+  for (let point of totalPowerData) {
+    let value = point.value;
+
+    if (value >= alarmLimit) {
+      transgressionsToReturn.push({
+        date: point.date,
+        value: value,
+        transgression: value - alarmLimit,
+        severity: "alarm"
+      });
+    } else if (value >= warningLimit) {
+      transgressionsToReturn.push({
+        date: point.date,
+        value: value,
+        transgression: value - warningLimit,
+        severity: "warning"
+      });
+    }
+  }
+
+  return transgressionsToReturn;
+};
+
 const getTotalPowerAndTransformersData = (
   monthlyPowerData,
   trafoPowerLosses
@@ -133,7 +159,8 @@ export const fetch15MinPowerReportActionCreator = function(year, month) {
 
       await dispatch(getPowermonitorDataActionCreator());
 
-      let trafoLosses = getState().powermonitor.data.trafoPowerLosses;
+      let powermonitorState = getState().powermonitor;
+      let trafoLosses = powermonitorState.data.trafoPowerLosses;
 
       let data = await getPowerMonthly(year, month);
 
@@ -148,13 +175,25 @@ export const fetch15MinPowerReportActionCreator = function(year, month) {
         ...trafoAndTotalPower
       };
 
+      let {
+        activePowerLimitAlarm,
+        activePowerLimitWarning
+      } = powermonitorState.data;
+
+      let transgressions = calculateTransgressions(
+        normalizedDataWithTotalAndTrafo["total"].data,
+        activePowerLimitWarning,
+        activePowerLimitAlarm
+      );
+
       //Also updating data according to response
       await dispatch({
         type: FETCH_15_MIN_POWER_REPORT,
         payload: {
           data: normalizedDataWithTotalAndTrafo,
           year,
-          month
+          month,
+          transgressions
         }
       });
     } catch (err) {

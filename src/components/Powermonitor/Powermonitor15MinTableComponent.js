@@ -41,12 +41,6 @@ let renderSeverityName = (t, severity) => {
   return severity;
 };
 
-let renderTitle = (t, classes) => {
-  return (
-    <span className={classes.title}>{t("powermonitorPower15TableTitle")}</span>
-  );
-};
-
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -88,7 +82,6 @@ class Powermonitor15MinTableComponent extends React.Component {
             title: t("powermonitorPower15TableDateColumn"),
             type: "datetime",
             field: "date",
-            defaultSort: "desc",
             render: rowData => (
               <span className={classes.dateField}>
                 {moment(rowData.date).format("YYYY-MM-DD HH:mm")}
@@ -98,6 +91,7 @@ class Powermonitor15MinTableComponent extends React.Component {
           {
             title: t("powermonitorPower15TableValueColumn"),
             field: "value",
+            defaultSort: "desc",
             render: rowData => (
               <span className={classes.valueField}>
                 {rowData.value.toFixed(2)}
