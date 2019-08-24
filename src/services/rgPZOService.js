@@ -2,8 +2,6 @@ import { getAggregateData, getDataFromRange } from "./mindsphereService";
 import { exists, existsAndIsNotEmpty, snooze } from "../utils/utilities";
 import _ from "lodash";
 
-let MOCK_SERVICE = true;
-
 const assetIdRGPZO = "a5eebd59cd1348c5b38f8d74ab432780";
 
 const breakerActiveEnergyImportVariableName = "Active_energy_import";
@@ -458,9 +456,7 @@ export async function getPowerMonthly(year, month) {
     getPACPowerAction(elementNames[21], year, month)
   ];
 
-  let allData = MOCK_SERVICE
-    ? require("./mockActivePower.json")
-    : await Promise.all(allActions);
+  let allData = await Promise.all(allActions);
 
   let dataToReturn = {};
 
@@ -484,7 +480,7 @@ export async function getPowerMonthly(year, month) {
   }
 
   //inserting pac data - element 19 - 21
-  for (let i = 18; i <= 21; i++) {
+  for (let i = 19; i <= 21; i++) {
     let elementName = elementNames[i];
     let elementData = allData[i];
     dataToReturn[elementName] = {};

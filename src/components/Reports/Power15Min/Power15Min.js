@@ -11,6 +11,7 @@ import { fetch15MinPowerReportActionCreator } from "../../../actions/power15MinR
 import { exists, existsAndIsNotEmpty } from "../../../utils/utilities";
 import Power15MinTotalPowerComponent from "./Power15MinTotalPowerComponent";
 import Power15MinTransgressionsComponent from "./Power15MinTransgressionsComponent";
+import Element15MinPowerComponent from "./Power15MinElementPowerComponent";
 
 const styles = theme => ({
   appBar: {
@@ -60,7 +61,6 @@ class Power15MinComponent extends Component {
 
     if (!existsAndIsNotEmpty(power15MinReport.data)) return null;
 
-    console.log(power15MinReport);
     return (
       <React.Fragment>
         <Grid item>
@@ -68,6 +68,9 @@ class Power15MinComponent extends Component {
         </Grid>
         <Grid item>
           <Power15MinTransgressionsComponent />
+        </Grid>
+        <Grid item>
+          <Element15MinPowerComponent />
         </Grid>
       </React.Fragment>
     );

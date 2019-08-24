@@ -151,6 +151,38 @@ const resources = {
       reports15MinPowerReportTotalPowerTitle:
         "Przebieg średniej mocy 15-minutowej",
 
+      reports15MinPowerReportElementPowerTitle:
+        "Przebieg średniej mocy 15-minutowej odbiorów",
+
+      reports15MinPowerReportElementPowerDayScaleTitle: "Dni w miesiącu",
+
+      reports15MinPowerReportElement_1F1: "Bud. 01 - MSB1",
+      reports15MinPowerReportElement_1F2: "Bud. 3 - komp.",
+      reports15MinPowerReportElement_1F3: "Bud. 1A - komp.",
+      reports15MinPowerReportElement_1F4: "Bud. 1A - klima.",
+      reports15MinPowerReportElement_1F5: "Bud. 3 - RG",
+      reports15MinPowerReportElement_1F6: "Bud. 2 - RG S1",
+      reports15MinPowerReportElement_1F7: "Bud. 1B - P1",
+
+      reports15MinPowerReportElement_2F1: "Bud. 1B - P2",
+      reports15MinPowerReportElement_2F2: "Bud. 2 - RG S2",
+      reports15MinPowerReportElement_2F3: "Bud. 01 - MSB2",
+      reports15MinPowerReportElement_2F4: "Bud. 2 - R1",
+      reports15MinPowerReportElement_2F5: "Bud. 1A - RG",
+      reports15MinPowerReportElement_2F6: "Parking",
+
+      reports15MinPowerReportElement_3F1: "Bud. 2 - serwer.",
+      reports15MinPowerReportElement_3F2: "Bud. 01 - MSG",
+
+      reports15MinPowerReportElement_1FP1: "Bud. 01 - MSF S1",
+      reports15MinPowerReportElement_1FP2: "Bud. 1 - RPZOK S1",
+
+      reports15MinPowerReportElement_2FP1: "Bud. 01 - MSF S2",
+      reports15MinPowerReportElement_2FP2: "Bud. 1 - RPZOK S2",
+
+      reports15MinPowerReportElement_transformers: "Transformatory",
+      reports15MinPowerReportElement_rest: "Pozostałe",
+
       //slideUpDialog
       slideUpDialogTabOverview: "Przegląd",
       slideUpDialogTabVoltage: "Napięcie",
@@ -380,6 +412,37 @@ const resources = {
 
       reports15MinPowerReportTotalPowerTitle: "Average active power 15-min",
 
+      reports15MinPowerReportElementPowerTitle:
+        "Infeed average active power 15-min",
+
+      reports15MinPowerReportElementPowerDayScaleTitle: "Days of month",
+
+      reports15MinPowerReportElement_1F1: "Bud. 01 - MSB1",
+      reports15MinPowerReportElement_1F2: "Bud. 3 - comp.",
+      reports15MinPowerReportElement_1F3: "Bud. 1A - comp.",
+      reports15MinPowerReportElement_1F4: "Bud. 1A - clim.",
+      reports15MinPowerReportElement_1F5: "Bud. 3 - RG",
+      reports15MinPowerReportElement_1F6: "Bud. 2 - RG S1",
+      reports15MinPowerReportElement_1F7: "Bud. 1B - P1",
+
+      reports15MinPowerReportElement_2F1: "Bud. 1B - P2",
+      reports15MinPowerReportElement_2F2: "Bud. 2 - RG S2",
+      reports15MinPowerReportElement_2F3: "Bud. 01 - MSB2",
+      reports15MinPowerReportElement_2F4: "Bud. 2 - R1",
+      reports15MinPowerReportElement_2F5: "Bud. 1A - RG",
+      reports15MinPowerReportElement_2F6: "Parking",
+
+      reports15MinPowerReportElement_3F1: "Bud. 2 - server.",
+      reports15MinPowerReportElement_3F2: "Bud. 01 - MSG",
+
+      reports15MinPowerReportElement_1FP1: "Bud. 01 - MSF S1",
+      reports15MinPowerReportElement_1FP2: "Bud. 1 - RPZOK S1",
+
+      reports15MinPowerReportElement_2FP1: "Bud. 01 - MSF S2",
+      reports15MinPowerReportElement_2FP2: "Bud. 1 - RPZOK S2",
+
+      reports15MinPowerReportElement_transformers: "Transformers",
+      reports15MinPowerReportElement_rest: "Rest",
       //events
       events: "Events",
       event: "Event",

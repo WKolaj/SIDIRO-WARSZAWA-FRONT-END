@@ -99,24 +99,48 @@ const getTotalPowerAndTransformersData = (
       data: [],
       maxValue: null,
       maxDate: null
+    },
+
+    rest: {
+      data: [],
+      maxValue: null,
+      maxDate: null
     }
   };
 
   if (!exists(monthlyPowerData["TR1"])) return dataToReturn;
   if (!exists(monthlyPowerData["TR2"])) return dataToReturn;
+  if (!exists(monthlyPowerData["GEN"])) return dataToReturn;
 
   let allTR1Dates = Object.keys(monthlyPowerData["TR1"]);
   let allTR2Dates = Object.keys(monthlyPowerData["TR2"]);
+  let allGENDates = Object.keys(monthlyPowerData["GEN"]);
 
-  let allDates = _.union(allTR1Dates, allTR2Dates);
+  let allDates = _.union(allTR1Dates, allTR2Dates, allGENDates);
+  let allGroups = Object.keys(monthlyPowerData);
 
   for (let date of allDates) {
     let tr1Data = monthlyPowerData["TR1"][date];
     let tr2Data = monthlyPowerData["TR2"][date];
+    let genData = monthlyPowerData["GEN"][date];
 
-    if (exists(tr1Data) && exists(tr2Data)) {
+    //trafo power is stable and simulated - get only first value
+    if (!exists(dataToReturn["transformers"].maxValue)) {
+      dataToReturn["transformers"].maxValue = trafoPowerLosses;
+      dataToReturn["transformers"].maxDate = new Date(parseInt(date));
+    }
+
+    dataToReturn["transformers"].data.push({
+      value: trafoPowerLosses,
+      date: new Date(parseInt(date))
+    });
+
+    if (exists(tr1Data) && exists(tr2Data) && exists(genData)) {
       let totalPower =
-        tr1Data.value / 1000 + tr2Data.value / 1000 + trafoPowerLosses;
+        tr1Data.value / 1000 +
+        tr2Data.value / 1000 +
+        genData.value / 1000 +
+        trafoPowerLosses;
       let newDate = new Date(parseInt(date));
 
       dataToReturn["total"].data.push({
@@ -133,24 +157,47 @@ const getTotalPowerAndTransformersData = (
         dataToReturn["total"].maxValue = totalPower;
         dataToReturn["total"].maxDate = newDate;
       }
-    }
 
-    //trafo power is stable and simulated - get only first value
-    if (!exists(dataToReturn["transformers"].maxValue)) {
-      dataToReturn["transformers"].maxValue = trafoPowerLosses;
-      dataToReturn["transformers"].maxDate = new Date(parseInt(date));
-    }
+      //Calculating rest power
+      let restPower = totalPower - trafoPowerLosses;
 
-    dataToReturn["transformers"].data.push({
-      value: trafoPowerLosses,
-      date: new Date(parseInt(date))
-    });
+      for (let group of allGroups) {
+        if (
+          group !== "total" &&
+          group !== "TR1" &&
+          group !== "TR2" &&
+          group !== "GEN"
+        ) {
+          if (
+            exists(monthlyPowerData[group]) &&
+            exists(monthlyPowerData[group][date])
+          )
+            restPower -= monthlyPowerData[group][date].value / 1000;
+        }
+      }
+
+      dataToReturn["rest"].data.push({
+        value: restPower,
+        date: newDate
+      });
+
+      if (exists(dataToReturn["rest"].maxValue)) {
+        if (restPower > dataToReturn["rest"].maxValue) {
+          dataToReturn["rest"].maxValue = restPower;
+          dataToReturn["rest"].maxDate = newDate;
+        }
+      } else {
+        dataToReturn["rest"].maxValue = restPower;
+        dataToReturn["rest"].maxDate = newDate;
+      }
+    }
   }
 
   return dataToReturn;
 };
 
 export const FETCH_15_MIN_POWER_REPORT = "FETCH_15_MIN_POWER_REPORT";
+export const CHANGE_DAY_POWER_REPORT = "CHANGE_DAY_POWER_REPORT";
 
 export const fetch15MinPowerReportActionCreator = function(year, month) {
   return async function(dispatch, getState) {
@@ -193,7 +240,8 @@ export const fetch15MinPowerReportActionCreator = function(year, month) {
           data: normalizedDataWithTotalAndTrafo,
           year,
           month,
-          transgressions
+          transgressions,
+          trendDay: 1
         }
       });
     } catch (err) {
@@ -202,5 +250,14 @@ export const fetch15MinPowerReportActionCreator = function(year, month) {
       );
     }
     await dispatch(hideBusyDialogActionCreator());
+  };
+};
+
+export const changeTrendDay = function(day) {
+  return {
+    type: CHANGE_DAY_POWER_REPORT,
+    payload: {
+      trendDay: day
+    }
   };
 };
