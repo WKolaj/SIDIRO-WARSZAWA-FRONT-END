@@ -156,6 +156,8 @@ const resources = {
 
       reports15MinPowerReportElementPowerDayScaleTitle: "Dni w miesiącu",
 
+      reportsSupplyQualityTransformerComponentTitle: "Zasilanie ze źródła",
+
       reports15MinPowerReportElement_1F1: "Bud. 01 - MSB1",
       reports15MinPowerReportElement_1F2: "Bud. 3 - komp.",
       reports15MinPowerReportElement_1F3: "Bud. 1A - komp.",
@@ -183,6 +185,65 @@ const resources = {
       reports15MinPowerReportElement_transformers: "Transformatory",
       reports15MinPowerReportElement_rest: "Pozostałe",
 
+      reportsSupplyQualityTransformerVoltageTableTitle: "Parametry napiecia",
+      reportsSupplyQualityTransformerTableVariableName_VoltageL1N:
+        "Napięcie L1-N",
+      reportsSupplyQualityTransformerTableVariableName_VoltageL2N:
+        "Napięcie L2-N",
+      reportsSupplyQualityTransformerTableVariableName_VoltageL3N:
+        "Napięcie L3-N",
+      reportsSupplyQualityTransformerTableVariableName_VoltageL1L2:
+        "Napięcie L1-L2",
+      reportsSupplyQualityTransformerTableVariableName_VoltageL2L3:
+        "Napięcie L2-L3",
+      reportsSupplyQualityTransformerTableVariableName_VoltageL3L1:
+        "Napięcie L3-L1",
+      reportsSupplyQualityTransformerTableVariableName_THDVoltageL1: "THD-U L1",
+      reportsSupplyQualityTransformerTableVariableName_THDVoltageL2: "THD-U L2",
+      reportsSupplyQualityTransformerTableVariableName_THDVoltageL3: "THD-U L3",
+      reportsSupplyQualityTransformerTableVariableName_UnbalanceVoltage:
+        "Asymteria napięcia",
+      reportsSupplyQualityTransformerTableVariableNameColumnHeader:
+        "Nazwa parametru",
+      reportsSupplyQualityTransformerTableAverageColumnHeader:
+        "Wartość średnia",
+      reportsSupplyQualityTransformerTableMaxValueHeader: "Wartość maksymalna",
+      reportsSupplyQualityTransformerTableMinValueHeader: "Wartość minimalna",
+
+      reportsSupplyQualityTransformerCurrentTableTitle: "Parametry pradu",
+      reportsSupplyQualityTransformerTableVariableName_CurrentL1: "Prąd L1",
+      reportsSupplyQualityTransformerTableVariableName_CurrentL2: "Prąd L2",
+      reportsSupplyQualityTransformerTableVariableName_CurrentL3: "Prąd L3",
+      reportsSupplyQualityTransformerTableVariableName_THDCurrentL1: "THD-I L1",
+      reportsSupplyQualityTransformerTableVariableName_THDCurrentL2: "THD-I L2",
+      reportsSupplyQualityTransformerTableVariableName_THDCurrentL3: "THD-I L3",
+      reportsSupplyQualityTransformerTableVariableName_UnbalanceCurrent:
+        "Asymetria prądu",
+
+      reportsSupplyQualityTHDChartComponentTitle:
+        "Całkowite odkształcenie zasilania",
+
+      reportsSupplyQualityTransformerTotalChartTHDCurrentL1Label: "THD prąd L1",
+      reportsSupplyQualityTransformerTotalChartTHDCurrentL2Label: "THD prąd L2",
+      reportsSupplyQualityTransformerTotalChartTHDCurrentL3Label: "THD prąd L3",
+      reportsSupplyQualityTransformerTotalChartTHDVoltageL1Label:
+        "THD napięcie L1",
+      reportsSupplyQualityTransformerTotalChartTHDVoltageL2Label:
+        "THD napięcie L2",
+      reportsSupplyQualityTransformerTotalChartTHDVoltageL3Label:
+        "THD napięcie L3",
+      reportsSupplyQualityTransformerTotalChartYAxisLabel: "Odkształcenie [%]",
+
+      reportsSupplyQualityInfeedChartYAxisLabel: "Odkształcenie [%A]",
+
+      reportsSupplyQualityInfeedTHDChartComponentTitleL1:
+        "Odkształcenie prądu w fazie L1 odbiorów ",
+
+      reportsSupplyQualityInfeedTHDChartComponentTitleL2:
+        "Odkształcenie prądu w fazie L2 odbiorów ",
+
+      reportsSupplyQualityInfeedTHDChartComponentTitleL3:
+        "Odkształcenie prądu w fazie L3 odbiorów ",
       //slideUpDialog
       slideUpDialogTabOverview: "Przegląd",
       slideUpDialogTabVoltage: "Napięcie",
@@ -417,6 +478,70 @@ const resources = {
 
       reports15MinPowerReportElementPowerDayScaleTitle: "Days of month",
 
+      reportsSupplyQualityTransformerComponentTitle: "Supply from",
+
+      reportsSupplyQualityTransformerVoltageTableTitle: "Voltage parameters",
+      reportsSupplyQualityTransformerTableVariableName_VoltageL1N:
+        "Voltage L1-N",
+      reportsSupplyQualityTransformerTableVariableName_VoltageL2N:
+        "Voltage L2-N",
+      reportsSupplyQualityTransformerTableVariableName_VoltageL3N:
+        "Voltage L3-N",
+      reportsSupplyQualityTransformerTableVariableName_VoltageL1L2:
+        "Voltage L1-L2",
+      reportsSupplyQualityTransformerTableVariableName_VoltageL2L3:
+        "Voltage L2-L3",
+      reportsSupplyQualityTransformerTableVariableName_VoltageL3L1:
+        "Voltage L3-L1",
+      reportsSupplyQualityTransformerTableVariableName_THDVoltageL1: "THD-U L1",
+      reportsSupplyQualityTransformerTableVariableName_THDVoltageL2: "THD-U L2",
+      reportsSupplyQualityTransformerTableVariableName_THDVoltageL3: "THD-U L3",
+      reportsSupplyQualityTransformerTableVariableName_UnbalanceVoltage:
+        "Voltage unbalance",
+      reportsSupplyQualityTransformerTableVariableNameColumnHeader:
+        "Parameter name",
+      reportsSupplyQualityTransformerTableAverageColumnHeader: "Average value",
+      reportsSupplyQualityTransformerTableMaxValueHeader: "Maximum value",
+      reportsSupplyQualityTransformerTableMinValueHeader: "Minimum value",
+
+      reportsSupplyQualityTransformerCurrentTableTitle: "Current parameters",
+      reportsSupplyQualityTransformerTableVariableName_CurrentL1: "Current L1",
+      reportsSupplyQualityTransformerTableVariableName_CurrentL2: "Current L2",
+      reportsSupplyQualityTransformerTableVariableName_CurrentL3: "Current L3",
+      reportsSupplyQualityTransformerTableVariableName_THDCurrentL1: "THD-I L1",
+      reportsSupplyQualityTransformerTableVariableName_THDCurrentL2: "THD-I L2",
+      reportsSupplyQualityTransformerTableVariableName_THDCurrentL3: "THD-I L3",
+      reportsSupplyQualityTransformerTableVariableName_UnbalanceCurrent:
+        "Current unbalance",
+
+      reportsSupplyQualityTransformerTotalChartTHDCurrentL1Label:
+        "THD current L1",
+      reportsSupplyQualityTransformerTotalChartTHDCurrentL2Label:
+        "THD current L2",
+      reportsSupplyQualityTransformerTotalChartTHDCurrentL3Label:
+        "THD current L3",
+      reportsSupplyQualityTransformerTotalChartTHDVoltageL1Label:
+        "THD voltage L1",
+      reportsSupplyQualityTransformerTotalChartTHDVoltageL2Label:
+        "THD voltage L2",
+      reportsSupplyQualityTransformerTotalChartTHDVoltageL3Label:
+        "THD voltage L3",
+
+      reportsSupplyQualityTHDChartComponentTitle: "Total supply distortion",
+
+      reportsSupplyQualityTransformerTotalChartYAxisLabel: "Distortion [%]",
+
+      reportsSupplyQualityInfeedChartYAxisLabel: "Distortion [%A]",
+
+      reportsSupplyQualityInfeedTHDChartComponentTitleL1:
+        "Infeed current L1 distortion for ",
+
+      reportsSupplyQualityInfeedTHDChartComponentTitleL2:
+        "Infeed current L2 distortion for ",
+
+      reportsSupplyQualityInfeedTHDChartComponentTitleL3:
+        "Infeed current L3 distortion for ",
+
       reports15MinPowerReportElement_1F1: "Bud. 01 - MSB1",
       reports15MinPowerReportElement_1F2: "Bud. 3 - comp.",
       reports15MinPowerReportElement_1F3: "Bud. 1A - comp.",
@@ -443,6 +568,7 @@ const resources = {
 
       reports15MinPowerReportElement_transformers: "Transformers",
       reports15MinPowerReportElement_rest: "Rest",
+
       //events
       events: "Events",
       event: "Event",

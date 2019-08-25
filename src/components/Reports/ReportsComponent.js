@@ -8,6 +8,7 @@ import ReportMenuComponent from "./ReportMenuComponent";
 import { isObjectEmpty } from "../../utils/utilities";
 import EnergyReportComponent from "./EnergyReport/EnergyReportComponent";
 import Power15Min from "./Power15Min/Power15Min";
+import SupplyQualityReportComponent from "./SupplyQualityReport/SupplyQualityReportComponent";
 
 const styles = theme => ({
   root: {},
@@ -24,6 +25,9 @@ class ReportsComponent extends Component {
       }
       case 1: {
         return <Power15Min />;
+      }
+      case 2: {
+        return <SupplyQualityReportComponent />;
       }
       default: {
         return null;
