@@ -72,58 +72,17 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
-class SupplyQualityReportTransformerComponent extends Component {
-  getVoltageData = () => {
-    let { supplyName, supplyQualityReport } = this.props;
-
-    if (!exists(supplyQualityReport.data)) return null;
-
-    let supplyData = supplyQualityReport.data[supplyName];
-
-    if (!exists(supplyData)) return null;
-
-    let supplyMonthlyData = supplyQualityReport.data[supplyName].monthlyData;
-
-    if (!exists(supplyMonthlyData)) return null;
-
-    let getComponentData = (variableNameInData, unit) => {
-      if (!exists(supplyMonthlyData[variableNameInData])) return {};
-
-      return {
-        name: variableNameInData,
-        average: supplyMonthlyData[variableNameInData].average,
-        max: supplyMonthlyData[variableNameInData].max,
-        maxTime: supplyMonthlyData[variableNameInData].maxTime,
-        min: supplyMonthlyData[variableNameInData].min,
-        minTime: supplyMonthlyData[variableNameInData].minTime,
-        unit: unit
-      };
-    };
-
-    return [
-      getComponentData("VoltageL1N", "V"),
-      getComponentData("VoltageL2N", "V"),
-      getComponentData("VoltageL3N", "V"),
-      getComponentData("VoltageL1L2", "V"),
-      getComponentData("VoltageL2L3", "V"),
-      getComponentData("VoltageL3L1", "V"),
-      getComponentData("THDVoltageL1", "%"),
-      getComponentData("THDVoltageL2", "%"),
-      getComponentData("THDVoltageL3", "%"),
-      getComponentData("UnbalanceVoltage", "%")
-    ];
-  };
-
+class InfeedQualityReportInfeedComponent extends Component {
   getCurrentData = () => {
-    let { supplyName, supplyQualityReport } = this.props;
+    let { infeedName, infeedQualityReport } = this.props;
 
-    if (!exists(supplyQualityReport.data)) return null;
+    if (!exists(infeedQualityReport.data)) return null;
 
-    let supplyData = supplyQualityReport.data[supplyName];
+    let supplyData = infeedQualityReport.data[infeedName];
 
     if (!exists(supplyData)) return null;
 
-    let supplyMonthlyData = supplyQualityReport.data[supplyName].monthlyData;
+    let supplyMonthlyData = infeedQualityReport.data[infeedName].monthlyData;
 
     if (!exists(supplyMonthlyData)) return null;
 
@@ -144,11 +103,41 @@ class SupplyQualityReportTransformerComponent extends Component {
     return [
       getComponentData("CurrentL1", "A"),
       getComponentData("CurrentL2", "A"),
-      getComponentData("CurrentL3", "A"),
-      getComponentData("THDCurrentL1", "%"),
-      getComponentData("THDCurrentL2", "%"),
-      getComponentData("THDCurrentL3", "%"),
-      getComponentData("UnbalanceCurrent", "%")
+      getComponentData("CurrentL3", "A")
+    ];
+  };
+
+  getTHDData = () => {
+    let { infeedName, infeedQualityReport } = this.props;
+
+    if (!exists(infeedQualityReport.data)) return null;
+
+    let supplyData = infeedQualityReport.data[infeedName];
+
+    if (!exists(supplyData)) return null;
+
+    let supplyMonthlyData = infeedQualityReport.data[infeedName].monthlyData;
+
+    if (!exists(supplyMonthlyData)) return null;
+
+    let getComponentData = (variableNameInData, unit) => {
+      if (!exists(supplyMonthlyData[variableNameInData])) return {};
+
+      return {
+        name: variableNameInData,
+        average: supplyMonthlyData[variableNameInData].average,
+        max: supplyMonthlyData[variableNameInData].max,
+        maxTime: supplyMonthlyData[variableNameInData].maxTime,
+        min: supplyMonthlyData[variableNameInData].min,
+        minTime: supplyMonthlyData[variableNameInData].minTime,
+        unit: unit
+      };
+    };
+
+    return [
+      getComponentData("THDCurrentL1", "A"),
+      getComponentData("THDCurrentL2", "A"),
+      getComponentData("THDCurrentL3", "A")
     ];
   };
 
@@ -193,10 +182,10 @@ class SupplyQualityReportTransformerComponent extends Component {
     );
   };
 
-  renderVoltageTable = () => {
+  renderCurrentTable = () => {
     let { t, classes } = this.props;
 
-    let tableData = this.getVoltageData();
+    let tableData = this.getCurrentData();
 
     if (!exists(tableData)) return null;
 
@@ -207,7 +196,7 @@ class SupplyQualityReportTransformerComponent extends Component {
         }}
         icons={tableIcons}
         className={classes.table}
-        title={t("reportsSupplyQualityTransformerVoltageTableTitle")}
+        title={t("reportsInfeedQualityInfeedCurrentTableTitle")}
         columns={[
           {
             title: t(
@@ -293,10 +282,10 @@ class SupplyQualityReportTransformerComponent extends Component {
     );
   };
 
-  renderCurrentTable = () => {
+  renderTHDTable = () => {
     let { t, classes } = this.props;
 
-    let tableData = this.getCurrentData();
+    let tableData = this.getTHDData();
 
     if (!exists(tableData)) return null;
 
@@ -307,7 +296,7 @@ class SupplyQualityReportTransformerComponent extends Component {
         }}
         icons={tableIcons}
         className={classes.table}
-        title={t("reportsSupplyQualityTransformerCurrentTableTitle")}
+        title={t("reportsInfeedQualityInfeedTHDTableTitle")}
         columns={[
           {
             title: t(
@@ -394,15 +383,15 @@ class SupplyQualityReportTransformerComponent extends Component {
   };
 
   render() {
-    let { t, classes, supplyName } = this.props;
+    let { t, classes, infeedName } = this.props;
 
     return (
       <Grid item>
         <Paper className={classes.paper}>
           <Typography variant="h5" gutterBottom>
-            {`${t(
-              "reportsSupplyQualityTransformerComponentTitle"
-            )} ${supplyName}`}
+            {`${t("reportsInfeedQualityInfeedComponentTitle")} ${t(
+              `reportsInfeedQualityInfeedName_${infeedName}`
+            )}`}
           </Typography>
           <Grid
             container
@@ -420,10 +409,10 @@ class SupplyQualityReportTransformerComponent extends Component {
               alignItems="stretch"
             >
               <Grid item lg={6} className={classes.tableGridItem}>
-                {this.renderVoltageTable()}
+                {this.renderCurrentTable()}
               </Grid>
               <Grid item lg={6} className={classes.tableGridItem}>
-                {this.renderCurrentTable()}
+                {this.renderTHDTable()}
               </Grid>
             </Grid>
           </Grid>
@@ -435,7 +424,7 @@ class SupplyQualityReportTransformerComponent extends Component {
 
 function mapStateToProps(state, props) {
   return {
-    supplyQualityReport: state.supplyQualityReport
+    infeedQualityReport: state.infeedQualityReport
   };
 }
 
@@ -446,6 +435,6 @@ export default connect(
   mapDispatchToProps
 )(
   withStyles(styles)(
-    withTranslation()(withSnackbar(SupplyQualityReportTransformerComponent))
+    withTranslation()(withSnackbar(InfeedQualityReportInfeedComponent))
   )
 );

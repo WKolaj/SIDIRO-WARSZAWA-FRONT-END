@@ -61,7 +61,7 @@ let groupColors = {
 
 class Power15MinElementPowerChartComponent extends Component {
   generateOptionsForTrend() {
-    let { power15MinReport, t } = this.props;
+    let { power15MinReport } = this.props;
 
     let startDate = new Date(
       power15MinReport.year,
@@ -171,8 +171,6 @@ class Power15MinElementPowerChartComponent extends Component {
   };
 
   generateDataForTrend(power15MinReport) {
-    let { t } = this.props;
-
     let allDatasets = [];
 
     let allGroups = Object.keys(power15MinReport.data);
@@ -201,7 +199,7 @@ class Power15MinElementPowerChartComponent extends Component {
   }
 
   render() {
-    let { t, classes, power15MinReport } = this.props;
+    let { classes, power15MinReport } = this.props;
 
     let trendOptions = this.generateOptionsForTrend();
     let trendData = this.generateDataForTrend(power15MinReport);

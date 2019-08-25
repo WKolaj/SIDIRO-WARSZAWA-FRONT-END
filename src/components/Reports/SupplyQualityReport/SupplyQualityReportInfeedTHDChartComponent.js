@@ -103,9 +103,6 @@ class SupplyQualityInfeedTHDChartComponent extends Component {
         display: true,
         position: "top"
       },
-      title: {
-        display: false
-      },
 
       tooltips: {
         callbacks: {
@@ -212,7 +209,6 @@ class SupplyQualityInfeedTHDChartComponent extends Component {
 
   render() {
     let {
-      t,
       classes,
       supplyQualityReport,
       supplyName,

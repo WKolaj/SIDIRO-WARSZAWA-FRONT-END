@@ -1,6 +1,5 @@
 import { getAggregateData, getDataFromRange } from "./mindsphereService";
-import { exists, existsAndIsNotEmpty, snooze } from "../utils/utilities";
-import _ from "lodash";
+import { exists, existsAndIsNotEmpty } from "../utils/utilities";
 
 const assetIdRGPZO = "a5eebd59cd1348c5b38f8d74ab432780";
 
@@ -10,9 +9,6 @@ const breakerReactiveEnergyImportVariableName = "Reactive_energy_import";
 const breakerReactiveEnergyExportVariableName = "Reactive_energy_export";
 
 const breakerActivePowerImportVariableName = "Active_power_import_15_min";
-const breakerActivePowerExportVariableName = "Active_power_export_15_min";
-const breakerReactivePowerImportVariableName = "Reactive_power_import_15_min";
-const breakerReactivePowerExportVariableName = "Reactive_power_export_15_min";
 
 const pacActiveEnergyImportVariableName = "Active_energy_import";
 const pacActiveEnergyExportVariableName = "Active_energy_export";
@@ -20,9 +16,6 @@ const pacReactiveEnergyImportVariableName = "Reactive_energy_import";
 const pacReactiveEnergyExportVariableName = "Reactive_energy_export";
 
 const pacActivePowerImportVariableName = "Total_active_power_import";
-const pacActivePowerExportVariableName = "Total_active_power_export";
-const pacReactivePowerImportVariableName = "Total_reactive_power_import";
-const pacReactivePowerExportVariableName = "Total_reactive_power_export";
 
 const pacVoltageL1NVariableName = "Voltage_L1_N";
 const pacVoltageL2NVariableName = "Voltage_L2_N";
@@ -530,63 +523,63 @@ const convertPACBasicQualityData = aggregatedData => {
   let dailyData = {};
 
   let monthlyData = {
-    ["CurrentL1"]: {
+    CurrentL1: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
       minTime: null
     },
-    ["CurrentL2"]: {
+    CurrentL2: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
       minTime: null
     },
-    ["CurrentL3"]: {
+    CurrentL3: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
       minTime: null
     },
-    ["VoltageL1N"]: {
+    VoltageL1N: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
       minTime: null
     },
-    ["VoltageL2N"]: {
+    VoltageL2N: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
       minTime: null
     },
-    ["VoltageL3N"]: {
+    VoltageL3N: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
       minTime: null
     },
-    ["VoltageL1L2"]: {
+    VoltageL1L2: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
       minTime: null
     },
-    ["VoltageL2L3"]: {
+    VoltageL2L3: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
       minTime: null
     },
-    ["VoltageL3L1"]: {
+    VoltageL3L1: {
       average: null,
       max: null,
       maxTime: null,
@@ -596,27 +589,27 @@ const convertPACBasicQualityData = aggregatedData => {
   };
 
   let numberOfData = {
-    ["CurrentL1"]: 0,
-    ["CurrentL2"]: 0,
-    ["CurrentL3"]: 0,
-    ["VoltageL1N"]: 0,
-    ["VoltageL2N"]: 0,
-    ["VoltageL3N"]: 0,
-    ["VoltageL1L2"]: 0,
-    ["VoltageL2L3"]: 0,
-    ["VoltageL3L1"]: 0
+    CurrentL1: 0,
+    CurrentL2: 0,
+    CurrentL3: 0,
+    VoltageL1N: 0,
+    VoltageL2N: 0,
+    VoltageL3N: 0,
+    VoltageL1L2: 0,
+    VoltageL2L3: 0,
+    VoltageL3L1: 0
   };
 
   let sumOfData = {
-    ["CurrentL1"]: 0,
-    ["CurrentL2"]: 0,
-    ["CurrentL3"]: 0,
-    ["VoltageL1N"]: 0,
-    ["VoltageL2N"]: 0,
-    ["VoltageL3N"]: 0,
-    ["VoltageL1L2"]: 0,
-    ["VoltageL2L3"]: 0,
-    ["VoltageL3L1"]: 0
+    CurrentL1: 0,
+    CurrentL2: 0,
+    CurrentL3: 0,
+    VoltageL1N: 0,
+    VoltageL2N: 0,
+    VoltageL3N: 0,
+    VoltageL1L2: 0,
+    VoltageL2L3: 0,
+    VoltageL3L1: 0
   };
 
   let checkAndAssignData = (
@@ -670,7 +663,6 @@ const convertPACBasicQualityData = aggregatedData => {
 
   for (let dayData of aggregatedData) {
     let startDate = new Date(dayData["starttime"]).getTime();
-    let endDate = new Date(dayData["endtime"]).getTime();
 
     let currentL1Data = dayData[pacCurrentL1VariableName];
     let currentL2Data = dayData[pacCurrentL2VariableName];
@@ -710,56 +702,56 @@ const convertPACAdvancedQualityData = aggregatedData => {
   let dailyData = {};
 
   let monthlyData = {
-    ["THDCurrentL1"]: {
+    THDCurrentL1: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
       minTime: null
     },
-    ["THDCurrentL2"]: {
+    THDCurrentL2: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
       minTime: null
     },
-    ["THDCurrentL3"]: {
+    THDCurrentL3: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
       minTime: null
     },
-    ["THDVoltageL1"]: {
+    THDVoltageL1: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
       minTime: null
     },
-    ["THDVoltageL2"]: {
+    THDVoltageL2: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
       minTime: null
     },
-    ["THDVoltageL3"]: {
+    THDVoltageL3: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
       minTime: null
     },
-    ["UnbalanceVoltage"]: {
+    UnbalanceVoltage: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
       minTime: null
     },
-    ["UnbalanceCurrent"]: {
+    UnbalanceCurrent: {
       average: null,
       max: null,
       maxTime: null,
@@ -769,25 +761,25 @@ const convertPACAdvancedQualityData = aggregatedData => {
   };
 
   let numberOfData = {
-    ["THDCurrentL1"]: 0,
-    ["THDCurrentL2"]: 0,
-    ["THDCurrentL3"]: 0,
-    ["THDVoltageL1"]: 0,
-    ["THDVoltageL2"]: 0,
-    ["THDVoltageL3"]: 0,
-    ["UnbalanceVoltage"]: 0,
-    ["UnbalanceCurrent"]: 0
+    THDCurrentL1: 0,
+    THDCurrentL2: 0,
+    THDCurrentL3: 0,
+    THDVoltageL1: 0,
+    THDVoltageL2: 0,
+    THDVoltageL3: 0,
+    UnbalanceVoltage: 0,
+    UnbalanceCurrent: 0
   };
 
   let sumOfData = {
-    ["THDCurrentL1"]: 0,
-    ["THDCurrentL2"]: 0,
-    ["THDCurrentL3"]: 0,
-    ["THDVoltageL1"]: 0,
-    ["THDVoltageL2"]: 0,
-    ["THDVoltageL3"]: 0,
-    ["UnbalanceVoltage"]: 0,
-    ["UnbalanceCurrent"]: 0
+    THDCurrentL1: 0,
+    THDCurrentL2: 0,
+    THDCurrentL3: 0,
+    THDVoltageL1: 0,
+    THDVoltageL2: 0,
+    THDVoltageL3: 0,
+    UnbalanceVoltage: 0,
+    UnbalanceCurrent: 0
   };
 
   let checkAndAssignData = (
@@ -841,7 +833,6 @@ const convertPACAdvancedQualityData = aggregatedData => {
 
   for (let dayData of aggregatedData) {
     let startDate = new Date(dayData["starttime"]).getTime();
-    let endDate = new Date(dayData["endtime"]).getTime();
 
     let currentTHDL1Data = dayData[pacTHDIL1VariableName];
     let currentTHDL2Data = dayData[pacTHDIL2VariableName];
@@ -1016,21 +1007,21 @@ const convertBreakerBasicQualityData = aggregatedData => {
   let dailyData = {};
 
   let monthlyData = {
-    ["CurrentL1"]: {
+    CurrentL1: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
       minTime: null
     },
-    ["CurrentL2"]: {
+    CurrentL2: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
       minTime: null
     },
-    ["CurrentL3"]: {
+    CurrentL3: {
       average: null,
       max: null,
       maxTime: null,
@@ -1040,15 +1031,15 @@ const convertBreakerBasicQualityData = aggregatedData => {
   };
 
   let numberOfData = {
-    ["CurrentL1"]: 0,
-    ["CurrentL2"]: 0,
-    ["CurrentL3"]: 0
+    CurrentL1: 0,
+    CurrentL2: 0,
+    CurrentL3: 0
   };
 
   let sumOfData = {
-    ["CurrentL1"]: 0,
-    ["CurrentL2"]: 0,
-    ["CurrentL3"]: 0
+    CurrentL1: 0,
+    CurrentL2: 0,
+    CurrentL3: 0
   };
 
   let checkAndAssignData = (
@@ -1102,7 +1093,6 @@ const convertBreakerBasicQualityData = aggregatedData => {
 
   for (let dayData of aggregatedData) {
     let startDate = new Date(dayData["starttime"]).getTime();
-    let endDate = new Date(dayData["endtime"]).getTime();
 
     let currentL1Data = dayData[breakerCurrentL1VariableName];
     let currentL2Data = dayData[breakerCurrentL2VariableName];
@@ -1124,21 +1114,21 @@ const convertBreakerAdvancedQualityData = aggregatedData => {
   let dailyData = {};
 
   let monthlyData = {
-    ["THDCurrentL1"]: {
+    THDCurrentL1: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
       minTime: null
     },
-    ["THDCurrentL2"]: {
+    THDCurrentL2: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
       minTime: null
     },
-    ["THDCurrentL3"]: {
+    THDCurrentL3: {
       average: null,
       max: null,
       maxTime: null,
@@ -1148,15 +1138,15 @@ const convertBreakerAdvancedQualityData = aggregatedData => {
   };
 
   let numberOfData = {
-    ["THDCurrentL1"]: 0,
-    ["THDCurrentL2"]: 0,
-    ["THDCurrentL3"]: 0
+    THDCurrentL1: 0,
+    THDCurrentL2: 0,
+    THDCurrentL3: 0
   };
 
   let sumOfData = {
-    ["THDCurrentL1"]: 0,
-    ["THDCurrentL2"]: 0,
-    ["THDCurrentL3"]: 0
+    THDCurrentL1: 0,
+    THDCurrentL2: 0,
+    THDCurrentL3: 0
   };
 
   let checkAndAssignData = (
@@ -1210,7 +1200,6 @@ const convertBreakerAdvancedQualityData = aggregatedData => {
 
   for (let dayData of aggregatedData) {
     let startDate = new Date(dayData["starttime"]).getTime();
-    let endDate = new Date(dayData["endtime"]).getTime();
 
     let thdCurrentL1Data = dayData[breakerTHDIL1VariableName];
     let thdCurrentL2Data = dayData[breakerTHDIL2VariableName];

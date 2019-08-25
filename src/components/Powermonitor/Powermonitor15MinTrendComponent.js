@@ -117,11 +117,6 @@ class Powermonitor15MinComponent extends Component {
     powermonitorData,
     powermonitorActivePowerData
   ) => {
-    let {
-      activePowerLimitAlarm,
-      activePowerLimitWarning
-    } = powermonitorData.data;
-
     let pointsToReturn = [];
 
     for (let i = 0; i < powermonitorActivePowerData.data.length; i++) {

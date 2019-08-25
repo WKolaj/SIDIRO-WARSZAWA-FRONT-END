@@ -16,7 +16,7 @@ const styles = theme => ({
   }
 });
 
-class SupplyQualityTotalTHDChartComponent extends Component {
+class SupplyQualityCurrentsChartComponent extends Component {
   renderTooltipLabel = (tooltipItem, data) => {
     if (!exists(tooltipItem.datasetIndex)) return "";
     if (!exists(tooltipItem.index)) return "";
@@ -35,14 +35,14 @@ class SupplyQualityTotalTHDChartComponent extends Component {
       "YYYY-MM-DD"
     );
 
-    return `${label}: ${dateText} - ${value.toFixed(2)} %`;
+    return `${label}: ${dateText} - ${value.toFixed(2)} A`;
   };
 
   generateOptionsForTrend() {
-    let { supplyQualityReport, t } = this.props;
+    let { infeedQualityReport, t } = this.props;
     let periodDate = new Date(
-      supplyQualityReport.year,
-      supplyQualityReport.month,
+      infeedQualityReport.year,
+      infeedQualityReport.month,
       1
     );
 
@@ -74,9 +74,7 @@ class SupplyQualityTotalTHDChartComponent extends Component {
           {
             scaleLabel: {
               display: true,
-              labelString: t(
-                "reportsSupplyQualityTransformerTotalChartYAxisLabel"
-              ),
+              labelString: t("reportsSupplyQualityCurrentChartYAxisLabel"),
               padding: 10,
               fontSize: 18
             }
@@ -109,24 +107,30 @@ class SupplyQualityTotalTHDChartComponent extends Component {
   generateDataForTrend(supplyDailyData) {
     let { t } = this.props;
     let datasetValues = {
-      THDCurrentL1: [],
-      THDCurrentL2: [],
-      THDCurrentL3: [],
-      THDVoltageL1: [],
-      THDVoltageL2: [],
-      THDVoltageL3: []
+      MaxCurrentL1: [],
+      MaxCurrentL2: [],
+      MaxCurrentL3: [],
+      AvgCurrentL1: [],
+      AvgCurrentL2: [],
+      AvgCurrentL3: []
     };
 
     let allDays = Object.keys(supplyDailyData);
 
-    let appendDataSetIfVariableExists = (dayData, dayDate, variableName) => {
+    let appendDataSetIfVariableExists = (
+      dayData,
+      dayDate,
+      variableName,
+      propertyName,
+      variableNameInDatasets
+    ) => {
       if (
         exists(dayData[variableName]) &&
-        exists(dayData[variableName].average)
+        exists(dayData[variableName][propertyName])
       ) {
-        datasetValues[variableName].push({
+        datasetValues[variableNameInDatasets].push({
           x: dayDate,
-          y: dayData[variableName].average
+          y: dayData[variableName][propertyName]
         });
       }
     };
@@ -135,12 +139,48 @@ class SupplyQualityTotalTHDChartComponent extends Component {
       let dayData = supplyDailyData[day];
       let dayDate = new Date(parseInt(day));
 
-      appendDataSetIfVariableExists(dayData, dayDate, "THDCurrentL1");
-      appendDataSetIfVariableExists(dayData, dayDate, "THDCurrentL2");
-      appendDataSetIfVariableExists(dayData, dayDate, "THDCurrentL3");
-      appendDataSetIfVariableExists(dayData, dayDate, "THDVoltageL1");
-      appendDataSetIfVariableExists(dayData, dayDate, "THDVoltageL2");
-      appendDataSetIfVariableExists(dayData, dayDate, "THDVoltageL3");
+      appendDataSetIfVariableExists(
+        dayData,
+        dayDate,
+        "CurrentL1",
+        "average",
+        "AvgCurrentL1"
+      );
+      appendDataSetIfVariableExists(
+        dayData,
+        dayDate,
+        "CurrentL2",
+        "average",
+        "AvgCurrentL2"
+      );
+      appendDataSetIfVariableExists(
+        dayData,
+        dayDate,
+        "CurrentL3",
+        "average",
+        "AvgCurrentL3"
+      );
+      appendDataSetIfVariableExists(
+        dayData,
+        dayDate,
+        "CurrentL1",
+        "max",
+        "MaxCurrentL1"
+      );
+      appendDataSetIfVariableExists(
+        dayData,
+        dayDate,
+        "CurrentL2",
+        "max",
+        "MaxCurrentL2"
+      );
+      appendDataSetIfVariableExists(
+        dayData,
+        dayDate,
+        "CurrentL3",
+        "max",
+        "MaxCurrentL3"
+      );
     }
 
     let datasets = [
@@ -148,49 +188,9 @@ class SupplyQualityTotalTHDChartComponent extends Component {
         type: "line",
         showLine: true,
         fill: false,
-        label: t("reportsSupplyQualityTransformerTotalChartTHDCurrentL1Label"),
+        label: t("reportsSupplyQualityCurrentChartTHDCurrentL1MaxLabel"),
         borderWidth: 2,
-        data: datasetValues["THDCurrentL1"],
-        borderColor: "#ff6384dd",
-        backgroundColor: "rgba(0, 0, 0, 0)"
-      },
-      {
-        type: "line",
-        showLine: true,
-        fill: false,
-        label: t("reportsSupplyQualityTransformerTotalChartTHDCurrentL2Label"),
-        borderWidth: 2,
-        data: datasetValues["THDCurrentL2"],
-        borderColor: "#36a2ebdd",
-        backgroundColor: "rgba(0, 0, 0, 0)"
-      },
-      {
-        type: "line",
-        showLine: true,
-        fill: false,
-        label: t("reportsSupplyQualityTransformerTotalChartTHDCurrentL3Label"),
-        borderWidth: 2,
-        data: datasetValues["THDCurrentL3"],
-        borderColor: "#4dc240dd",
-        backgroundColor: "rgba(0, 0, 0, 0)"
-      },
-      {
-        type: "line",
-        showLine: true,
-        fill: false,
-        label: t("reportsSupplyQualityTransformerTotalChartTHDVoltageL1Label"),
-        borderWidth: 2,
-        data: datasetValues["THDVoltageL1"],
-        borderColor: "#8656ffdd",
-        backgroundColor: "rgba(0, 0, 0, 0)"
-      },
-      {
-        type: "line",
-        showLine: true,
-        fill: false,
-        label: t("reportsSupplyQualityTransformerTotalChartTHDVoltageL2Label"),
-        borderWidth: 2,
-        data: datasetValues["THDVoltageL2"],
+        data: datasetValues["MaxCurrentL1"],
         borderColor: "#ff2b2bdd",
         backgroundColor: "rgba(0, 0, 0, 0)"
       },
@@ -198,10 +198,50 @@ class SupplyQualityTotalTHDChartComponent extends Component {
         type: "line",
         showLine: true,
         fill: false,
-        label: t("reportsSupplyQualityTransformerTotalChartTHDVoltageL3Label"),
+        label: t("reportsSupplyQualityCurrentChartTHDCurrentL2MaxLabel"),
         borderWidth: 2,
-        data: datasetValues["THDVoltageL3"],
+        data: datasetValues["MaxCurrentL2"],
+        borderColor: "#8656ffdd",
+        backgroundColor: "rgba(0, 0, 0, 0)"
+      },
+      {
+        type: "line",
+        showLine: true,
+        fill: false,
+        label: t("reportsSupplyQualityCurrentChartTHDCurrentL3MaxLabel"),
+        borderWidth: 2,
+        data: datasetValues["MaxCurrentL3"],
         borderColor: "#f59300dd",
+        backgroundColor: "rgba(0, 0, 0, 0)"
+      },
+      {
+        type: "line",
+        showLine: true,
+        fill: false,
+        label: t("reportsSupplyQualityCurrentChartTHDCurrentL1AvgLabel"),
+        borderWidth: 2,
+        data: datasetValues["AvgCurrentL1"],
+        borderColor: "#ff6384dd",
+        backgroundColor: "rgba(0, 0, 0, 0)"
+      },
+      {
+        type: "line",
+        showLine: true,
+        fill: false,
+        label: t("reportsSupplyQualityCurrentChartTHDCurrentL2AvgLabel"),
+        borderWidth: 2,
+        data: datasetValues["AvgCurrentL2"],
+        borderColor: "#36a2ebdd",
+        backgroundColor: "rgba(0, 0, 0, 0)"
+      },
+      {
+        type: "line",
+        showLine: true,
+        fill: false,
+        label: t("reportsSupplyQualityCurrentChartTHDCurrentL3AvgLabel"),
+        borderWidth: 2,
+        data: datasetValues["AvgCurrentL3"],
+        borderColor: "#4dc240dd",
         backgroundColor: "rgba(0, 0, 0, 0)"
       }
     ];
@@ -212,14 +252,14 @@ class SupplyQualityTotalTHDChartComponent extends Component {
   }
 
   render() {
-    let { classes, supplyQualityReport, supplyName } = this.props;
+    let { classes, infeedQualityReport, infeedName } = this.props;
     let trendOptions = this.generateOptionsForTrend();
 
-    if (!exists(supplyQualityReport.data)) return null;
-    if (!exists(supplyQualityReport.data[supplyName])) return null;
-    if (!exists(supplyQualityReport.data[supplyName].dailyData)) return null;
+    if (!exists(infeedQualityReport.data)) return null;
+    if (!exists(infeedQualityReport.data[infeedName])) return null;
+    if (!exists(infeedQualityReport.data[infeedName].dailyData)) return null;
     let trendData = this.generateDataForTrend(
-      supplyQualityReport.data[supplyName].dailyData
+      infeedQualityReport.data[infeedName].dailyData
     );
     return (
       <Scatter
@@ -235,7 +275,7 @@ class SupplyQualityTotalTHDChartComponent extends Component {
 
 function mapStateToProps(state, props) {
   return {
-    supplyQualityReport: state.supplyQualityReport
+    infeedQualityReport: state.infeedQualityReport
   };
 }
 
@@ -246,6 +286,6 @@ export default connect(
   mapDispatchToProps
 )(
   withStyles(styles)(
-    withTranslation()(withSnackbar(SupplyQualityTotalTHDChartComponent))
+    withTranslation()(withSnackbar(SupplyQualityCurrentsChartComponent))
   )
 );

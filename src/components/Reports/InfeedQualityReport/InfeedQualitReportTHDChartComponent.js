@@ -16,7 +16,7 @@ const styles = theme => ({
   }
 });
 
-class SupplyQualityTotalTHDChartComponent extends Component {
+class InfeedQualityTHDChartComponent extends Component {
   renderTooltipLabel = (tooltipItem, data) => {
     if (!exists(tooltipItem.datasetIndex)) return "";
     if (!exists(tooltipItem.index)) return "";
@@ -35,14 +35,14 @@ class SupplyQualityTotalTHDChartComponent extends Component {
       "YYYY-MM-DD"
     );
 
-    return `${label}: ${dateText} - ${value.toFixed(2)} %`;
+    return `${label}: ${dateText} - ${value.toFixed(2)} A`;
   };
 
   generateOptionsForTrend() {
-    let { supplyQualityReport, t } = this.props;
+    let { infeedQualityReport, t } = this.props;
     let periodDate = new Date(
-      supplyQualityReport.year,
-      supplyQualityReport.month,
+      infeedQualityReport.year,
+      infeedQualityReport.month,
       1
     );
 
@@ -74,9 +74,7 @@ class SupplyQualityTotalTHDChartComponent extends Component {
           {
             scaleLabel: {
               display: true,
-              labelString: t(
-                "reportsSupplyQualityTransformerTotalChartYAxisLabel"
-              ),
+              labelString: t("reportsSupplyQualityInfeedChartYAxisLabel"),
               padding: 10,
               fontSize: 18
             }
@@ -112,21 +110,27 @@ class SupplyQualityTotalTHDChartComponent extends Component {
       THDCurrentL1: [],
       THDCurrentL2: [],
       THDCurrentL3: [],
-      THDVoltageL1: [],
-      THDVoltageL2: [],
-      THDVoltageL3: []
+      MaxTHDCurrentL1: [],
+      MaxTHDCurrentL2: [],
+      MaxTHDCurrentL3: []
     };
 
     let allDays = Object.keys(supplyDailyData);
 
-    let appendDataSetIfVariableExists = (dayData, dayDate, variableName) => {
+    let appendDataSetIfVariableExists = (
+      dayData,
+      dayDate,
+      variableName,
+      propertyName,
+      variableNameInDatasets
+    ) => {
       if (
         exists(dayData[variableName]) &&
-        exists(dayData[variableName].average)
+        exists(dayData[variableName][propertyName])
       ) {
-        datasetValues[variableName].push({
+        datasetValues[variableNameInDatasets].push({
           x: dayDate,
-          y: dayData[variableName].average
+          y: dayData[variableName][propertyName]
         });
       }
     };
@@ -135,12 +139,49 @@ class SupplyQualityTotalTHDChartComponent extends Component {
       let dayData = supplyDailyData[day];
       let dayDate = new Date(parseInt(day));
 
-      appendDataSetIfVariableExists(dayData, dayDate, "THDCurrentL1");
-      appendDataSetIfVariableExists(dayData, dayDate, "THDCurrentL2");
-      appendDataSetIfVariableExists(dayData, dayDate, "THDCurrentL3");
-      appendDataSetIfVariableExists(dayData, dayDate, "THDVoltageL1");
-      appendDataSetIfVariableExists(dayData, dayDate, "THDVoltageL2");
-      appendDataSetIfVariableExists(dayData, dayDate, "THDVoltageL3");
+      appendDataSetIfVariableExists(
+        dayData,
+        dayDate,
+        "THDCurrentL1",
+        "average",
+        "THDCurrentL1"
+      );
+      appendDataSetIfVariableExists(
+        dayData,
+        dayDate,
+        "THDCurrentL2",
+        "average",
+        "THDCurrentL2"
+      );
+      appendDataSetIfVariableExists(
+        dayData,
+        dayDate,
+        "THDCurrentL3",
+        "average",
+        "THDCurrentL3"
+      );
+
+      appendDataSetIfVariableExists(
+        dayData,
+        dayDate,
+        "THDCurrentL1",
+        "max",
+        "MaxTHDCurrentL1"
+      );
+      appendDataSetIfVariableExists(
+        dayData,
+        dayDate,
+        "THDCurrentL2",
+        "max",
+        "MaxTHDCurrentL2"
+      );
+      appendDataSetIfVariableExists(
+        dayData,
+        dayDate,
+        "THDCurrentL3",
+        "max",
+        "MaxTHDCurrentL3"
+      );
     }
 
     let datasets = [
@@ -148,7 +189,37 @@ class SupplyQualityTotalTHDChartComponent extends Component {
         type: "line",
         showLine: true,
         fill: false,
-        label: t("reportsSupplyQualityTransformerTotalChartTHDCurrentL1Label"),
+        label: t("reportsInfeedQualityTHDL1TrendLabelMax"),
+        borderWidth: 2,
+        data: datasetValues["MaxTHDCurrentL1"],
+        borderColor: "#ff2b2bdd",
+        backgroundColor: "rgba(0, 0, 0, 0)"
+      },
+      {
+        type: "line",
+        showLine: true,
+        fill: false,
+        label: t("reportsInfeedQualityTHDL2TrendLabelMax"),
+        borderWidth: 2,
+        data: datasetValues["MaxTHDCurrentL2"],
+        borderColor: "#8656ffdd",
+        backgroundColor: "rgba(0, 0, 0, 0)"
+      },
+      {
+        type: "line",
+        showLine: true,
+        fill: false,
+        label: t("reportsInfeedQualityTHDL3TrendLabelMax"),
+        borderWidth: 2,
+        data: datasetValues["MaxTHDCurrentL3"],
+        borderColor: "#f59300dd",
+        backgroundColor: "rgba(0, 0, 0, 0)"
+      },
+      {
+        type: "line",
+        showLine: true,
+        fill: false,
+        label: t("reportsInfeedQualityTHDL1TrendLabel"),
         borderWidth: 2,
         data: datasetValues["THDCurrentL1"],
         borderColor: "#ff6384dd",
@@ -158,7 +229,7 @@ class SupplyQualityTotalTHDChartComponent extends Component {
         type: "line",
         showLine: true,
         fill: false,
-        label: t("reportsSupplyQualityTransformerTotalChartTHDCurrentL2Label"),
+        label: t("reportsInfeedQualityTHDL2TrendLabel"),
         borderWidth: 2,
         data: datasetValues["THDCurrentL2"],
         borderColor: "#36a2ebdd",
@@ -168,40 +239,10 @@ class SupplyQualityTotalTHDChartComponent extends Component {
         type: "line",
         showLine: true,
         fill: false,
-        label: t("reportsSupplyQualityTransformerTotalChartTHDCurrentL3Label"),
+        label: t("reportsInfeedQualityTHDL3TrendLabel"),
         borderWidth: 2,
         data: datasetValues["THDCurrentL3"],
         borderColor: "#4dc240dd",
-        backgroundColor: "rgba(0, 0, 0, 0)"
-      },
-      {
-        type: "line",
-        showLine: true,
-        fill: false,
-        label: t("reportsSupplyQualityTransformerTotalChartTHDVoltageL1Label"),
-        borderWidth: 2,
-        data: datasetValues["THDVoltageL1"],
-        borderColor: "#8656ffdd",
-        backgroundColor: "rgba(0, 0, 0, 0)"
-      },
-      {
-        type: "line",
-        showLine: true,
-        fill: false,
-        label: t("reportsSupplyQualityTransformerTotalChartTHDVoltageL2Label"),
-        borderWidth: 2,
-        data: datasetValues["THDVoltageL2"],
-        borderColor: "#ff2b2bdd",
-        backgroundColor: "rgba(0, 0, 0, 0)"
-      },
-      {
-        type: "line",
-        showLine: true,
-        fill: false,
-        label: t("reportsSupplyQualityTransformerTotalChartTHDVoltageL3Label"),
-        borderWidth: 2,
-        data: datasetValues["THDVoltageL3"],
-        borderColor: "#f59300dd",
         backgroundColor: "rgba(0, 0, 0, 0)"
       }
     ];
@@ -212,14 +253,14 @@ class SupplyQualityTotalTHDChartComponent extends Component {
   }
 
   render() {
-    let { classes, supplyQualityReport, supplyName } = this.props;
+    let { classes, infeedQualityReport, infeedName } = this.props;
     let trendOptions = this.generateOptionsForTrend();
 
-    if (!exists(supplyQualityReport.data)) return null;
-    if (!exists(supplyQualityReport.data[supplyName])) return null;
-    if (!exists(supplyQualityReport.data[supplyName].dailyData)) return null;
+    if (!exists(infeedQualityReport.data)) return null;
+    if (!exists(infeedQualityReport.data[infeedName])) return null;
+    if (!exists(infeedQualityReport.data[infeedName].dailyData)) return null;
     let trendData = this.generateDataForTrend(
-      supplyQualityReport.data[supplyName].dailyData
+      infeedQualityReport.data[infeedName].dailyData
     );
     return (
       <Scatter
@@ -235,7 +276,7 @@ class SupplyQualityTotalTHDChartComponent extends Component {
 
 function mapStateToProps(state, props) {
   return {
-    supplyQualityReport: state.supplyQualityReport
+    infeedQualityReport: state.infeedQualityReport
   };
 }
 
@@ -246,6 +287,6 @@ export default connect(
   mapDispatchToProps
 )(
   withStyles(styles)(
-    withTranslation()(withSnackbar(SupplyQualityTotalTHDChartComponent))
+    withTranslation()(withSnackbar(InfeedQualityTHDChartComponent))
   )
 );

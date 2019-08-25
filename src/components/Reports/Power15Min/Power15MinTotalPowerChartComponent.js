@@ -245,7 +245,7 @@ class Power15MinTotalPowerChartComponent extends Component {
   }
 
   render() {
-    let { t, classes, power15MinReport, powermonitor } = this.props;
+    let { classes, power15MinReport, powermonitor } = this.props;
 
     let trendOptions = this.generateOptionsForTrend();
     let trendData = this.generateDataForTrend(powermonitor, power15MinReport);

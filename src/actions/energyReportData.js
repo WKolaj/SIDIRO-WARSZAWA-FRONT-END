@@ -9,8 +9,6 @@ import {
   showBusyDialogActionCreator
 } from "./busyDialog";
 
-import { exists } from "../utils/utilities";
-
 import { enqueueSnackbar } from "./snackbar";
 
 export const FETCH_ENERGY_REPORT = "FETCH_ENERGY_REPORT";

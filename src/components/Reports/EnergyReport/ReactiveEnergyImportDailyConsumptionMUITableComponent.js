@@ -2,13 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withTranslation } from "react-i18next";
 import { withStyles } from "@material-ui/core/styles";
-import { Grid, Paper, Typography, Container } from "@material-ui/core";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableFooter from "@material-ui/core/TableFooter";
-import TableRow from "@material-ui/core/TableRow";
 import moment from "moment";
 
 import MaterialTable from "material-table";
@@ -146,8 +139,6 @@ class DailyConsumptionTableComponent extends Component {
     let { consumptionPerDay } = energyReport;
 
     let allGroups = this.getAllGroups(consumptionPerDay);
-
-    let allDays = Object.keys(consumptionPerDay);
 
     let groupsWithoutTotal = allGroups.filter(
       x => x !== "total" && x !== "rest" && x !== "transformers"

@@ -29,7 +29,7 @@ class EnergyReportComponent extends Component {
   };
 
   handleDateChange = date => {
-    let { fetchEnergyReport, energyReport } = this.props;
+    let { fetchEnergyReport } = this.props;
 
     if (exists(date)) fetchEnergyReport(date.getFullYear(), date.getMonth());
   };
@@ -55,7 +55,7 @@ class EnergyReportComponent extends Component {
   };
 
   renderReport = () => {
-    let { t, classes, energyReport } = this.props;
+    let { energyReport } = this.props;
     if (
       !existsAndIsNotEmpty(energyReport.data) ||
       !existsAndIsNotEmpty(energyReport.totalConsumption) ||
@@ -85,8 +85,6 @@ class EnergyReportComponent extends Component {
   };
 
   render() {
-    let { t, classes, energyReport } = this.props;
-
     return (
       <React.Fragment>
         <Grid item>{this.renderNavBar()}</Grid>

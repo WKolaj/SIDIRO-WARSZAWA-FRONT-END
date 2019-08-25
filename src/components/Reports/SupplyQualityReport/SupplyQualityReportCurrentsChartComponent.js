@@ -63,9 +63,6 @@ class SupplyQualityCurrentsChartComponent extends Component {
         display: true,
         position: "top"
       },
-      title: {
-        display: false
-      },
 
       tooltips: {
         callbacks: {
@@ -255,7 +252,7 @@ class SupplyQualityCurrentsChartComponent extends Component {
   }
 
   render() {
-    let { t, classes, supplyQualityReport, supplyName } = this.props;
+    let { classes, supplyQualityReport, supplyName } = this.props;
     let trendOptions = this.generateOptionsForTrend();
 
     if (!exists(supplyQualityReport.data)) return null;

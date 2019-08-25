@@ -74,7 +74,7 @@ class PowermonitorDetailsComponent extends Component {
   };
 
   renderWarningLimitListItem = value => {
-    let { t, classes } = this.props;
+    let { t } = this.props;
     return (
       <ListItem>
         <Grid container>
@@ -92,7 +92,7 @@ class PowermonitorDetailsComponent extends Component {
   };
 
   renderAlarmLimitListItem = value => {
-    let { t, classes } = this.props;
+    let { t } = this.props;
     return (
       <ListItem>
         <Grid container>

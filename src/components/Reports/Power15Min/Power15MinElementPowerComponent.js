@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import moment from "moment";
 import { connect } from "react-redux";
 import { withTranslation } from "react-i18next";
 import { withStyles } from "@material-ui/core/styles";
@@ -44,7 +43,7 @@ class Element15MinPowerComponent extends Component {
   };
 
   renderSlider = () => {
-    let { t, classes, power15MinReport } = this.props;
+    let { power15MinReport } = this.props;
     let { month, year, trendDay } = power15MinReport;
     let daysInMonth = numberOfDaysInMonth(month, year);
 

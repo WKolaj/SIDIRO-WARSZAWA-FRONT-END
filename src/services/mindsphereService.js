@@ -7,7 +7,7 @@ const prepareVariables = variables => {
   let stringToReturn = "";
 
   for (let i = 0; i < variables.length; i++) {
-    if (i == 0) {
+    if (i === 0) {
       stringToReturn += variables[i];
     } else {
       stringToReturn += `,${variables[i]}`;

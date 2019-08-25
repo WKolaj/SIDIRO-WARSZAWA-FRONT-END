@@ -7,7 +7,6 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import Divider from "@material-ui/core/Divider";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -112,7 +111,7 @@ class PowermonitorSettingsComponent extends Component {
   }
 
   renderHeader = () => {
-    let { classes, t } = this.props;
+    let { t } = this.props;
 
     return (
       <Grid item>
@@ -124,7 +123,7 @@ class PowermonitorSettingsComponent extends Component {
   };
 
   renderMailHeader = () => {
-    let { classes, t } = this.props;
+    let { t } = this.props;
 
     return (
       <Grid item>

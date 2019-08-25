@@ -100,6 +100,7 @@ const resources = {
       reportsMenuEnergyReport: "Zużycie energii",
       reportsMenu15MinPowerReport: "Moce 15-minutowe",
       reportsMenuQualityReport: "Parametry zasilania",
+      reportsMenuInfeedQualityReport: "Parametry odbiorów",
 
       reportsEnergyReportDateTimePickerTitle: "Wybierz miesiąc",
       reportsEnergyReportGroupConsumptionTitle:
@@ -238,7 +239,7 @@ const resources = {
         "THD napięcie L3",
       reportsSupplyQualityTransformerTotalChartYAxisLabel: "Odkształcenie [%]",
 
-      reportsSupplyQualityInfeedChartYAxisLabel: "Odkształcenie [%A]",
+      reportsSupplyQualityInfeedChartYAxisLabel: "Odkształcenie [%]",
 
       reportsSupplyQualityInfeedTHDChartComponentTitleL1:
         "Odkształcenie prądu w fazie L1 odbiorów ",
@@ -262,6 +263,45 @@ const resources = {
 
       reportsSupplyQualityCurrentComponentTitle:
         "Przebieg prądów transformatora ",
+
+      reportsInfeedQualityInfeedSelectionTitle: "Wybierz odbiór",
+      reportsInfeedQualityInfeedComponentTitle: "Parametry odbioru ",
+      reportsInfeedQualityInfeedCurrentTableTitle: "Parametry pradów",
+      reportsInfeedQualityInfeedTHDTableTitle: "Parametry THD",
+
+      reportsInfeedQualityInfeedName_1F1: "1F1 - Budynek 01 - MSB1",
+      reportsInfeedQualityInfeedName_1F2: "1F2 - Budynek 3 - komp.",
+      reportsInfeedQualityInfeedName_1F3: "1F3 - Budynek 1A - komp.",
+      reportsInfeedQualityInfeedName_1F4: "1F4 - Budynek 1A - klima.",
+      reportsInfeedQualityInfeedName_1F5: "1F5 - Budynek 3 - RG",
+      reportsInfeedQualityInfeedName_1F6: "1F6 - Budynek 2 - RG S1",
+      reportsInfeedQualityInfeedName_1F7: "1F7 - Budynek 1B - P1",
+
+      reportsInfeedQualityInfeedName_2F1: "2F1 - Budynek 1B - P2",
+      reportsInfeedQualityInfeedName_2F2: "2F2 - Budynek 2 - RG S2",
+      reportsInfeedQualityInfeedName_2F3: "2F3 - Budynek 01 - MSB2",
+      reportsInfeedQualityInfeedName_2F4: "2F4 - Budynek 2 - R1",
+      reportsInfeedQualityInfeedName_2F5: "2F5 - Budynek 1A - RG",
+      reportsInfeedQualityInfeedName_2F6: "2F6 - Parking",
+
+      reportsInfeedQualityInfeedName_3F1: "3F1 - Budynek 2 - serwer.",
+      reportsInfeedQualityInfeedName_3F2: "3F2 - Budynek 01 - MSG",
+
+      reportsInfeedQualityInfeedName_1FP1: "1FP1 - Budynek 01 - MSF S1",
+      reportsInfeedQualityInfeedName_1FP2: "1FP2 - Budynek 1 - RPZOK S1",
+
+      reportsInfeedQualityInfeedName_2FP1: "2FP1 - Budynek 01 - MSF S2",
+      reportsInfeedQualityInfeedName_2FP2: "2FP2 - Budynek 1 - RPZOK S2",
+
+      reportsInfeedQualityCurrentComponentTitle: "Przebieg prądu",
+      reportsInfeedQualityTHDComponentTitle: "Przebieg odkształcenia",
+      reportsInfeedQualityTHDL1TrendLabel: "średnie THD-I L1",
+      reportsInfeedQualityTHDL2TrendLabel: "średnie THD-I L2",
+      reportsInfeedQualityTHDL3TrendLabel: "średnie THD-I L3",
+      reportsInfeedQualityTHDL1TrendLabelMax: "maksymalne THD-I L1",
+      reportsInfeedQualityTHDL2TrendLabelMax: "maksymalne THD-I L2",
+      reportsInfeedQualityTHDL3TrendLabelMax: "maksymalne THD-I L3",
+
       //slideUpDialog
       slideUpDialogTabOverview: "Przegląd",
       slideUpDialogTabVoltage: "Napięcie",
@@ -443,6 +483,7 @@ const resources = {
       reportsMenuEnergyReport: "Energy consumption",
       reportsMenu15MinPowerReport: "Power demand",
       reportsMenuQualityReport: "Supply parameters",
+      reportsMenuInfeedQualityReport: "Infeeds parameters",
 
       reportsEnergyReportDateTimePickerTitle: "Choose month",
       reportsEnergyReportGroupConsumptionTitle:
@@ -553,7 +594,7 @@ const resources = {
 
       reportsSupplyQualityTransformerTotalChartYAxisLabel: "Distortion [%]",
 
-      reportsSupplyQualityInfeedChartYAxisLabel: "Distortion [%A]",
+      reportsSupplyQualityInfeedChartYAxisLabel: "Distortion [%]",
 
       reportsSupplyQualityInfeedTHDChartComponentTitleL1:
         "Infeed current L1 distortion for ",
@@ -607,6 +648,44 @@ const resources = {
 
       reports15MinPowerReportElement_transformers: "Transformers",
       reports15MinPowerReportElement_rest: "Rest",
+
+      reportsInfeedQualityInfeedSelectionTitle: "Choose infeed",
+      reportsInfeedQualityInfeedComponentTitle: "Parameters of infeed ",
+
+      reportsInfeedQualityInfeedName_1F1: "1F1 - Building 01 - MSB1",
+      reportsInfeedQualityInfeedName_1F2: "1F2 - Building 3 - comp.",
+      reportsInfeedQualityInfeedName_1F3: "1F3 - Building 1A - comp.",
+      reportsInfeedQualityInfeedName_1F4: "1F4 - Building 1A - clim.",
+      reportsInfeedQualityInfeedName_1F5: "1F5 - Building 3 - RG",
+      reportsInfeedQualityInfeedName_1F6: "1F6 - Building 2 - RG S1",
+      reportsInfeedQualityInfeedName_1F7: "1F7 - Building 1B - P1",
+
+      reportsInfeedQualityInfeedName_2F1: "2F1 - Building 1B - P2",
+      reportsInfeedQualityInfeedName_2F2: "2F2 - Building 2 - RG S2",
+      reportsInfeedQualityInfeedName_2F3: "2F3 - Building 01 - MSB2",
+      reportsInfeedQualityInfeedName_2F4: "2F4 - Building 2 - R1",
+      reportsInfeedQualityInfeedName_2F5: "2F5 - Building 1A - RG",
+      reportsInfeedQualityInfeedName_2F6: "2F6 - Parking",
+
+      reportsInfeedQualityInfeedName_3F1: "3F1 - Building 2 - server.",
+      reportsInfeedQualityInfeedName_3F2: "3F2 - Building 01 - MSG",
+
+      reportsInfeedQualityInfeedName_1FP1: "1FP1 - Building 01 - MSF S1",
+      reportsInfeedQualityInfeedName_1FP2: "1FP2 - Building 1 - RPZOK S1",
+
+      reportsInfeedQualityInfeedName_2FP1: "2FP1 - Building 01 - MSF S2",
+      reportsInfeedQualityInfeedName_2FP2: "2FP1 - Building 1 - RPZOK S2",
+
+      reportsInfeedQualityInfeedCurrentTableTitle: "Current parameters",
+      reportsInfeedQualityInfeedTHDTableTitle: "THD parameters",
+      reportsInfeedQualityCurrentComponentTitle: "Current trend",
+      reportsInfeedQualityTHDComponentTitle: "Distortion trend",
+      reportsInfeedQualityTHDL1TrendLabel: "Average THD-I L1",
+      reportsInfeedQualityTHDL2TrendLabel: "Average THD-I L2",
+      reportsInfeedQualityTHDL3TrendLabel: "Average THD-I L3",
+      reportsInfeedQualityTHDL1TrendLabelMax: "Max. THD-I L1",
+      reportsInfeedQualityTHDL2TrendLabelMax: "Max. THD-I L2",
+      reportsInfeedQualityTHDL3TrendLabelMax: "Max. THD-I L3",
 
       //events
       events: "Events",

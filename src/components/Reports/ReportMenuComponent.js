@@ -10,6 +10,7 @@ import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import PieChart from "@material-ui/icons/PieChart";
 import TrendingUp from "@material-ui/icons/TrendingUp";
 import Power from "@material-ui/icons/Power";
+import ArrowDownward from "@material-ui/icons/ArrowDownward";
 
 import { withSnackbar } from "notistack";
 
@@ -59,6 +60,11 @@ class ReportMenuComponet extends Component {
           className={classes.bottomNavigationAction}
           label={t("reportsMenuQualityReport")}
           icon={<Power />}
+        />
+        <WhiteBottomNavigationAction
+          className={classes.bottomNavigationAction}
+          label={t("reportsMenuInfeedQualityReport")}
+          icon={<ArrowDownward />}
         />
       </BottomNavigation>
     );

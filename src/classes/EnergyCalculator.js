@@ -1,4 +1,4 @@
-import { isEmpty, exists } from "../utils/utilities";
+import { exists } from "../utils/utilities";
 import _ from "lodash";
 
 const consumptionMinDelta = 1;

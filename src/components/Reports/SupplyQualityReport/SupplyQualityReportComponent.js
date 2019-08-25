@@ -51,7 +51,7 @@ const infeeds = {
   ]
 };
 
-class Power15MinComponent extends Component {
+class SupplyQualityReportComponent extends Component {
   componentDidMount = async () => {
     let { fetchSupplyQualityReport } = this.props;
     let now = new Date(Date.now());
@@ -128,7 +128,7 @@ class Power15MinComponent extends Component {
   };
 
   renderReport = () => {
-    let { t, classes, supplyQualityReport } = this.props;
+    let { supplyQualityReport } = this.props;
 
     if (!existsAndIsNotEmpty(supplyQualityReport.data)) return null;
 
@@ -173,7 +173,7 @@ class Power15MinComponent extends Component {
   };
 
   render() {
-    let { t, classes, supplyQualityReport } = this.props;
+    let { classes } = this.props;
 
     return (
       <React.Fragment>
@@ -211,4 +211,8 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(withTranslation()(withSnackbar(Power15MinComponent))));
+)(
+  withStyles(styles)(
+    withTranslation()(withSnackbar(SupplyQualityReportComponent))
+  )
+);

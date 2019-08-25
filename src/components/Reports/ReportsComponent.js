@@ -5,10 +5,10 @@ import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
 import { fetchEnergyReportActionCreator } from "../../actions/energyReportData";
 import ReportMenuComponent from "./ReportMenuComponent";
-import { isObjectEmpty } from "../../utils/utilities";
 import EnergyReportComponent from "./EnergyReport/EnergyReportComponent";
 import Power15Min from "./Power15Min/Power15Min";
 import SupplyQualityReportComponent from "./SupplyQualityReport/SupplyQualityReportComponent";
+import InfeedQualityReportComponent from "./InfeedQualityReport/InfeedQualityReportComponent";
 
 const styles = theme => ({
   root: {},
@@ -29,6 +29,9 @@ class ReportsComponent extends Component {
       case 2: {
         return <SupplyQualityReportComponent />;
       }
+      case 3: {
+        return <InfeedQualityReportComponent />;
+      }
       default: {
         return null;
       }
@@ -36,7 +39,7 @@ class ReportsComponent extends Component {
   };
 
   render() {
-    let { classes, t, reports } = this.props;
+    let { classes, reports } = this.props;
     let { pageNumber } = reports;
 
     return (

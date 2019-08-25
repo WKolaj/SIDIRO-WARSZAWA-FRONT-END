@@ -1,4 +1,5 @@
 import _ from "lodash";
+
 import { getPowerMonthly } from "../services/rgPZOService";
 
 import { getPowermonitorDataActionCreator } from "./powermonitorData";
@@ -8,7 +9,7 @@ import {
   showBusyDialogActionCreator
 } from "./busyDialog";
 
-import { exists, snooze } from "../utils/utilities";
+import { exists } from "../utils/utilities";
 
 import { enqueueSnackbar } from "./snackbar";
 

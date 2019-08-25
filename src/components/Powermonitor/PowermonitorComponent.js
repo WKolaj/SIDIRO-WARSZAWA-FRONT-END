@@ -19,15 +19,12 @@ import Powermonitor15MinComponent from "./Powermonitor15MinComponent";
 import PowermonitorSettings from "./PowermonitorSettingsComponent";
 
 import BottomNavigation from "@material-ui/core/BottomNavigation";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import Divider from "@material-ui/core/Divider";
 
 import MultilineChart from "@material-ui/icons/MultilineChart";
 import TrendingUp from "@material-ui/icons/TrendingUp";
 import Settings from "@material-ui/icons/Settings";
 
-import Typography from "@material-ui/core/Typography";
 import { withSnackbar } from "notistack";
 
 const WhiteBottomNavigationAction = withStyles({

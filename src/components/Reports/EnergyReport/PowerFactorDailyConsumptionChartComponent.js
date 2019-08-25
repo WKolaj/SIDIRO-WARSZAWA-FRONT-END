@@ -7,7 +7,6 @@ import moment from "moment";
 import { withSnackbar } from "notistack";
 
 import { Scatter } from "react-chartjs-2";
-import { exists } from "../../../utils/utilities";
 
 const styles = theme => ({
   chart: {
@@ -37,9 +36,6 @@ class DailyConsumptionChartComponent extends Component {
       legend: {
         display: true,
         position: "top"
-      },
-      title: {
-        display: false
       },
       scales: {
         yAxes: [{}],
@@ -123,7 +119,7 @@ class DailyConsumptionChartComponent extends Component {
   }
 
   render() {
-    let { t, classes, energyReport } = this.props;
+    let { classes, energyReport } = this.props;
     let trendOptions = this.generateOptionsForTrend();
     let trendData = this.generateDataForTrend(energyReport.consumptionPerDay);
     return (

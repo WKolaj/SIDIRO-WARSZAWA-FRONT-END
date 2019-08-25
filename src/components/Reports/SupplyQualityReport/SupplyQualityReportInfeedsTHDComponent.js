@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import moment from "moment";
 import { connect } from "react-redux";
 import { withTranslation } from "react-i18next";
 import { withStyles } from "@material-ui/core/styles";
@@ -7,7 +6,6 @@ import { Grid, Paper, Typography } from "@material-ui/core";
 
 import SupplyQualityReportInfeedTHDChartComponent from "./SupplyQualityReportInfeedTHDChartComponent";
 import { withSnackbar } from "notistack";
-import { exists } from "../../../utils/utilities";
 
 const styles = theme => ({
   paper: {

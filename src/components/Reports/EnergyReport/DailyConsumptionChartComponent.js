@@ -48,9 +48,6 @@ class DailyConsumptionChartComponent extends Component {
         display: true,
         position: "top"
       },
-      title: {
-        display: false
-      },
       tooltips: {
         callbacks: {
           title: function(tooltipItems, data) {
@@ -160,7 +157,7 @@ class DailyConsumptionChartComponent extends Component {
   }
 
   render() {
-    let { t, classes, energyReport } = this.props;
+    let { classes, energyReport } = this.props;
     let trendOptions = this.generateOptionsForTrend();
     let trendData = this.generateDataForTrend(energyReport.consumptionPerDay);
     return (

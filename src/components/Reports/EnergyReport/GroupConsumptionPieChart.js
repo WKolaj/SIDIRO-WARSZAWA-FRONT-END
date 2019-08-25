@@ -81,7 +81,7 @@ class GroupConsumptionPieChartComponent extends Component {
   }
 
   render() {
-    let { t, classes, energyReport } = this.props;
+    let { energyReport } = this.props;
 
     let trendOptions = this.generateOptionsForTrend();
     let trendData = this.generateDataForTrend(energyReport.totalConsumption);

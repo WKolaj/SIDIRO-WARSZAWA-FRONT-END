@@ -57,7 +57,7 @@ class Power15MinComponent extends Component {
   };
 
   renderReport = () => {
-    let { t, classes, power15MinReport } = this.props;
+    let { power15MinReport } = this.props;
 
     if (!existsAndIsNotEmpty(power15MinReport.data)) return null;
 
@@ -77,7 +77,7 @@ class Power15MinComponent extends Component {
   };
 
   render() {
-    let { t, classes, power15MinReport } = this.props;
+    let { classes } = this.props;
 
     return (
       <React.Fragment>

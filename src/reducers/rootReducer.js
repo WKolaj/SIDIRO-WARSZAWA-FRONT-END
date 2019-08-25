@@ -13,6 +13,7 @@ import { energyDataReducer } from "./energyReportReducer";
 import { reportDataReducer } from "./reportReducer";
 import { power15MinReportReducer } from "./power15MinReportReducer";
 import { supplyQualityReducer } from "./supplyQualityReportReducer";
+import { infeedQualityReducer } from "./infeedQualityReportReducer";
 import { reducer } from "redux-form";
 import snackbarReducer from "./snackbarReducer";
 
@@ -32,5 +33,6 @@ export default combineReducers({
   snackbar: snackbarReducer,
   reports: reportDataReducer,
   power15MinReport: power15MinReportReducer,
-  supplyQualityReport: supplyQualityReducer
+  supplyQualityReport: supplyQualityReducer,
+  infeedQualityReport: infeedQualityReducer
 });

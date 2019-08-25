@@ -4,7 +4,7 @@ import { withTranslation } from "react-i18next";
 import { withStyles } from "@material-ui/core/styles";
 import { Grid, Paper, Typography } from "@material-ui/core";
 
-import SupplyQualityTotalTHDChartComponent from "./SupplyQualityReportTotalTHDChartComponent";
+import InfeedQualitReportCurrentsChartComponent from "./InfeedQualitReportCurrentsChartComponent";
 import { withSnackbar } from "notistack";
 
 const styles = theme => ({
@@ -14,15 +14,17 @@ const styles = theme => ({
   dataGrid: {}
 });
 
-class SupplyQualityReportTHDComponent extends Component {
+class InfeedQualityCurrentsComponent extends Component {
   render() {
-    let { t, classes, supplyName } = this.props;
+    let { t, classes, infeedName } = this.props;
 
     return (
       <Grid item>
         <Paper className={classes.paper}>
           <Typography variant="h5" gutterBottom>
-            {`${t("reportsSupplyQualityTHDChartComponentTitle")} ${supplyName}`}
+            {`${t("reportsInfeedQualityCurrentComponentTitle")} ${t(
+              `reportsInfeedQualityInfeedName_${infeedName}`
+            )}`}
           </Typography>
           <Grid
             container
@@ -33,7 +35,9 @@ class SupplyQualityReportTHDComponent extends Component {
             spacing={3}
           >
             <Grid item>
-              <SupplyQualityTotalTHDChartComponent supplyName={supplyName} />
+              <InfeedQualitReportCurrentsChartComponent
+                infeedName={infeedName}
+              />
             </Grid>
           </Grid>
         </Paper>
@@ -44,7 +48,7 @@ class SupplyQualityReportTHDComponent extends Component {
 
 function mapStateToProps(state, props) {
   return {
-    supplyQualityReport: state.supplyQualityReport
+    infeedQualityReport: state.infeedQualityReport
   };
 }
 
@@ -55,6 +59,6 @@ export default connect(
   mapDispatchToProps
 )(
   withStyles(styles)(
-    withTranslation()(withSnackbar(SupplyQualityReportTHDComponent))
+    withTranslation()(withSnackbar(InfeedQualityCurrentsComponent))
   )
 );
