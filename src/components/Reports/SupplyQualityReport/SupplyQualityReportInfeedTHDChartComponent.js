@@ -75,7 +75,7 @@ class SupplyQualityInfeedTHDChartComponent extends Component {
       "YYYY-MM-DD"
     );
 
-    return `${label}: ${dateText} - ${value.toFixed(2)} %A`;
+    return `${label}: ${dateText} - ${value.toFixed(2)} %`;
   };
 
   generateOptionsForTrend() {
@@ -148,7 +148,7 @@ class SupplyQualityInfeedTHDChartComponent extends Component {
   }
 
   generateDataForTrend(reportData, infeeds, phaseNumber) {
-    let { t } = this.props;
+    let { t, supplyName } = this.props;
     let datasets = {};
     let allGroups = infeeds;
 
@@ -177,11 +177,28 @@ class SupplyQualityInfeedTHDChartComponent extends Component {
           for (let day of allDays) {
             let dayData = dailyData[day];
             let dayDate = new Date(parseInt(day));
-            if (exists(dayData[`CurrentDistortion${phaseNumber}`])) {
-              datasets[group].data.push({
-                x: new Date(dayDate),
-                y: dayData[`CurrentDistortion${phaseNumber}`]
-              });
+            if (
+              exists(reportData[supplyName]) &&
+              exists(reportData[supplyName].dailyData) &&
+              exists(reportData[supplyName].dailyData[day]) &&
+              exists(
+                reportData[supplyName].dailyData[day][`Current${phaseNumber}`]
+              ) &&
+              reportData[supplyName].dailyData[day][`Current${phaseNumber}`]
+                .average > 0
+            ) {
+              let supplyAverageCurrent =
+                reportData[supplyName].dailyData[day][`Current${phaseNumber}`]
+                  .average;
+
+              if (exists(dayData[`CurrentDistortion${phaseNumber}`])) {
+                datasets[group].data.push({
+                  x: new Date(dayDate),
+                  y:
+                    dayData[`CurrentDistortion${phaseNumber}`] /
+                    supplyAverageCurrent
+                });
+              }
             }
           }
         }

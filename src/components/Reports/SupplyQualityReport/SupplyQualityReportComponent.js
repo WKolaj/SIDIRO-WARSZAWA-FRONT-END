@@ -4,15 +4,25 @@ import { withTranslation } from "react-i18next";
 import { withStyles } from "@material-ui/core/styles";
 
 import { withSnackbar } from "notistack";
-import { Grid } from "@material-ui/core";
+import {
+  Grid,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
+} from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import { DatePicker } from "@material-ui/pickers";
-import { fetchSupplyQualityReportActionCreator } from "../../../actions/supplyQualityReportData";
+import {
+  fetchSupplyQualityReportActionCreator,
+  changeSupplySelectionActionCreator
+} from "../../../actions/supplyQualityReportData";
 import { exists, existsAndIsNotEmpty } from "../../../utils/utilities";
 
 import SupplyQualityReportTransformerComponent from "./SupplyQualityReportTransformerComponent";
 import SupplyQualityReportTHDComponent from "./SupplyQualityReportTHDComponent";
 import SupplyQualityReportInfeedsTHDComponent from "./SupplyQualityReportInfeedsTHDComponent";
+import SupplyQualityReportCurrentsComponent from "./SupplyQualityReportCurrentsComponent";
 
 const styles = theme => ({
   appBar: {
@@ -23,6 +33,23 @@ const styles = theme => ({
     width: "100%"
   }
 });
+
+const infeeds = {
+  TR2: ["2F1", "2F2", "2F3", "2F4", "2F5", "2F6", "2FP1", "2FP2"],
+  TR1: [
+    "1F1",
+    "1F2",
+    "1F3",
+    "1F4",
+    "1F5",
+    "1F6",
+    "1F7",
+    "3F1",
+    "3F2",
+    "1FP1",
+    "1FP2"
+  ]
+};
 
 class Power15MinComponent extends Component {
   componentDidMount = async () => {
@@ -38,22 +65,64 @@ class Power15MinComponent extends Component {
       fetchSupplyQualityReport(date.getFullYear(), date.getMonth());
   };
 
+  handleSupplyChange = supply => {
+    let { changeSupplySelection } = this.props;
+    if ((exists(supply) && supply === "TR1") || supply === "TR2")
+      changeSupplySelection(supply);
+  };
+
   renderNavBar = () => {
-    let { t, classes, selectedDate } = this.props;
+    let { t, classes, selectedDate, supplyQualityReport } = this.props;
 
     let now = new Date(Date.now());
 
     return (
       <AppBar className={classes.appBar} color="default">
-        <DatePicker
-          views={["year", "month"]}
-          label={t("reportsEnergyReportDateTimePickerTitle")}
-          minDate={new Date("2019-01-01")}
-          maxDate={new Date(now.getFullYear(), now.getMonth() + 1)}
-          value={selectedDate}
-          onChange={date => this.handleDateChange(date)}
-          animateYearScrolling
-        />
+        <Grid
+          container
+          direction="row"
+          justify="flex-start"
+          alignItems="center"
+          spacing={2}
+        >
+          <Grid item>
+            <DatePicker
+              views={["year", "month"]}
+              label={t("reportsEnergyReportDateTimePickerTitle")}
+              minDate={new Date("2019-01-01")}
+              maxDate={new Date(now.getFullYear(), now.getMonth() + 1)}
+              value={selectedDate}
+              onChange={date => this.handleDateChange(date)}
+              animateYearScrolling
+            />
+          </Grid>
+          <Grid item>
+            <form>
+              <FormControl style={{ minWidth: 200 }}>
+                <InputLabel htmlFor="selected-supply">
+                  {t("reportsSupplyQualitySupplySelectionTitle")}
+                </InputLabel>
+                <Select
+                  value={
+                    supplyQualityReport.selectedSupply
+                      ? supplyQualityReport.selectedSupply
+                      : ""
+                  }
+                  onChange={event =>
+                    this.handleSupplyChange(event.target.value)
+                  }
+                >
+                  <MenuItem value={"TR1"}>
+                    {t("reportsSupplyQualitySupplySelectionTR1")}
+                  </MenuItem>
+                  <MenuItem value={"TR2"}>
+                    {t("reportsSupplyQualitySupplySelectionTR2")}
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </form>
+          </Grid>
+        </Grid>
       </AppBar>
     );
   };
@@ -63,96 +132,40 @@ class Power15MinComponent extends Component {
 
     if (!existsAndIsNotEmpty(supplyQualityReport.data)) return null;
 
+    let selectedSupply = supplyQualityReport.selectedSupply;
+
     return (
       <React.Fragment>
         <Grid item>
-          <SupplyQualityReportTransformerComponent supplyName="TR1" />
+          <SupplyQualityReportTransformerComponent
+            supplyName={selectedSupply}
+          />
         </Grid>
         <Grid item>
-          <SupplyQualityReportTransformerComponent supplyName="TR2" />
+          <SupplyQualityReportCurrentsComponent supplyName={selectedSupply} />
         </Grid>
         <Grid item>
-          <SupplyQualityReportTHDComponent supplyName="TR1" />
+          <SupplyQualityReportTHDComponent supplyName={selectedSupply} />
         </Grid>
         <Grid item>
           <SupplyQualityReportInfeedsTHDComponent
-            supplyName="TR1"
+            supplyName={selectedSupply}
             phaseNumber={"L1"}
-            infeeds={[
-              "1F1",
-              "1F2",
-              "1F3",
-              "1F4",
-              "1F5",
-              "1F6",
-              "1F7",
-              "3F1",
-              "3F2",
-              "1FP1",
-              "1FP2"
-            ]}
+            infeeds={infeeds[selectedSupply]}
           />
         </Grid>
         <Grid item>
           <SupplyQualityReportInfeedsTHDComponent
-            supplyName="TR1"
+            supplyName={selectedSupply}
             phaseNumber={"L2"}
-            infeeds={[
-              "1F1",
-              "1F2",
-              "1F3",
-              "1F4",
-              "1F5",
-              "1F6",
-              "1F7",
-              "3F1",
-              "3F2",
-              "1FP1",
-              "1FP2"
-            ]}
+            infeeds={infeeds[selectedSupply]}
           />
         </Grid>
         <Grid item>
           <SupplyQualityReportInfeedsTHDComponent
-            supplyName="TR1"
+            supplyName={selectedSupply}
             phaseNumber={"L3"}
-            infeeds={[
-              "1F1",
-              "1F2",
-              "1F3",
-              "1F4",
-              "1F5",
-              "1F6",
-              "1F7",
-              "3F1",
-              "3F2",
-              "1FP1",
-              "1FP2"
-            ]}
-          />
-        </Grid>
-        <Grid item>
-          <SupplyQualityReportTHDComponent supplyName="TR2" />
-        </Grid>
-        <Grid item>
-          <SupplyQualityReportInfeedsTHDComponent
-            supplyName="TR2"
-            phaseNumber={"L1"}
-            infeeds={["2F1", "2F2", "2F3", "2F4", "2F5", "2F6", "2FP1", "2FP2"]}
-          />
-        </Grid>
-        <Grid item>
-          <SupplyQualityReportInfeedsTHDComponent
-            supplyName="TR2"
-            phaseNumber={"L2"}
-            infeeds={["2F1", "2F2", "2F3", "2F4", "2F5", "2F6", "2FP1", "2FP2"]}
-          />
-        </Grid>
-        <Grid item>
-          <SupplyQualityReportInfeedsTHDComponent
-            supplyName="TR2"
-            phaseNumber={"L3"}
-            infeeds={["2F1", "2F2", "2F3", "2F4", "2F5", "2F6", "2FP1", "2FP2"]}
+            infeeds={infeeds[selectedSupply]}
           />
         </Grid>
       </React.Fragment>
@@ -160,7 +173,7 @@ class Power15MinComponent extends Component {
   };
 
   render() {
-    let { t, classes, power15MinReport } = this.props;
+    let { t, classes, supplyQualityReport } = this.props;
 
     return (
       <React.Fragment>
@@ -191,7 +204,8 @@ function mapStateToProps(state, props) {
 }
 
 const mapDispatchToProps = {
-  fetchSupplyQualityReport: fetchSupplyQualityReportActionCreator
+  fetchSupplyQualityReport: fetchSupplyQualityReportActionCreator,
+  changeSupplySelection: changeSupplySelectionActionCreator
 };
 
 export default connect(

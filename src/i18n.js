@@ -99,7 +99,7 @@ const resources = {
       reports: "Raporty",
       reportsMenuEnergyReport: "Zużycie energii",
       reportsMenu15MinPowerReport: "Moce 15-minutowe",
-      reportsMenuQualityReport: "Jakość zasilania",
+      reportsMenuQualityReport: "Parametry zasilania",
 
       reportsEnergyReportDateTimePickerTitle: "Wybierz miesiąc",
       reportsEnergyReportGroupConsumptionTitle:
@@ -185,6 +185,10 @@ const resources = {
       reports15MinPowerReportElement_transformers: "Transformatory",
       reports15MinPowerReportElement_rest: "Pozostałe",
 
+      reportsSupplyQualitySupplySelectionTitle: "Wybierz transformator",
+      reportsSupplyQualitySupplySelectionTR1: "Transformator TR1",
+      reportsSupplyQualitySupplySelectionTR2: "Transformator TR2",
+
       reportsSupplyQualityTransformerVoltageTableTitle: "Parametry napiecia",
       reportsSupplyQualityTransformerTableVariableName_VoltageL1N:
         "Napięcie L1-N",
@@ -244,6 +248,20 @@ const resources = {
 
       reportsSupplyQualityInfeedTHDChartComponentTitleL3:
         "Odkształcenie prądu w fazie L3 odbiorów ",
+
+      reportsSupplyQualityCurrentChartYAxisLabel: "Prąd [A]",
+      reportsSupplyQualityCurrentChartTHDCurrentL1MaxLabel:
+        "Prąd maksymalny L1",
+      reportsSupplyQualityCurrentChartTHDCurrentL2MaxLabel:
+        "Prąd maksymalny L2",
+      reportsSupplyQualityCurrentChartTHDCurrentL3MaxLabel:
+        "Prąd maksymalny L3",
+      reportsSupplyQualityCurrentChartTHDCurrentL1AvgLabel: "Prąd średni L1",
+      reportsSupplyQualityCurrentChartTHDCurrentL2AvgLabel: "Prąd średni L2",
+      reportsSupplyQualityCurrentChartTHDCurrentL3AvgLabel: "Prąd średni L3",
+
+      reportsSupplyQualityCurrentComponentTitle:
+        "Przebieg prądów transformatora ",
       //slideUpDialog
       slideUpDialogTabOverview: "Przegląd",
       slideUpDialogTabVoltage: "Napięcie",
@@ -424,7 +442,7 @@ const resources = {
       reports: "Reports",
       reportsMenuEnergyReport: "Energy consumption",
       reportsMenu15MinPowerReport: "Power demand",
-      reportsMenuQualityReport: "Supply quality",
+      reportsMenuQualityReport: "Supply parameters",
 
       reportsEnergyReportDateTimePickerTitle: "Choose month",
       reportsEnergyReportGroupConsumptionTitle:
@@ -477,6 +495,10 @@ const resources = {
         "Infeed average active power 15-min",
 
       reports15MinPowerReportElementPowerDayScaleTitle: "Days of month",
+
+      reportsSupplyQualitySupplySelectionTitle: "Choose transformer",
+      reportsSupplyQualitySupplySelectionTR1: "Transformer TR1",
+      reportsSupplyQualitySupplySelectionTR2: "Transformer TR2",
 
       reportsSupplyQualityTransformerComponentTitle: "Supply from",
 
@@ -541,6 +563,23 @@ const resources = {
 
       reportsSupplyQualityInfeedTHDChartComponentTitleL3:
         "Infeed current L3 distortion for ",
+
+      reportsSupplyQualityCurrentComponentTitle: "Current of transformer ",
+
+      reportsSupplyQualityCurrentChartYAxisLabel: "Current [A]",
+
+      reportsSupplyQualityCurrentChartTHDCurrentL1MaxLabel:
+        "Maximum current L1",
+      reportsSupplyQualityCurrentChartTHDCurrentL2MaxLabel:
+        "Maximum current L2",
+      reportsSupplyQualityCurrentChartTHDCurrentL3MaxLabel:
+        "Maximum current L3",
+      reportsSupplyQualityCurrentChartTHDCurrentL1AvgLabel:
+        "Average current L1",
+      reportsSupplyQualityCurrentChartTHDCurrentL2AvgLabel:
+        "Average current L2",
+      reportsSupplyQualityCurrentChartTHDCurrentL3AvgLabel:
+        "Average current L3",
 
       reports15MinPowerReportElement_1F1: "Bud. 01 - MSB1",
       reports15MinPowerReportElement_1F2: "Bud. 3 - comp.",

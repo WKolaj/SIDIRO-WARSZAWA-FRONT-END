@@ -9,10 +9,10 @@ import { exists, snooze } from "../utils/utilities";
 
 import { enqueueSnackbar } from "./snackbar";
 
-export const FETCH_SUPPLY_QUALITY_REPORT = "FETCH_SUPPLY_QUALITY_REPORT";
+export const FETCH_INFEED_QUALITY_REPORT = "FETCH_INFEED_QUALITY_REPORT";
 
-export const CHANGE_SUPPLY_SELECTION_QUALITY_REPORT =
-  "CHANGE_SUPPLY_SELECTION_QUALITY_REPORT";
+export const CHANGE_INFEED_SELECTION_QUALITY_REPORT =
+  "CHANGE_INFEED_SELECTION_QUALITY_REPORT";
 
 const calculateCurrentDistortions = qualityReportData => {
   if (!exists(qualityReportData)) return;
@@ -69,7 +69,7 @@ const calculateCurrentDistortions = qualityReportData => {
   }
 };
 
-export const fetchSupplyQualityReportActionCreator = function(year, month) {
+export const fetchInfeedQualityReportActionCreator = function(year, month) {
   return async function(dispatch, getState) {
     try {
       await dispatch(showBusyDialogActionCreator());
@@ -80,12 +80,12 @@ export const fetchSupplyQualityReportActionCreator = function(year, month) {
 
       //Also updating data according to response
       await dispatch({
-        type: FETCH_SUPPLY_QUALITY_REPORT,
+        type: FETCH_INFEED_QUALITY_REPORT,
         payload: {
           data,
           year,
           month,
-          selectedSupply: "TR1"
+          selectedInfeed: "1F1"
         }
       });
     } catch (err) {
@@ -97,11 +97,11 @@ export const fetchSupplyQualityReportActionCreator = function(year, month) {
   };
 };
 
-export const changeSupplySelectionActionCreator = function(newSelection) {
+export const changeInfeedSelectionActionCreator = function(newSelection) {
   return {
-    type: CHANGE_SUPPLY_SELECTION_QUALITY_REPORT,
+    type: CHANGE_INFEED_SELECTION_QUALITY_REPORT,
     payload: {
-      selectedSupply: newSelection
+      selectedInfeed: newSelection
     }
   };
 };
