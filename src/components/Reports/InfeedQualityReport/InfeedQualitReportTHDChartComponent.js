@@ -35,7 +35,7 @@ class InfeedQualityTHDChartComponent extends Component {
       "YYYY-MM-DD"
     );
 
-    return `${label}: ${dateText} - ${value.toFixed(2)} A`;
+    return `${label}: ${dateText} - ${value.toFixed(2)} %`;
   };
 
   generateOptionsForTrend() {

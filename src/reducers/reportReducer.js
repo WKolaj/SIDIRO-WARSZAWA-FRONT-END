@@ -1,7 +1,7 @@
 import { CHANGE_REPORT_PAGE } from "../actions/reportData";
 
 const initialState = {
-  pageNumber: -1
+  pageNumber: 0
 };
 
 export const reportDataReducer = (state = initialState, action) => {

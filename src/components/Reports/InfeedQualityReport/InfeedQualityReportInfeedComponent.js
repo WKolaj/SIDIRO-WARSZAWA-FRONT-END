@@ -135,9 +135,9 @@ class InfeedQualityReportInfeedComponent extends Component {
     };
 
     return [
-      getComponentData("THDCurrentL1", "A"),
-      getComponentData("THDCurrentL2", "A"),
-      getComponentData("THDCurrentL3", "A")
+      getComponentData("THDCurrentL1", "%"),
+      getComponentData("THDCurrentL2", "%"),
+      getComponentData("THDCurrentL3", "%")
     ];
   };
 
