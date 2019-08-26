@@ -1,6 +1,6 @@
 {
-  "name": "sivacon",
-  "version": "0.1.0",
+  "name": "sidiro",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@date-io/date-fns": "^1.3.9",
