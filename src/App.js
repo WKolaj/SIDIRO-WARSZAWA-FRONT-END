@@ -33,8 +33,9 @@ import BusyDialog from "./components/BusyDialog";
 import SnackbarNotifier from "./components/SnackbarNotifier";
 import { withSnackbar } from "notistack";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
-import { pl, enGB } from "date-fns/locale";
+import MomentUtils from "@date-io/moment";
+import "moment/locale/pl";
+import "moment/locale/en-gb";
 
 const drawerWidth = 240;
 const styles = theme => ({
@@ -92,7 +93,7 @@ class App extends React.Component {
 
   //Setting default lang to pl - bug fix with default lang of MuiPickersUtilsProvider
   componentDidMount = () => {
-    this.props.i18n.changeLanguage("pl");
+    //this.props.i18n.changeLanguage("pl");
   };
 
   componentDidUpdate(prevProps) {
@@ -111,8 +112,8 @@ class App extends React.Component {
     let open = this.props.drawerOpen;
     return (
       <MuiPickersUtilsProvider
-        utils={DateFnsUtils}
-        locale={this.props.i18n.language === "pl" ? pl : enGB}
+        utils={MomentUtils}
+        locale={this.props.i18n.language === "pl" ? "pl" : "en-gb"}
       >
         <div className={classes.root}>
           <SnackbarNotifier />

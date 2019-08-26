@@ -35,7 +35,10 @@ class ChartDataRangeTimePicker extends React.Component {
                         onChange={this.handleChangeTime}
                     />
                 </Grid>
-                <Grid item xs={12} sm={12} md={6} style={{ display: this.props.tabIndex !== 'powerTab' ? 'block' : 'none' }}>
+                <Grid item xs={12} sm={12} md={6} style={{ display: this.props.tabIndex !== 'powerTab' &&
+                this.props.tabIndex !== 'THDUtab' &&
+                this.props.tabIndex !== 'THDItab' ?
+                 'block' : 'none' }}>
                     <TimePicker
                         autoOk
                         ampm={false}
@@ -44,7 +47,7 @@ class ChartDataRangeTimePicker extends React.Component {
                         openTo="minutes"
                         value={this.props.timeRange}
                         onChange={this.handleChangeTime}
-                        views={(this.props.tabIndex === 'THDItab' || this.props.tabIndex === 'THDUtab') ? ['hours'] : ['hours', 'minutes']}
+                        views={['hours', 'minutes']}
                     />
                 </Grid>
             </React.Fragment>

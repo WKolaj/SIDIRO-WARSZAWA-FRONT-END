@@ -561,7 +561,7 @@ class SlideupDialog extends React.Component {
                     </div>
                     <div>
                       <Typography variant="body1" display="inline">{t('slideUpDialogApparentPower')}</Typography>
-                      <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Total_apparent_power_15_min').toFixed(2)} kVa</Typography>
+                      <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Total_apparent_power_15_min').toFixed(2)} kVA</Typography>
                     </div>
                     <div>
                       <Typography variant="body1" display="inline">{t('slideUpDialogCosTotal')}</Typography>

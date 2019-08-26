@@ -27,13 +27,22 @@ class TimeSeriesChart extends React.Component {
             let zoom = this.props.zoom;
             if(this.props.tabIndex === 'THDItab' || this.props.tabIndex === 'THDUtab')
             {
-                minDate = moment(this.props.timeRangeSlider).startOf('hour')
-                maxDate = moment(this.props.timeRangeSlider).endOf('hour')
+                minDate = moment(this.props.timeRangeSlider).startOf('day')
+                maxDate = moment(this.props.timeRangeSlider).endOf('day')
             }
-            else if (this.props.tabIndex === 'voltageLLtab' || this.props.tabIndex === 'voltageLNtab' || this.props.tabIndex === 'currentTab')
+            else if ((this.props.tabIndex === 'voltageLLTab') || (this.props.tabIndex === 'voltageLNTab') || (this.props.tabIndex === 'currentTab'))
             {
-                minDate = moment(this.props.timeRangeSlider).startOf('minute').subtract(1, 'minute')
-                maxDate = moment(this.props.timeRangeSlider).startOf('minute').add(1, 'second')
+                if(this.props.liveDataUpdate === true)
+                {
+                    minDate = moment(this.props.timeRangeSlider).subtract(15, 'minute')
+                    maxDate = moment(this.props.timeRangeSlider).subtract(30, 'second')
+                    console.log(this.props.timeRangeSlider)
+                }
+                else {
+                    minDate = moment(this.props.timeRangeSlider).subtract(7.5, 'minute')
+                    maxDate = moment(this.props.timeRangeSlider).add(7.5, 'minute')
+                }
+                
             }
             else if (this.props.tabIndex === 'powerTab')
             {
@@ -134,7 +143,6 @@ class TimeSeriesChart extends React.Component {
         // myLineChart.options.scales.xAxes[0].time.max = this.max;
         myLineChart.options.scales.xAxes[0].time.min = this.min;
         myLineChart.options.scales.xAxes[0].time.max = this.max;
-
         if (myLineChart.data.datasets.length > 0 && this.props.datasets.length > 0) {
             if (myLineChart.data.datasets[0].label === this.props.datasets[0].label) {
                 myLineChart.data.datasets.map(dataset => {
@@ -189,13 +197,13 @@ class TimeSeriesChart extends React.Component {
         if (this.props.liveDataUpdate === false) {
             clearInterval(this.updateInterval)
         }
-        this.props.getData(getDeviceNameForApiCall(this.props.tabIndex, this.props.deviceNameForApiCall), this.tabIndex, this.props.timeRangeSlider, true)
+        this.props.getData(getDeviceNameForApiCall(this.props.tabIndex, this.props.deviceNameForApiCall), this.tabIndex, this.props.timeRangeSlider, true, this.props.liveDataUpdate)
         this.updateInterval = setInterval(() => {
             if (this.props.liveDataUpdate === true) {
                 this.props.sliderSetTimerange(new Date().toISOString())
-                this.props.getData(getDeviceNameForApiCall(this.props.tabIndex, this.props.deviceNameForApiCall), this.tabIndex, moment().toISOString(), false)
+                this.props.getData(getDeviceNameForApiCall(this.props.tabIndex, this.props.deviceNameForApiCall), this.tabIndex, moment().toISOString(), false, true)
             }
-        }, 30000)
+        }, 60000)
     }
 
     render() {
