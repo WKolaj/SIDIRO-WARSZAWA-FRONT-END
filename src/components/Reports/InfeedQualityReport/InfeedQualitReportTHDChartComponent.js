@@ -192,7 +192,7 @@ class InfeedQualityTHDChartComponent extends Component {
         label: t("reportsInfeedQualityTHDL1TrendLabelMax"),
         borderWidth: 2,
         data: datasetValues["MaxTHDCurrentL1"],
-        borderColor: "#ff2b2bdd",
+        borderColor: "#d67065dd",
         backgroundColor: "rgba(0, 0, 0, 0)"
       },
       {
@@ -202,7 +202,7 @@ class InfeedQualityTHDChartComponent extends Component {
         label: t("reportsInfeedQualityTHDL2TrendLabelMax"),
         borderWidth: 2,
         data: datasetValues["MaxTHDCurrentL2"],
-        borderColor: "#8656ffdd",
+        borderColor: "#f70000dd",
         backgroundColor: "rgba(0, 0, 0, 0)"
       },
       {
@@ -212,7 +212,7 @@ class InfeedQualityTHDChartComponent extends Component {
         label: t("reportsInfeedQualityTHDL3TrendLabelMax"),
         borderWidth: 2,
         data: datasetValues["MaxTHDCurrentL3"],
-        borderColor: "#f59300dd",
+        borderColor: "#730909dd",
         backgroundColor: "rgba(0, 0, 0, 0)"
       },
       {
@@ -222,7 +222,7 @@ class InfeedQualityTHDChartComponent extends Component {
         label: t("reportsInfeedQualityTHDL1TrendLabel"),
         borderWidth: 2,
         data: datasetValues["THDCurrentL1"],
-        borderColor: "#ff6384dd",
+        borderColor: "#0a0880dd",
         backgroundColor: "rgba(0, 0, 0, 0)"
       },
       {
@@ -232,7 +232,7 @@ class InfeedQualityTHDChartComponent extends Component {
         label: t("reportsInfeedQualityTHDL2TrendLabel"),
         borderWidth: 2,
         data: datasetValues["THDCurrentL2"],
-        borderColor: "#36a2ebdd",
+        borderColor: "#7f9be3dd",
         backgroundColor: "rgba(0, 0, 0, 0)"
       },
       {
@@ -242,7 +242,7 @@ class InfeedQualityTHDChartComponent extends Component {
         label: t("reportsInfeedQualityTHDL3TrendLabel"),
         borderWidth: 2,
         data: datasetValues["THDCurrentL3"],
-        borderColor: "#4dc240dd",
+        borderColor: "#0055ffdd",
         backgroundColor: "rgba(0, 0, 0, 0)"
       }
     ];

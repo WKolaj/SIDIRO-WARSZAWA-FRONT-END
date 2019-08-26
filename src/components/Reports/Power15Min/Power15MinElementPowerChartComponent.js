@@ -17,44 +17,44 @@ const styles = theme => ({
 });
 
 let groupColors = {
-  transformers: "#84c5fadd",
-  rest: "#9884fadd",
+  transformers: "#b5120ddd",
+  rest: "#f04937dd",
 
-  "2F6": "#fa84d3dd",
+  "2F6": "#ff5d17dd",
 
-  "1F2": "#ff2e17dd",
+  "1F2": "#ff8a57dd",
 
-  "1F5": "#ff5d17dd",
+  "1F5": "#ffc1a6dd",
 
-  "3F1": "#ff8a57dd",
+  "3F1": "#ffdaa6dd",
 
-  "2F2": "#ffc1a6dd",
+  "2F2": "#fab757dd",
 
-  "1F6": "#ffdaa6dd",
+  "1F6": "#fca223dd",
 
-  "2F4": "#fab757dd",
+  "2F4": "#fcc200dd",
 
-  "2F1": "#fca223dd",
+  "2F1": "#f5d314dd",
 
-  "1F7": "#fcc200dd",
+  "1F7": "#f5f17fdd",
 
-  "1F3": "#f5ee38dd",
+  "1F3": "#bad6b2dd",
 
-  "1F4": "#f5f17fdd",
+  "1F4": "#76cf5bdd",
 
-  "2F5": "#bad6b2dd",
+  "2F5": "#2b8012dd",
 
-  "2FP2": "#76cf5bdd",
+  "2FP2": "#13d44add",
 
-  "1FP2": "#40d413dd",
+  "1FP2": "#5acc9add",
 
-  "3F2": "#13d44add",
+  "3F2": "#9fc0d1dd",
 
-  "2FP1": "#5acc9add",
+  "2FP1": "#4994badd",
 
-  "1FP1": "#9fc0d1dd",
+  "1FP1": "#8d8ee3dd",
 
-  "2F3": "#4994badd",
+  "2F3": "#84c5fadd",
 
   "1F1": "#0070a8dd"
 };

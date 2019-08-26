@@ -44,7 +44,10 @@ const styles = theme => ({
   tableGridItem: {
     fontSize: 10,
     marginTop: 10,
-    padding: 20
+    paddingTop: 40,
+    paddingBottom: 50,
+    paddingLeft: 60,
+    paddingRight: 60
   }
 });
 

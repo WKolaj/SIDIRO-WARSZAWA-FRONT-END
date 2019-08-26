@@ -96,7 +96,7 @@ class DailyConsumptionChartComponent extends Component {
         ),
         borderWidth: 2,
         data: datasetValues["powerFactorImport"],
-        borderColor: "rgba(255, 0, 0, 0.5)",
+        borderColor: "#f70000dd",
         backgroundColor: "rgba(0, 0, 0, 0)"
       },
       {
@@ -108,7 +108,7 @@ class DailyConsumptionChartComponent extends Component {
         ),
         borderWidth: 2,
         data: datasetValues["powerFactorExport"],
-        borderColor: "rgba(0, 0, 255, 0.5)",
+        borderColor: "#0055ffdd",
         backgroundColor: "rgba(0, 0, 0, 0)"
       }
     ];

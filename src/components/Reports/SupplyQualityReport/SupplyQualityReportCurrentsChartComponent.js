@@ -191,7 +191,7 @@ class SupplyQualityCurrentsChartComponent extends Component {
         label: t("reportsSupplyQualityCurrentChartTHDCurrentL1MaxLabel"),
         borderWidth: 2,
         data: datasetValues["MaxCurrentL1"],
-        borderColor: "#ff2b2bdd",
+        borderColor: "#d67065dd",
         backgroundColor: "rgba(0, 0, 0, 0)"
       },
       {
@@ -201,7 +201,7 @@ class SupplyQualityCurrentsChartComponent extends Component {
         label: t("reportsSupplyQualityCurrentChartTHDCurrentL2MaxLabel"),
         borderWidth: 2,
         data: datasetValues["MaxCurrentL2"],
-        borderColor: "#8656ffdd",
+        borderColor: "#f70000dd",
         backgroundColor: "rgba(0, 0, 0, 0)"
       },
       {
@@ -211,7 +211,7 @@ class SupplyQualityCurrentsChartComponent extends Component {
         label: t("reportsSupplyQualityCurrentChartTHDCurrentL3MaxLabel"),
         borderWidth: 2,
         data: datasetValues["MaxCurrentL3"],
-        borderColor: "#f59300dd",
+        borderColor: "#730909dd",
         backgroundColor: "rgba(0, 0, 0, 0)"
       },
       {
@@ -221,7 +221,7 @@ class SupplyQualityCurrentsChartComponent extends Component {
         label: t("reportsSupplyQualityCurrentChartTHDCurrentL1AvgLabel"),
         borderWidth: 2,
         data: datasetValues["AvgCurrentL1"],
-        borderColor: "#ff6384dd",
+        borderColor: "#0a0880dd",
         backgroundColor: "rgba(0, 0, 0, 0)"
       },
       {
@@ -231,7 +231,7 @@ class SupplyQualityCurrentsChartComponent extends Component {
         label: t("reportsSupplyQualityCurrentChartTHDCurrentL2AvgLabel"),
         borderWidth: 2,
         data: datasetValues["AvgCurrentL2"],
-        borderColor: "#36a2ebdd",
+        borderColor: "#7f9be3dd",
         backgroundColor: "rgba(0, 0, 0, 0)"
       },
       {
@@ -241,7 +241,7 @@ class SupplyQualityCurrentsChartComponent extends Component {
         label: t("reportsSupplyQualityCurrentChartTHDCurrentL3AvgLabel"),
         borderWidth: 2,
         data: datasetValues["AvgCurrentL3"],
-        borderColor: "#4dc240dd",
+        borderColor: "#0055ffdd",
         backgroundColor: "rgba(0, 0, 0, 0)"
       }
     ];

@@ -151,7 +151,7 @@ class SupplyQualityTotalTHDChartComponent extends Component {
         label: t("reportsSupplyQualityTransformerTotalChartTHDCurrentL1Label"),
         borderWidth: 2,
         data: datasetValues["THDCurrentL1"],
-        borderColor: "#ff6384dd",
+        borderColor: "#d67065dd",
         backgroundColor: "rgba(0, 0, 0, 0)"
       },
       {
@@ -161,7 +161,7 @@ class SupplyQualityTotalTHDChartComponent extends Component {
         label: t("reportsSupplyQualityTransformerTotalChartTHDCurrentL2Label"),
         borderWidth: 2,
         data: datasetValues["THDCurrentL2"],
-        borderColor: "#36a2ebdd",
+        borderColor: "#f70000dd",
         backgroundColor: "rgba(0, 0, 0, 0)"
       },
       {
@@ -171,7 +171,7 @@ class SupplyQualityTotalTHDChartComponent extends Component {
         label: t("reportsSupplyQualityTransformerTotalChartTHDCurrentL3Label"),
         borderWidth: 2,
         data: datasetValues["THDCurrentL3"],
-        borderColor: "#4dc240dd",
+        borderColor: "#730909dd",
         backgroundColor: "rgba(0, 0, 0, 0)"
       },
       {
@@ -181,7 +181,7 @@ class SupplyQualityTotalTHDChartComponent extends Component {
         label: t("reportsSupplyQualityTransformerTotalChartTHDVoltageL1Label"),
         borderWidth: 2,
         data: datasetValues["THDVoltageL1"],
-        borderColor: "#8656ffdd",
+        borderColor: "#0a0880dd",
         backgroundColor: "rgba(0, 0, 0, 0)"
       },
       {
@@ -191,7 +191,7 @@ class SupplyQualityTotalTHDChartComponent extends Component {
         label: t("reportsSupplyQualityTransformerTotalChartTHDVoltageL2Label"),
         borderWidth: 2,
         data: datasetValues["THDVoltageL2"],
-        borderColor: "#ff2b2bdd",
+        borderColor: "#7f9be3dd",
         backgroundColor: "rgba(0, 0, 0, 0)"
       },
       {
@@ -201,7 +201,7 @@ class SupplyQualityTotalTHDChartComponent extends Component {
         label: t("reportsSupplyQualityTransformerTotalChartTHDVoltageL3Label"),
         borderWidth: 2,
         data: datasetValues["THDVoltageL3"],
-        borderColor: "#f59300dd",
+        borderColor: "#0055ffdd",
         backgroundColor: "rgba(0, 0, 0, 0)"
       }
     ];

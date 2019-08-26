@@ -17,43 +17,40 @@ const styles = theme => ({
 });
 
 let groupColors = {
-  "2F6": "#fa84d3ff",
+  "1F1": "#05b4ffdd",
 
-  "1F2": "#ff2e17ff",
+  "1F2": "#d67065dd",
 
-  "1F5": "#ff5d17ff",
+  "1F3": "#f70000dd",
 
-  "3F1": "#ff8a57ff",
+  "1F4": "#730909dd",
 
-  "2F2": "#ffc1a6ff",
+  "1F5": "#0a0880dd",
 
-  "1F6": "#ffdaa6ff",
+  "1F6": "#7f9be3dd",
 
-  "2F4": "#fab757ff",
+  "1F7": "#0055ffdd",
 
-  "2F1": "#fca223ff",
+  "3F1": "#3c2a5edd",
 
-  "1F7": "#fcc200ff",
+  "3F2": "#8a2deddd",
+  "1FP1": "#550470dd",
+  "1FP2": "#421c42dd",
 
-  "1F3": "#f5ee38ff",
+  "2F1": "#05b4ffdd",
 
-  "1F4": "#f5f17fff",
+  "2F2": "#d67065dd",
 
-  "2F5": "#bad6b2ff",
+  "2F3": "#f70000dd",
 
-  "2FP2": "#76cf5bff",
+  "2F4": "#730909dd",
 
-  "1FP2": "#40d413ff",
+  "2F5": "#0a0880dd",
 
-  "3F2": "#13d44aff",
+  "2F6": "#7f9be3dd",
 
-  "2FP1": "#5acc9aff",
-
-  "1FP1": "#9fc0d1ff",
-
-  "2F3": "#4994baff",
-
-  "1F1": "#0070a8ff"
+  "2FP1": "#0055ffdd",
+  "2FP2": "#421c42dd"
 };
 
 class SupplyQualityInfeedTHDChartComponent extends Component {
