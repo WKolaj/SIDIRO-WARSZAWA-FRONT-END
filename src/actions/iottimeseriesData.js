@@ -38,26 +38,26 @@ export const chartSetRewindDirection = direction => ({
   direction
 });
 
-export const getData = (device, tabIndex, toTime, loadingCircle = false) => {
-  let from = null;
+export const getData = (device, tabIndex, toTime, loadingCircle = false, live = false) => {
+  let from = moment().subtract(15, "minute").toISOString();
   let to = moment(toTime).startOf("minute").toISOString();
   switch (tabIndex) {
     case 'powerTab':
+    case 'THDItab':
+    case 'THDUtab':
       from = moment(toTime).startOf("day").subtract(10, 'minutes').toISOString();
       to = moment(toTime).endOf("day").toISOString();
       break;
-    case 'THDUtab':
-      from = moment(toTime).startOf("hour").subtract(1, 'minutes').toISOString();
-      to = moment(toTime).endOf("hour").add(1, 'minutes').toISOString();
-      break;
-    case 'THDItab':
-      from = moment(toTime).startOf("hour").subtract(1, 'minutes').toISOString();
-      to = moment(toTime).endOf("hour").add(1, 'minutes').toISOString();
-      break;
     default:
-      from = moment(toTime).startOf("minute")
-        .subtract(1, "minute")
-        .toISOString();
+      if(live)
+      {
+        from = moment(toTime).subtract(15, "minutes").toISOString();
+        to = moment(toTime).toISOString();
+      }
+      else {
+        from = moment(toTime).subtract(7.5, "minutes").toISOString();
+        to = moment(toTime).add(7.5, "minutes").toISOString();
+      }
       break;
   }
 

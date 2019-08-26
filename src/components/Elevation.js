@@ -1739,7 +1739,7 @@ class Elevation extends React.Component {
                                     fill="#055f87" />
                             </g>
                             <g id="S1P1_3VA_1_status" className={this.manageSwitchesClassName('cb_1FP1')}><text transform="translate(782.72 929.28)" fontSize="21"
-                                fontFamily="Roboto, Helvetica, Arial, sans-serif">{this.manageSwitchesState('cb_1FP2')}</text></g>
+                                fontFamily="Roboto, Helvetica, Arial, sans-serif">{this.manageSwitchesState('cb_1FP1')}</text></g>
                             <g id="S1P1_3VA_2">
                                 <path d="M960.69,914.88h22.82V899.39H960.69v15.49Zm23,.21H960.48V899.18h23.24v15.91Z"
                                     transform="translate(-83.96 -51.18)" fill="#055f87" />
