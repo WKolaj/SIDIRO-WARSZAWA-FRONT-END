@@ -33,7 +33,10 @@ class Power15MinComponent extends Component {
     let { fetchPower15MinReport } = this.props;
 
     if (exists(date))
-      fetchPower15MinReport(date.getFullYear(), date.getMonth());
+      fetchPower15MinReport(
+        date.toDate().getFullYear(),
+        date.toDate().getMonth()
+      );
   };
 
   renderNavBar = () => {

@@ -71,7 +71,10 @@ class Powermonitor15MinComponent extends Component {
     let { fetchPowermonitorPowerMonth } = this.props;
 
     if (exists(date))
-      fetchPowermonitorPowerMonth(date.getFullYear(), date.getMonth());
+      fetchPowermonitorPowerMonth(
+        date.toDate().getFullYear(),
+        date.toDate().getMonth()
+      );
   };
 
   renderNavBar = () => {

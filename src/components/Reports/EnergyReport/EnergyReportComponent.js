@@ -14,6 +14,7 @@ import AppBar from "@material-ui/core/AppBar";
 import { DatePicker } from "@material-ui/pickers";
 import { fetchEnergyReportActionCreator } from "../../../actions/energyReportData";
 import { exists, existsAndIsNotEmpty } from "../../../utils/utilities";
+import moment from "moment";
 
 const styles = theme => ({
   appBar: {
@@ -31,14 +32,14 @@ class EnergyReportComponent extends Component {
   handleDateChange = date => {
     let { fetchEnergyReport } = this.props;
 
-    if (exists(date)) fetchEnergyReport(date.getFullYear(), date.getMonth());
+    if (exists(date))
+      fetchEnergyReport(date.toDate().getFullYear(), date.toDate().getMonth());
   };
 
   renderNavBar = () => {
     let { t, classes, selectedDate } = this.props;
 
     let now = new Date(Date.now());
-
     return (
       <AppBar className={classes.appBar} color="default">
         <DatePicker

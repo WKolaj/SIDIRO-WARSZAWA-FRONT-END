@@ -44,7 +44,10 @@ class InfeedQualityReportComponent extends Component {
     let { fetchInfeedQualityReport } = this.props;
 
     if (exists(date))
-      fetchInfeedQualityReport(date.getFullYear(), date.getMonth());
+      fetchInfeedQualityReport(
+        date.toDate().getFullYear(),
+        date.toDate().getMonth()
+      );
   };
 
   handleInfeedChange = infeed => {

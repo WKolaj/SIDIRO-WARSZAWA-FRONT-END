@@ -62,7 +62,10 @@ class SupplyQualityReportComponent extends Component {
     let { fetchSupplyQualityReport } = this.props;
 
     if (exists(date))
-      fetchSupplyQualityReport(date.getFullYear(), date.getMonth());
+      fetchSupplyQualityReport(
+        date.toDate().getFullYear(),
+        date.toDate().getMonth()
+      );
   };
 
   handleSupplyChange = supply => {
