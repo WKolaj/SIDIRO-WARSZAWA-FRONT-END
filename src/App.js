@@ -33,15 +33,9 @@ import BusyDialog from "./components/BusyDialog";
 import SnackbarNotifier from "./components/SnackbarNotifier";
 import { withSnackbar } from "notistack";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-<<<<<<< HEAD
-import DateFnsUtils from "@date-io/date-fns";
-import { pl, enGB } from "date-fns/locale";
-import { fetchAllAdminUsers, fetchCurrentUser } from "./services/userService";
-=======
 import MomentUtils from "@date-io/moment";
 import "moment/locale/pl";
 import "moment/locale/en-gb";
->>>>>>> 3f51c1704466329311b8c451953f553554019d5e
 
 const drawerWidth = 240;
 const styles = theme => ({
