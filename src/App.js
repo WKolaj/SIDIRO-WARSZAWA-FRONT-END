@@ -35,6 +35,7 @@ import { withSnackbar } from "notistack";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { pl, enGB } from "date-fns/locale";
+import { fetchAllAdminUsers, fetchCurrentUser } from "./services/userService";
 
 const drawerWidth = 240;
 const styles = theme => ({
@@ -90,9 +91,21 @@ class App extends React.Component {
     this.props.manageDrawerOpen(open);
   };
 
+  fetchUsers = async () => {
+    try {
+      await fetchAllAdminUsers();
+      await fetchCurrentUser();
+    } catch (err) {
+      this.props.enqueueSnackbar(err.message, {
+        variant: "error"
+      });
+    }
+  };
+
   //Setting default lang to pl - bug fix with default lang of MuiPickersUtilsProvider
   componentDidMount = () => {
     this.props.i18n.changeLanguage("pl");
+    this.fetchUsers();
   };
 
   componentDidUpdate(prevProps) {

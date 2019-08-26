@@ -32,6 +32,7 @@ import { exists, isEmpty } from "../../utils/utilities";
 import Joi from "joi-browser";
 import { ListItemText } from "@material-ui/core";
 import PowermonitorNewRecipientDialog from "./PowermonitorNewRecipientDialogComponent";
+import { getCurrentUser } from "../../services/userService";
 
 const BlackCheckbox = withStyles({
   root: {
@@ -134,8 +135,14 @@ class PowermonitorSettingsComponent extends Component {
     );
   };
 
+  checkIfUserIsNotAdmin = () => {
+    return !getCurrentUser().isAdmin;
+  };
+
   //Method for checking if login button should be disabled
   checkConfirmButtonDisable = () => {
+    if (this.checkIfUserIsNotAdmin()) return true;
+
     return !isEmpty(validate(this.props.formData)) || !this.props.anyTouched;
   };
 
@@ -181,7 +188,13 @@ class PowermonitorSettingsComponent extends Component {
   };
 
   //Method for rendering single Field of form
-  renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
+  renderField = ({
+    input,
+    disabled,
+    label,
+    type,
+    meta: { touched, error, warning }
+  }) => (
     <Grid
       container
       direction="column"
@@ -196,6 +209,7 @@ class PowermonitorSettingsComponent extends Component {
         label={label}
         type={type}
         fullWidth
+        disabled={disabled}
       />
       {touched &&
         ((error && (
@@ -243,6 +257,7 @@ class PowermonitorSettingsComponent extends Component {
               <IconButton
                 edge="end"
                 aria-label="delete"
+                disabled={this.checkIfUserIsNotAdmin()}
                 onClick={() => {
                   this.props.removeRecipient(index);
                   this.props.touch();
@@ -260,6 +275,7 @@ class PowermonitorSettingsComponent extends Component {
   //Method for rendering single Field of form
   renderCheckbox = ({
     input,
+    disabled,
     label,
     type,
     meta: { touched, error, warning }
@@ -274,6 +290,7 @@ class PowermonitorSettingsComponent extends Component {
               input.onChange(event);
               this.props.touch();
             }}
+            disabled={disabled}
           />
         }
         label={label}
@@ -322,36 +339,42 @@ class PowermonitorSettingsComponent extends Component {
                           type="text"
                           component={this.renderField}
                           label={t("powermonitorSettingsWarningLimit")}
+                          disabled={this.checkIfUserIsNotAdmin()}
                         />
                         <Field
                           name="activePowerLimitAlarm"
                           type="text"
                           component={this.renderField}
                           label={t("powermonitorSettingsAlarmLimit")}
+                          disabled={this.checkIfUserIsNotAdmin()}
                         />
                         <Field
                           name="trafoPowerLosses"
                           type="text"
                           component={this.renderField}
                           label={t("powermonitorSettingsTrafoLossesLimit")}
+                          disabled={this.checkIfUserIsNotAdmin()}
                         />
                         <Field
                           name="active"
                           type="checkbox"
                           component={this.renderCheckbox}
                           label={t("powermonitorSettingsActive")}
+                          disabled={this.checkIfUserIsNotAdmin()}
                         />
                         <Field
                           name="sendingEventsEnabled"
                           type="checkbox"
                           component={this.renderCheckbox}
                           label={t("powermonitorSettingsSendingEventsEnabled")}
+                          disabled={this.checkIfUserIsNotAdmin()}
                         />
                         <Field
                           name="sendingEmailsEnabled"
                           type="checkbox"
                           component={this.renderCheckbox}
                           label={t("powermonitorSettingsSendingEmailsEnabled")}
+                          disabled={this.checkIfUserIsNotAdmin()}
                         />
                       </Grid>
                     </Grid>
@@ -366,7 +389,10 @@ class PowermonitorSettingsComponent extends Component {
                         {t("powermonitorSettingsConfirmButton")}
                       </Typography>
                     </Button>
-                    <Button onClick={this.handleResetButtonClick}>
+                    <Button
+                      onClick={this.handleResetButtonClick}
+                      disabled={this.checkIfUserIsNotAdmin()}
+                    >
                       <Typography variant="h6" gutterBottom>
                         {t("powermonitorSettingsResetButton")}
                       </Typography>
@@ -396,6 +422,7 @@ class PowermonitorSettingsComponent extends Component {
                   <Grid item className={classes.emailListFooter}>
                     <Button
                       onClick={() => this.handleAddRecipientButtonClick()}
+                      disabled={this.checkIfUserIsNotAdmin()}
                     >
                       <Typography variant="h6" gutterBottom>
                         {t("powermonitorSettingsAddRecipientButton")}

@@ -101,7 +101,5 @@ export async function getTotalActivePowerMonthData(yearNumber, monthNumber) {
 
   let dataArray = [...result[0], ...result[1]];
 
-  console.log(dataArray);
-
   return dataArray;
 }
