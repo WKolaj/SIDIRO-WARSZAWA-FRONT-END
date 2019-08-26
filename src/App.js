@@ -33,6 +33,7 @@ import BusyDialog from "./components/BusyDialog";
 import SnackbarNotifier from "./components/SnackbarNotifier";
 import { withSnackbar } from "notistack";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { fetchAllAdminUsers, fetchCurrentUser } from "./services/userService";
 import MomentUtils from "@date-io/moment";
 import "moment/locale/pl";
 import "moment/locale/en-gb";
@@ -105,6 +106,7 @@ class App extends React.Component {
   //Setting default lang to pl - bug fix with default lang of MuiPickersUtilsProvider
   componentDidMount = () => {
     //this.props.i18n.changeLanguage("pl");
+    this.fetchUsers();
   };
 
   componentDidUpdate(prevProps) {
