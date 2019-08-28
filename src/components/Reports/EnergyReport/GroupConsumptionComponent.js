@@ -13,7 +13,9 @@ const styles = theme => ({
     padding: theme.spacing(3)
   },
   dataGrid: {},
-  chartGridItem: {}
+  chartGridItem: {
+    minHeight: 300
+  }
 });
 
 class GroupConsumptionComponent extends Component {

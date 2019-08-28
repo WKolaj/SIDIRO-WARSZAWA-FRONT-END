@@ -11,7 +11,7 @@ import {
   Select,
   MenuItem
 } from "@material-ui/core";
-import AppBar from "@material-ui/core/AppBar";
+import Paper from "@material-ui/core/Paper";
 import { DatePicker } from "@material-ui/pickers";
 import {
   fetchInfeedQualityReportActionCreator,
@@ -26,7 +26,8 @@ import InfeedQualityReportTHDComponent from "./InfeedQualityReportTHDComponent";
 const styles = theme => ({
   appBar: {
     padding: theme.spacing(2),
-    position: "static"
+    width: "100%",
+    backgroundColor: "#f5f5f5"
   },
   navBarGridItem: {
     width: "100%"
@@ -83,7 +84,7 @@ class InfeedQualityReportComponent extends Component {
     let now = new Date(Date.now());
 
     return (
-      <AppBar className={classes.appBar} color="default">
+      <Paper className={classes.appBar} color="default">
         <Grid
           container
           direction="row"
@@ -180,7 +181,7 @@ class InfeedQualityReportComponent extends Component {
             </form>
           </Grid>
         </Grid>
-      </AppBar>
+      </Paper>
     );
   };
 

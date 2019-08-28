@@ -5,7 +5,7 @@ import { withStyles } from "@material-ui/core/styles";
 
 import { withSnackbar } from "notistack";
 import { Grid } from "@material-ui/core";
-import AppBar from "@material-ui/core/AppBar";
+import Paper from "@material-ui/core/Paper";
 import { DatePicker } from "@material-ui/pickers";
 import { fetch15MinPowerReportActionCreator } from "../../../actions/power15MinReportData";
 import { exists, existsAndIsNotEmpty } from "../../../utils/utilities";
@@ -16,7 +16,8 @@ import Element15MinPowerComponent from "./Power15MinElementPowerComponent";
 const styles = theme => ({
   appBar: {
     padding: theme.spacing(2),
-    position: "static"
+    width: "100%",
+    backgroundColor: "#f5f5f5"
   },
   navBarGridItem: {
     width: "100%"
@@ -45,7 +46,7 @@ class Power15MinComponent extends Component {
     let now = new Date(Date.now());
 
     return (
-      <AppBar className={classes.appBar} color="default">
+      <Paper className={classes.appBar} color="default">
         <DatePicker
           views={["year", "month"]}
           label={t("reportsEnergyReportDateTimePickerTitle")}
@@ -55,7 +56,7 @@ class Power15MinComponent extends Component {
           onChange={date => this.handleDateChange(date)}
           animateYearScrolling
         />
-      </AppBar>
+      </Paper>
     );
   };
 

@@ -10,7 +10,7 @@ import PowerFactorDailyConsumptionComponent from "./PowerFactorDailyConsumptionC
 import ReactiveEnergyImportDailyConsumptionComponent from "./ReactiveEnergyImportDailyConsumptionComponent";
 import ReactiveEnergyExportDailyConsumptionComponent from "./ReactiveEnergyExportDailyConsumptionComponent";
 import { Grid } from "@material-ui/core";
-import AppBar from "@material-ui/core/AppBar";
+import Paper from "@material-ui/core/Paper";
 import { DatePicker } from "@material-ui/pickers";
 import { fetchEnergyReportActionCreator } from "../../../actions/energyReportData";
 import { exists, existsAndIsNotEmpty } from "../../../utils/utilities";
@@ -19,7 +19,8 @@ import moment from "moment";
 const styles = theme => ({
   appBar: {
     padding: theme.spacing(2),
-    position: "static"
+    width: "100%",
+    backgroundColor: "#f5f5f5"
   }
 });
 
@@ -41,7 +42,7 @@ class EnergyReportComponent extends Component {
 
     let now = new Date(Date.now());
     return (
-      <AppBar className={classes.appBar} color="default">
+      <Paper className={classes.appBar} color="default">
         <DatePicker
           views={["year", "month"]}
           label={t("reportsEnergyReportDateTimePickerTitle")}
@@ -51,7 +52,7 @@ class EnergyReportComponent extends Component {
           onChange={date => this.handleDateChange(date)}
           animateYearScrolling
         />
-      </AppBar>
+      </Paper>
     );
   };
 
