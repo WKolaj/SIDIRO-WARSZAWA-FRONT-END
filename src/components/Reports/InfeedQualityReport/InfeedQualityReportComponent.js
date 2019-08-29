@@ -29,9 +29,7 @@ const styles = theme => ({
     width: "100%",
     backgroundColor: "#f5f5f5"
   },
-  navBarGridItem: {
-    width: "100%"
-  }
+  navBarGridItem: {}
 });
 
 class InfeedQualityReportComponent extends Component {

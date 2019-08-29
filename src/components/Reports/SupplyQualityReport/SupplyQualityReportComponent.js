@@ -29,9 +29,6 @@ const styles = theme => ({
     padding: theme.spacing(2),
     width: "100%",
     backgroundColor: "#f5f5f5"
-  },
-  navBarGridItem: {
-    width: "100%"
   }
 });
 
