@@ -176,16 +176,14 @@ class PowermonitorSettingsComponent extends Component {
 
   //Method for checking if login button should be disabled
   checkRegisterButtonDisable = () => {
-    //UNCOMMENT AFTER TESTS!!
-    //if (this.checkIfUserIsNotAdmin()) return true;
+    if (this.checkIfUserIsNotAdmin()) return true;
 
     return this.props.notifications.isRegistered;
   };
 
   //Method for checking if login button should be disabled
   checkUnregisterButtonDisable = () => {
-    //UNCOMMENT AFTER TESTS!!
-    //if (this.checkIfUserIsNotAdmin()) return true;
+    if (this.checkIfUserIsNotAdmin()) return true;
 
     return !this.props.notifications.isRegistered;
   };
