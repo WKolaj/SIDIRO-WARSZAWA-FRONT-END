@@ -54,9 +54,13 @@ const resources = {
       powermonitorSettingsActive: "Strażnik mocy włączony",
       powermonitorSettingsSendingEventsEnabled: "Wysyłanie zdarzeń włączone",
       powermonitorSettingsSendingEmailsEnabled: "Wysyłanie email włączone",
+      powermonitorSettingsNotificationsEnabled: "Notyfikacje włączone",
       powermonitorSettingsConfirmButton: "ZAPISZ",
       powermonitorSettingsResetButton: "RESETUJ",
       powermonitorSettingsEmailListTitle: "Lista mailowa",
+      powermonitorSettingsNotificaitonsRegisterButton: "ZAREJESTRUJ",
+      powermonitorSettingsNotificaitonsUnregisterButton: "WYREJESTRUJ",
+      powermonitorSettingsNotificationsListTitle: "Notyfikacje",
       powermonitorSettingsAddRecipientButton: "DODAJ ADRES",
       powermonitorNewRecipientDialogTitle: "Dodaj nowy adres",
       powermonitorNewRecipientDialogLabel: "Adres email",
@@ -436,10 +440,14 @@ const resources = {
       powermonitorSettingsActive: "Load monitoring enabled",
       powermonitorSettingsSendingEventsEnabled: "Sending events enabled",
       powermonitorSettingsSendingEmailsEnabled: "Sending emails enabled",
+      powermonitorSettingsNotificationsEnabled: "Notifications enabled",
       powermonitorSettingsConfirmButton: "CONFIRM",
       powermonitorSettingsResetButton: "RESET",
       powermonitorSettingsEmailListTitle: "Mailing list",
       powermonitorSettingsAddRecipientButton: "ADD RECIPIENT",
+      powermonitorSettingsNotificaitonsRegisterButton: "REGISTER",
+      powermonitorSettingsNotificaitonsUnregisterButton: "UNREGISTER",
+      powermonitorSettingsNotificationsListTitle: "Push notifications",
       powermonitorNewRecipientDialogTitle: "Add new recipient",
       powermonitorNewRecipientDialogLabel: "Email adress",
       powermonitorNewRecipientDialogAddButton: "ADD RECIPIENT",
@@ -809,7 +817,13 @@ i18n
     detection: {
       // order and from where user language should be detected
       order: [
-        'querystring', 'cookie', 'localStorage', 'navigator', 'htmlTag', 'path', 'subdomain'
+        "querystring",
+        "cookie",
+        "localStorage",
+        "navigator",
+        "htmlTag",
+        "path",
+        "subdomain"
       ],
 
       // keys or params to lookup language from
