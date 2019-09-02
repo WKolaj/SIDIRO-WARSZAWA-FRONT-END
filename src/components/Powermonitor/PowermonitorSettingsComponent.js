@@ -24,6 +24,12 @@ import {
   showNewRecipientDialogActionCreator,
   hideNewRecipientDialogActionCreator
 } from "../../actions/newRecipientDialog";
+
+import {
+  registerActionCreator,
+  unregisterActionCreator
+} from "../../actions/notificationsData";
+
 import {
   resetPowermonitorFormActionCreator,
   removeRecipient
@@ -94,6 +100,11 @@ const styles = theme => ({
     height: "100%",
     minWidth: 400
   },
+  notificationListPaper: {
+    padding: theme.spacing(2),
+    height: "100%",
+    minWidth: 400
+  },
   textFieldGrid: {
     maxWidth: 300
   }
@@ -135,6 +146,18 @@ class PowermonitorSettingsComponent extends Component {
     );
   };
 
+  renderNotificationHeader = () => {
+    let { t } = this.props;
+
+    return (
+      <Grid item>
+        <Typography variant="h5" gutterBottom>
+          {t("powermonitorSettingsNotificationsListTitle")}
+        </Typography>
+      </Grid>
+    );
+  };
+
   checkIfUserIsNotAdmin = () => {
     return !getCurrentUser().isAdmin;
   };
@@ -144,6 +167,20 @@ class PowermonitorSettingsComponent extends Component {
     if (this.checkIfUserIsNotAdmin()) return true;
 
     return !isEmpty(validate(this.props.formData)) || !this.props.anyTouched;
+  };
+
+  //Method for checking if login button should be disabled
+  checkRegisterButtonDisable = () => {
+    if (this.checkIfUserIsNotAdmin()) return true;
+
+    return this.props.notifications.isRegistered;
+  };
+
+  //Method for checking if login button should be disabled
+  checkUnregisterButtonDisable = () => {
+    if (this.checkIfUserIsNotAdmin()) return true;
+
+    return !this.props.notifications.isRegistered;
   };
 
   fetchSettings = async () => {
@@ -240,6 +277,13 @@ class PowermonitorSettingsComponent extends Component {
     return <ListItemText>{input.value}</ListItemText>;
   };
 
+  handleRegisterButtonClicked = async () => {
+    await this.props.registerNotifications("Powermonitor");
+  };
+
+  handleUnregisterButtonClicked = async () => {
+    await this.props.unregisterNotifications("Powermonitor");
+  };
   renderEmailTable = renderObject => {
     let fields = renderObject.fields;
     if (!exists(fields)) return null;
@@ -314,7 +358,7 @@ class PowermonitorSettingsComponent extends Component {
               alignItems="stretch"
               spacing={3}
             >
-              <Grid item style={{ minWidth: 500 }}>
+              <Grid item xs={12} sm={12} md={12} lg={4}>
                 <Paper className={classes.settingsPaper}>
                   <Grid
                     container
@@ -381,6 +425,15 @@ class PowermonitorSettingsComponent extends Component {
                             )}
                             disabled={this.checkIfUserIsNotAdmin()}
                           />
+                          <Field
+                            name="notificationsEnabled"
+                            type="checkbox"
+                            component={this.renderCheckbox}
+                            label={t(
+                              "powermonitorSettingsNotificationsEnabled"
+                            )}
+                            disabled={this.checkIfUserIsNotAdmin()}
+                          />
                         </Grid>
                       </Grid>
                     </Grid>
@@ -406,7 +459,7 @@ class PowermonitorSettingsComponent extends Component {
                   </Grid>
                 </Paper>
               </Grid>
-              <Grid item style={{ minWidth: 500 }}>
+              <Grid item xs={12} sm={12} md={12} lg={4}>
                 <Paper className={classes.emailListPaper}>
                   <Grid
                     container
@@ -437,6 +490,42 @@ class PowermonitorSettingsComponent extends Component {
                   </Grid>
                 </Paper>
               </Grid>
+              <Grid item xs={12} sm={12} md={12} lg={4}>
+                <Paper className={classes.notificationListPaper}>
+                  <Grid
+                    container
+                    direction="column"
+                    justify="flex-end"
+                    alignItems="stretch"
+                    className={classes.settingsGrid}
+                    wrap="nowrap"
+                  >
+                    {this.renderNotificationHeader()}
+                    <Grid item xs></Grid>
+                    <Grid item className={classes.emailListFooter}>
+                      <Button
+                        onClick={() => this.handleRegisterButtonClicked()}
+                        disabled={this.checkRegisterButtonDisable()}
+                      >
+                        <Typography variant="h6" gutterBottom>
+                          {t("powermonitorSettingsNotificaitonsRegisterButton")}
+                        </Typography>
+                      </Button>
+
+                      <Button
+                        onClick={() => this.handleUnregisterButtonClicked()}
+                        disabled={this.checkUnregisterButtonDisable()}
+                      >
+                        <Typography variant="h6" gutterBottom>
+                          {t(
+                            "powermonitorSettingsNotificaitonsUnregisterButton"
+                          )}
+                        </Typography>
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Paper>
+              </Grid>
             </Grid>
           </form>
         </Grid>
@@ -449,6 +538,7 @@ function mapStateToProps(state, props) {
   return {
     powermonitor: state.powermonitor,
     newRecipientDialog: state.newRecipientDialog,
+    notifications: state.notifications,
     formData: state.form.powermonitorSettings
       ? state.form.powermonitorSettings.values
         ? state.form.powermonitorSettings.values
@@ -463,7 +553,9 @@ const mapDispatchToProps = {
   removeRecipient: removeRecipient,
   changePowermonitorData: changePowermonitorSettingsActionCreator,
   showNewRecipientDialog: showNewRecipientDialogActionCreator,
-  hideNewRecipientDialog: hideNewRecipientDialogActionCreator
+  hideNewRecipientDialog: hideNewRecipientDialogActionCreator,
+  registerNotifications: registerActionCreator,
+  unregisterNotifications: unregisterActionCreator
 };
 
 const validate = formData => {

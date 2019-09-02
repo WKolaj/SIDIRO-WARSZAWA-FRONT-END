@@ -20,6 +20,7 @@ export const settingsSchema = Joi.object().keys({
   active: Joi.boolean(),
   sendingEventsEnabled: Joi.boolean(),
   sendingEmailsEnabled: Joi.boolean(),
+  notificationsEnabled: Joi.boolean(),
   recipients: Joi.array()
     .items(recipientSchema)
     .label("Recipients array")
