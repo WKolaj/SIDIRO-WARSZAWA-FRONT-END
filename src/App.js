@@ -37,6 +37,7 @@ import { fetchAllAdminUsers, fetchCurrentUser } from "./services/userService";
 import MomentUtils from "@date-io/moment";
 import "moment/locale/pl";
 import "moment/locale/en-gb";
+import Test from "./components/Test";
 
 const drawerWidth = 240;
 const styles = theme => ({
@@ -196,7 +197,7 @@ class App extends React.Component {
                   <ListItemIcon>
                     <BarChart />
                   </ListItemIcon>
-                  <ListItemText primary='test' />
+                  <ListItemText primary="test" />
                 </ListItem>
                 <Divider />
                 <ListItem
@@ -218,6 +219,7 @@ class App extends React.Component {
                 <Route path="/zdarzenia" component={Events} />
                 <Route path="/powermonitor" component={Powermonitor} />
                 <Route path="/reports" component={Reports} />
+                <Route path="/test" component={Test} />
                 <Route path="/" component={Overview} />
               </Switch>
             </main>
