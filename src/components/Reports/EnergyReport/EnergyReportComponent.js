@@ -14,7 +14,6 @@ import Paper from "@material-ui/core/Paper";
 import { DatePicker } from "@material-ui/pickers";
 import { fetchEnergyReportActionCreator } from "../../../actions/energyReportData";
 import { exists, existsAndIsNotEmpty } from "../../../utils/utilities";
-import moment from "moment";
 
 const styles = theme => ({
   appBar: {

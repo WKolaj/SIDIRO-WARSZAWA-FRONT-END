@@ -10,7 +10,6 @@ import Powermonitor15MinTrend from "./Powermonitor15MinTrendComponent";
 import Powermonitor15MinTable from "./Powermonitor15MinTableComponent";
 import { exists } from "../../utils/utilities";
 import moment from "moment";
-import AppBar from "@material-ui/core/AppBar";
 import { DatePicker } from "@material-ui/pickers";
 
 const styles = theme => ({

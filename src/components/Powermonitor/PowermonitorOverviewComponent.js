@@ -10,7 +10,7 @@ const styles = theme => ({});
 
 class PowermonitorOverviewComponent extends Component {
   render() {
-    let { classes, t } = this.props;
+    let { t } = this.props;
 
     if (!this.props.powermonitor.data.ready)
       return <p>{t("powermonitorNotReadyLabel")}</p>;

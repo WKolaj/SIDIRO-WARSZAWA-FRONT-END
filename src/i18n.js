@@ -333,7 +333,7 @@ const resources = {
       slideUpDialogTooltipShowPowerChart: "Pokaż wykres mocy",
       slideUpDialogTooltipShowVoltageLLChart: "Pokaż wykres napięcia L-L",
       slideUpDialogTooltipShowVoltageLNChart: "Pokaż wykres napięcia L-N",
-      slideUpDialogTooltipShowTHDUChart: "Pokaż wykres THD V",
+      slideUpDialogTooltipShowTHDUChart: "Pokaż wykres THD U",
       slideUpDialogTooltipShowTHDIChart: "Pokaż wykres THD I",
       slideUpDialogTooltipBackToPreview: "Powrót",
       slideUpDialogTooltipRewindLeft: "Przewiń w lewo",
@@ -733,7 +733,7 @@ const resources = {
       slideUpDialogTooltipShowPowerChart: "Show power chart",
       slideUpDialogTooltipShowVoltageLLChart: "Show Voltage L-L chart",
       slideUpDialogTooltipShowVoltageLNChart: "Show Voltage L-N chart",
-      slideUpDialogTooltipShowTHDUChart: "Show THD V chart",
+      slideUpDialogTooltipShowTHDUChart: "Show THD U chart",
       slideUpDialogTooltipShowTHDIChart: "Show THD I chart",
       slideUpDialogTooltipBackToPreview: "Back",
       slideUpDialogTooltipRewindLeft: "Rewind left",
@@ -809,7 +809,13 @@ i18n
     detection: {
       // order and from where user language should be detected
       order: [
-        'querystring', 'cookie', 'localStorage', 'navigator', 'htmlTag', 'path', 'subdomain'
+        "querystring",
+        "cookie",
+        "localStorage",
+        "navigator",
+        "htmlTag",
+        "path",
+        "subdomain"
       ],
 
       // keys or params to lookup language from

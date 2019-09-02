@@ -3,7 +3,7 @@ import moment from "moment";
 import { connect } from "react-redux";
 import { withTranslation } from "react-i18next";
 import { withStyles } from "@material-ui/core/styles";
-import { Grid, Paper, Typography } from "@material-ui/core";
+import { Grid, Paper, Typography, Button } from "@material-ui/core";
 
 import MaterialTable from "material-table";
 import { withSnackbar } from "notistack";
@@ -25,6 +25,8 @@ import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
 import { forwardRef } from "react";
+
+import { showTrendSlider } from "../../../actions/reportData";
 
 const styles = theme => ({
   paper: {
@@ -151,8 +153,8 @@ class SupplyQualityReportTransformerComponent extends Component {
     ];
   };
 
-  renderMaxMinValue = (maxValue, maxTime, unit) => {
-    let { classes } = this.props;
+  renderMaxMinValue = (maxValue, maxTime, unit, elementName, variableName) => {
+    let { classes, t } = this.props;
     if (!exists(maxValue) || !exists(maxTime)) return "";
 
     return (
@@ -161,9 +163,14 @@ class SupplyQualityReportTransformerComponent extends Component {
           2
         )} ${unit}`}</span>
         <br></br>
-        <span className={classes.maxTimeLabel}>
+        <Button
+          className={classes.maxTimeLabel}
+          onClick={() => {
+            this.props.showTrendSlider(elementName, variableName, maxTime, t);
+          }}
+        >
           {moment(maxTime).format("YYYY-MM-DD HH:mm")}
-        </span>
+        </Button>
       </span>
     );
   };
@@ -193,7 +200,7 @@ class SupplyQualityReportTransformerComponent extends Component {
   };
 
   renderVoltageTable = () => {
-    let { t, classes } = this.props;
+    let { t, classes, supplyName } = this.props;
 
     let tableData = this.getVoltageData();
 
@@ -234,7 +241,9 @@ class SupplyQualityReportTransformerComponent extends Component {
               return this.renderMaxMinValue(
                 rowData.max,
                 rowData.maxTime,
-                rowData.unit
+                rowData.unit,
+                supplyName,
+                rowData.name
               );
             }
           },
@@ -246,7 +255,9 @@ class SupplyQualityReportTransformerComponent extends Component {
               return this.renderMaxMinValue(
                 rowData.min,
                 rowData.minTime,
-                rowData.unit
+                rowData.unit,
+                supplyName,
+                rowData.name
               );
             }
           }
@@ -293,7 +304,7 @@ class SupplyQualityReportTransformerComponent extends Component {
   };
 
   renderCurrentTable = () => {
-    let { t, classes } = this.props;
+    let { t, classes, supplyName } = this.props;
 
     let tableData = this.getCurrentData();
 
@@ -334,7 +345,9 @@ class SupplyQualityReportTransformerComponent extends Component {
               return this.renderMaxMinValue(
                 rowData.max,
                 rowData.maxTime,
-                rowData.unit
+                rowData.unit,
+                supplyName,
+                rowData.name
               );
             }
           },
@@ -346,7 +359,9 @@ class SupplyQualityReportTransformerComponent extends Component {
               return this.renderMaxMinValue(
                 rowData.min,
                 rowData.minTime,
-                rowData.unit
+                rowData.unit,
+                supplyName,
+                rowData.name
               );
             }
           }
@@ -442,7 +457,9 @@ function mapStateToProps(state, props) {
   };
 }
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  showTrendSlider: showTrendSlider
+};
 
 export default connect(
   mapStateToProps,

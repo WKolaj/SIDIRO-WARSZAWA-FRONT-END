@@ -319,7 +319,6 @@ class SlideupDialog extends React.Component {
   clearIntervals = () => {
     clearInterval(this.interval15sec);
     clearInterval(this.interval15min);
-    console.log('intervals cleared')
 }
 
 setIntervals = () => {
@@ -334,7 +333,6 @@ setIntervals = () => {
             this.interval15min = setInterval(() => {
             this.props.getIntervalData15Min();
             }, 900000);
-            console.log('intervals set')
     }
   
 }
@@ -689,7 +687,7 @@ setIntervals = () => {
                 <Grid item xs={12}>
                   <Paper className={classes.paper}>
                     <Typography variant="h5" gutterBottom>{t('slideUpDialogTHDV')}
-                      <Tooltip title={t('slideUpDialogTooltipShowTHDVChart')} placement="top">
+                      <Tooltip title={t('slideUpDialogTooltipShowTHDUChart')} placement="top">
                         <IconButton className={classes.marginFAB} onClick={() => this.handleChangeTabs(null, 'THDUtab')}>
                           <TimelineIcon />
                         </IconButton>

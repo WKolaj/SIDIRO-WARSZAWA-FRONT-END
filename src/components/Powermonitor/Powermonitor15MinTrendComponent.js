@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { withTranslation } from "react-i18next";
 import { withStyles } from "@material-ui/core/styles";
 import { fetchPowermonitorPowerMonthDataActionCreator } from "../../actions/powermonitorActivePowerData";
-import { Bar, Scatter } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import { exists } from "../../utils/utilities";
 
 const styles = theme => ({});
