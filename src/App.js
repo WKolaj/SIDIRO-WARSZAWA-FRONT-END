@@ -192,6 +192,12 @@ class App extends React.Component {
                   </ListItemIcon>
                   <ListItemText primary={t("reports")} />
                 </ListItem>
+                <ListItem button component={Link} to="/test">
+                  <ListItemIcon>
+                    <BarChart />
+                  </ListItemIcon>
+                  <ListItemText primary='test' />
+                </ListItem>
                 <Divider />
                 <ListItem
                   button

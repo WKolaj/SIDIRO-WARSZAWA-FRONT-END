@@ -3,8 +3,6 @@ import {
   changePowermonitorSettings
 } from "../services/powermonitorService";
 
-import { getIsRegisteredActionCreator } from "./notificationsData";
-
 import {
   hideBusyDialogActionCreator,
   showBusyDialogActionCreator
@@ -105,7 +103,6 @@ let getSettingsFromData = data => {
     trafoPowerLosses: data.trafoPowerLosses,
     sendingEventsEnabled: data.sendingEventsEnabled,
     sendingEmailsEnabled: data.sendingEmailsEnabled,
-    notificationsEnabled: data.notificationsEnabled,
     recipients: data.recipients
   };
 };
@@ -184,7 +181,6 @@ export const fetchPowermonitorSettingsActionCreator = function(pageNumber) {
     try {
       dispatch(showBusyDialogActionCreator());
 
-      await dispatch(getIsRegisteredActionCreator("Powermonitor"));
       let data = await getPowermonitorData();
 
       let normalizedData = normalizePowermonitorData(data);

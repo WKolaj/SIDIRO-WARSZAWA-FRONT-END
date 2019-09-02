@@ -32,6 +32,11 @@ import ChartDataRangeTimePicker from './ChartDataRangeTimePicker';
 import ChartDataRangeTimeSlider from './ChartDataRangeTimeSlider';
 import '../styles/SlideupDialog.scss';
 import { withTranslation } from 'react-i18next';
+import {withRouter} from 'react-router-dom';
+import {
+  getIntervalData1Min,
+  getIntervalData15Min
+} from "../actions/mindsphereDataUpdateInterval";
 
 const styles = theme => ({
   sliderBar: {
@@ -45,6 +50,9 @@ const styles = theme => ({
   sliderContent: {
     marginTop: '60px',
     padding: theme.spacing(1)
+  },
+  invisible: {
+    display: 'none'
   },
   paper: {
     padding: theme.spacing(2)
@@ -90,6 +98,9 @@ class SlideupDialog extends React.Component {
   }
   //Tween for animation
   myTween = null;
+
+  interval15sec = null;
+  interval15min = null;
 
   //for tabs filtering
   topDevices = ['TR1', 'TR2'];
@@ -305,6 +316,29 @@ class SlideupDialog extends React.Component {
     return this.props.params.currentDeviceType
   }
 
+  clearIntervals = () => {
+    clearInterval(this.interval15sec);
+    clearInterval(this.interval15min);
+    console.log('intervals cleared')
+}
+
+setIntervals = () => {
+  let desiredPaths = ['/','/elewacja']
+    if(desiredPaths.indexOf(this.props.location.pathname)===-1)
+    {
+      this.props.getIntervalData1Min()
+      this.props.getIntervalData15Min()
+        this.interval15sec = setInterval(() => {
+            this.props.getIntervalData1Min();
+            }, 30000);
+            this.interval15min = setInterval(() => {
+            this.props.getIntervalData15Min();
+            }, 900000);
+            console.log('intervals set')
+    }
+  
+}
+
   render() {
     const { classes, params, zoomMultiplier, chartRewindDirection, t } = this.props;
 
@@ -417,8 +451,13 @@ class SlideupDialog extends React.Component {
       <div>
         <Dialog fullScreen open={params.openDialog} onClose={() => this.handleDialogOpen(false)}
           TransitionComponent={Transition} transitionDuration={300}
-          onEnter={this.changeDeviceState}
+          onEnter={()=>{
+            this.changeDeviceState()
+            this.setIntervals()
+          }
+          }
           onExit={() => this.handleChangeTabs(null, 'overviewTab')}
+          onExited={() => this.clearIntervals()}
         >
           <AppBar className={classes.sliderBar}>
             <Toolbar>
@@ -462,310 +501,310 @@ class SlideupDialog extends React.Component {
             </Toolbar>
 
           </AppBar>
-          <div className={`${classes.sliderContent}`}>
-            <AppBar position="static" color="default">
-              <Tabs
-                value={params.tabIndex}
-                onChange={this.handleChangeTabs}
-                indicatorColor="primary"
-                textColor="primary"
-                scrollButtons="auto"
-                variant="scrollable"
-              >
-                <Tab label={t('slideUpDialogTabOverview')} value="overviewTab" />
-                <Tab label={`${t('slideUpDialogTabVoltage')} L-N`} value="voltageLNTab"
-                  style={{ display: this.props.selectedDevice && this.props.selectedDevice.indexOf('cb_') === -1 ? 'flex' : 'none' }} />
-                <Tab label={`${t('slideUpDialogTabVoltage')} L-L`} value="voltageLLTab"
-                  style={{ display: this.props.selectedDevice && this.props.selectedDevice.indexOf('cb_') === -1 ? 'flex' : 'none' }} />
-                <Tab label={t('slideUpDialogTabCurrent')} value="currentTab" />
-                <Tab label={t('slideUpDialogTabPower')} value="powerTab" />
-                <Tab label={t('slideUpDialogTabTHDV')} value="THDUtab"
-                  style={{ display: this.props.selectedDevice && this.props.selectedDevice.indexOf('cb_') === -1 ? 'flex' : 'none' }} />
-                <Tab label={t('slideUpDialogTabTHDI')} value="THDItab" />
-              </Tabs>
-            </AppBar>
-            {params.tabIndex === 'overviewTab' && <TabContainer><Grid container spacing={2} alignItems="flex-start" justify="center">
-              <Grid container item xs={12} sm={12} md={4} spacing={2}>
-                <Grid item xs={12}>
-                  {overviewDeviceCircuitBottom}
-                  {overviewDeviceCircuitMid}
-                  {overviewDeviceCircuitTop}
-                  {overviewDeviceCircuitTopGen}
-                </Grid>
-              </Grid>
-              <Grid container item xs={12} sm={6} md={4} spacing={2} direction="column"
-                justify="flex-start"
-                alignItems="stretch">
-                <Grid item xs={12}>
-                  <Paper className={classes.paper}>
-                    <Typography variant="h5" gutterBottom>{t('slideUpDialogBreakerStateTitle')}</Typography>
-                    <Typography variant="body1"><span style={{ color: this.getCurrentDeviceStatusTextColor() }}>{this.getCurrentDeviceStatus()}</span></Typography>
-                  </Paper>
-                </Grid>
-                {this.props.selectedDevice && this.props.selectedDevice === 'GEN' ?
-                  <Grid item xs={12}>
-                    <Paper className={classes.paper}>
-                      <Typography variant="h5" gutterBottom>{t('slideUpDialogGeneratorStateTitle')}</Typography>
-                      <Typography variant="body1"><span style={{ color: this.getGenReadyStartStop('ready').textColor }}>{this.getGenReadyStartStop('ready').state}</span></Typography>
-                      <Typography variant="body1"><span style={{ color: this.getGenReadyStartStop('started').textColor }}>{this.getGenReadyStartStop('started').state}</span></Typography>
-                    </Paper>
-                  </Grid> : null
-                }
-                {params.currentDeviceType !== 'topDevice' ?
-                  <Grid item xs={12}>
-                    <Paper className={classes.paper}>
-                      <Typography variant="h5" gutterBottom>{t('slideUpDialogLastTripTitle')}</Typography>
-                      <Typography variant="body1" gutterBottom>{this.getLastTripReason()}</Typography>
-                    </Paper>
-                  </Grid> : null
-                }
-                <Grid item xs={12}>
-                  <Paper className={classes.paper}>
-                    <Typography variant="h5" gutterBottom>{t('slideUpDialogTabCurrent')}
-                      <Tooltip title={t('slideUpDialogTooltipShowCurrentChart')} placement="top">
-                        <IconButton className={classes.marginFAB} onClick={() => this.handleChangeTabs(null, 'currentTab')}>
-                          <TimelineIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </Typography>
-                    <div>
-                      <Typography variant="body1" display="inline">{t('slideUpDialogTabCurrent')} L1</Typography>
-                      <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Current_L1').toFixed(2)} A</Typography>
-                    </div>
-                    <div>
-                      <Typography variant="body1" display="inline">{t('slideUpDialogTabCurrent')} L2</Typography>
-                      <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Current_L2').toFixed(2)} A</Typography>
-                    </div>
-                    <div>
-                      <Typography variant="body1" display="inline">{t('slideUpDialogTabCurrent')} L3</Typography>
-                      <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Current_L3').toFixed(2)} A</Typography>
-                    </div>
-                  </Paper>
-                </Grid>
-                <Grid item xs={12}>
-                  <Paper className={classes.paper}>
-                    <Typography variant="h5" gutterBottom>{t('slideUpDialogTabPower')}
-                      <Tooltip title={t('slideUpDialogTooltipShowPowerChart')} placement="top">
-                        <IconButton className={classes.marginFAB} onClick={() => this.handleChangeTabs(null, 'powerTab')}>
-                          <TimelineIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </Typography>
-                    <div>
-                      <Typography variant="body1" display="inline">{t('slideUpDialogActivePower')}</Typography>
-                      <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Active_power_import_15_min').toFixed(2)} kW</Typography>
-                    </div>
-                    <div>
-                      <Typography variant="body1" display="inline">{t('slideUpDialogReactivePower')}</Typography>
-                      <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Reactive_power_import_15_min').toFixed(2)} kvar</Typography>
-                    </div>
-                    <div>
-                      <Typography variant="body1" display="inline">{t('slideUpDialogApparentPower')}</Typography>
-                      <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Total_apparent_power_15_min').toFixed(2)} kVA</Typography>
-                    </div>
-                    <div>
-                      <Typography variant="body1" display="inline">{t('slideUpDialogCosTotal')}</Typography>
-                      <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Total_power_factor_1_min').toFixed(2)} PF</Typography>
-                    </div>
-                  </Paper>
-                </Grid>
-              </Grid>
-              <Grid container item xs={12} sm={6} md={4} spacing={2} direction="column"
-                justify="flex-start"
-                alignItems="stretch">
-                {this.props.selectedDeviceType && this.props.selectedDeviceType === 'topDevice' ?
-                  <Grid item xs={12}>
-                    <Paper className={classes.paper}>
-                      <Typography variant="h5" gutterBottom>{t('slideUpDialogTabVoltage')} L-L
-                      <Tooltip title={t('slideUpDialogTooltipShowVoltageLLChart')} placement="top">
-                          <IconButton className={classes.marginFAB} onClick={() => this.handleChangeTabs(null, 'voltageLLTab')}>
-                            <TimelineIcon />
-                          </IconButton>
-                        </Tooltip>
-                      </Typography>
-                      <div>
-                        <Typography variant="body1" display="inline">{t('slideUpDialogTabVoltage')} L1-L2</Typography>
-                        <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Voltage_L1_L2').toFixed(2)} V</Typography>
-                      </div>
-                      <div>
-                        <Typography variant="body1" display="inline">{t('slideUpDialogTabVoltage')} L2-L3</Typography>
-                        <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Voltage_L2_L3').toFixed(2)} V</Typography>
-                      </div>
-                      <div>
-                        <Typography variant="body1" display="inline">{t('slideUpDialogTabVoltage')} L3-L1</Typography>
-                        <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Voltage_L3_L1').toFixed(2)} V</Typography>
-                      </div>
-                    </Paper>
-                  </Grid>
-                  : null}
-                {this.props.selectedDeviceType && this.props.selectedDeviceType === 'topDevice' ?
-                  <Grid item xs={12}>
-                    <Paper className={classes.paper}>
-                      <Typography variant="h5" gutterBottom>{t('slideUpDialogTabVoltage')} L-N
-                      <Tooltip title={t('slideUpDialogTooltipShowVoltageLNChart')} placement="top">
-                          <IconButton className={classes.marginFAB} onClick={() => this.handleChangeTabs(null, 'voltageLNTab')}>
-                            <TimelineIcon />
-                          </IconButton>
-                        </Tooltip>
-                      </Typography>
-                      <div>
-                        <Typography variant="body1" display="inline">{t('slideUpDialogTabVoltage')} L1-N</Typography>
-                        <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Voltage_L1_N').toFixed(2)} V</Typography>
-                      </div>
-                      <div>
-                        <Typography variant="body1" display="inline">{t('slideUpDialogTabVoltage')} L2-N</Typography>
-                        <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Voltage_L2_N').toFixed(2)} V</Typography>
-                      </div>
-                      <div>
-                        <Typography variant="body1" display="inline">{t('slideUpDialogTabVoltage')} L3-N</Typography>
-                        <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Voltage_L3_N').toFixed(2)} V</Typography>
-                      </div>
-                    </Paper>
-                  </Grid>
-                  : null}
-                <Grid item xs={12}>
-                  <Paper className={classes.paper}>
-                    <Typography variant="h5" gutterBottom>{t('slideUpDialogTHDI')}
-                      <Tooltip title={t('slideUpDialogTooltipShowTHDIChart')} placement="top">
-                        <IconButton className={classes.marginFAB} onClick={() => this.handleChangeTabs(null, 'THDItab')}>
-                          <TimelineIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </Typography>
-                    <div>
-                      <Typography variant="body1" display="inline">{t('slideUpDialogTHDI')} L1</Typography>
-                      <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('THD_Current_L1').toFixed(2)} %</Typography>
-                    </div>
-                    <div>
-                      <Typography variant="body1" display="inline">{t('slideUpDialogTHDI')} L2</Typography>
-                      <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('THD_Current_L2').toFixed(2)} %</Typography>
-                    </div>
-                    <div>
-                      <Typography variant="body1" display="inline">{t('slideUpDialogTHDI')} L3</Typography>
-                      <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('THD_Current_L3').toFixed(2)} %</Typography>
-                    </div>
-                  </Paper>
-                </Grid>
-                {this.props.selectedDeviceType && this.props.selectedDeviceType === 'topDevice' ?
-                  <Grid item xs={12}>
-                    <Paper className={classes.paper}>
-                      <Typography variant="h5" gutterBottom>{t('slideUpDialogTHDV')}
-                        <Tooltip title={t('slideUpDialogTooltipShowTHDVChart')} placement="top">
-                          <IconButton className={classes.marginFAB} onClick={() => this.handleChangeTabs(null, 'THDUtab')}>
-                            <TimelineIcon />
-                          </IconButton>
-                        </Tooltip>
-                      </Typography>
-                      <div>
-                        <Typography variant="body1" display="inline">{t('slideUpDialogTHDV')} L1</Typography>
-                        <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('THD_voltage_L1').toFixed(2)} %</Typography>
-                      </div>
-                      <div>
-                        <Typography variant="body1" display="inline">{t('slideUpDialogTHDV')} L2</Typography>
-                        <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('THD_voltage_L2').toFixed(2)} %</Typography>
-                      </div>
-                      <div>
-                        <Typography variant="body1" display="inline">{t('slideUpDialogTHDV')} L3</Typography>
-                        <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('THD_voltage_L3').toFixed(2)} %</Typography>
-                      </div>
-                    </Paper>
-                  </Grid>
-                  : null}
+          <div className={classes.sliderContent}>
+          <AppBar position="static" color="default">
+            <Tabs
+              value={params.tabIndex}
+              onChange={this.handleChangeTabs}
+              indicatorColor="primary"
+              textColor="primary"
+              scrollButtons="auto"
+              variant="scrollable"
+            >
+              <Tab label={t('slideUpDialogTabOverview')} value="overviewTab" />
+              <Tab label={`${t('slideUpDialogTabVoltage')} L-N`} value="voltageLNTab"
+                style={{ display: this.props.selectedDevice && this.props.selectedDevice.indexOf('cb_') === -1 ? 'flex' : 'none' }} />
+              <Tab label={`${t('slideUpDialogTabVoltage')} L-L`} value="voltageLLTab"
+                style={{ display: this.props.selectedDevice && this.props.selectedDevice.indexOf('cb_') === -1 ? 'flex' : 'none' }} />
+              <Tab label={t('slideUpDialogTabCurrent')} value="currentTab" />
+              <Tab label={t('slideUpDialogTabPower')} value="powerTab" />
+              <Tab label={t('slideUpDialogTabTHDV')} value="THDUtab"
+                style={{ display: this.props.selectedDevice && this.props.selectedDevice.indexOf('cb_') === -1 ? 'flex' : 'none' }} />
+              <Tab label={t('slideUpDialogTabTHDI')} value="THDItab" />
+            </Tabs>
+          </AppBar>
+          {params.tabIndex === 'overviewTab' && <TabContainer><Grid container spacing={2} alignItems="flex-start" justify="center">
+            <Grid container item xs={12} sm={12} md={4} spacing={2}>
+              <Grid item xs={12}>
+                {overviewDeviceCircuitBottom}
+                {overviewDeviceCircuitMid}
+                {overviewDeviceCircuitTop}
+                {overviewDeviceCircuitTopGen}
               </Grid>
             </Grid>
-            </TabContainer>}
-            {params.tabIndex === 'voltageLNTab' && this.props.selectedDevice && this.props.selectedDevice.indexOf('cb_') === -1 && <TabContainer>
-              <TimeSeriesChart />
-              <Grid container spacing={1} direction="row" justify="center" alignItems="center">
-                <Grid item xs={11}>
-                  <ChartDataRangeTimeSlider />
-                </Grid>
+            <Grid container item xs={12} sm={6} md={4} spacing={2} direction="column"
+              justify="flex-start"
+              alignItems="stretch">
+              <Grid item xs={12}>
+                <Paper className={classes.paper}>
+                  <Typography variant="h5" gutterBottom>{t('slideUpDialogBreakerStateTitle')}</Typography>
+                  <Typography variant="body1"><span style={{ color: this.getCurrentDeviceStatusTextColor() }}>{this.getCurrentDeviceStatus()}</span></Typography>
+                </Paper>
               </Grid>
-              <Grid container spacing={2} justify="center" alignItems="flex-start" alignContent="space-around" className={classes.chartControls}>
+              {this.props.selectedDevice && this.props.selectedDevice === 'GEN' ?
                 <Grid item xs={12}>
-                  <Typography variant="h6">{t('chartSettings')}</Typography>
+                  <Paper className={classes.paper}>
+                    <Typography variant="h5" gutterBottom>{t('slideUpDialogGeneratorStateTitle')}</Typography>
+                    <Typography variant="body1"><span style={{ color: this.getGenReadyStartStop('ready').textColor }}>{this.getGenReadyStartStop('ready').state}</span></Typography>
+                    <Typography variant="body1"><span style={{ color: this.getGenReadyStartStop('started').textColor }}>{this.getGenReadyStartStop('started').state}</span></Typography>
+                  </Paper>
+                </Grid> : null
+              }
+              {params.currentDeviceType !== 'topDevice' ?
+                <Grid item xs={12}>
+                  <Paper className={classes.paper}>
+                    <Typography variant="h5" gutterBottom>{t('slideUpDialogLastTripTitle')}</Typography>
+                    <Typography variant="body1" gutterBottom>{this.getLastTripReason()}</Typography>
+                  </Paper>
+                </Grid> : null
+              }
+              <Grid item xs={12}>
+                <Paper className={classes.paper}>
+                  <Typography variant="h5" gutterBottom>{t('slideUpDialogTabCurrent')}
+                    <Tooltip title={t('slideUpDialogTooltipShowCurrentChart')} placement="top">
+                      <IconButton className={classes.marginFAB} onClick={() => this.handleChangeTabs(null, 'currentTab')}>
+                        <TimelineIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </Typography>
+                  <div>
+                    <Typography variant="body1" display="inline">{t('slideUpDialogTabCurrent')} L1</Typography>
+                    <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Current_L1').toFixed(2)} A</Typography>
+                  </div>
+                  <div>
+                    <Typography variant="body1" display="inline">{t('slideUpDialogTabCurrent')} L2</Typography>
+                    <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Current_L2').toFixed(2)} A</Typography>
+                  </div>
+                  <div>
+                    <Typography variant="body1" display="inline">{t('slideUpDialogTabCurrent')} L3</Typography>
+                    <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Current_L3').toFixed(2)} A</Typography>
+                  </div>
+                </Paper>
+              </Grid>
+              <Grid item xs={12}>
+                <Paper className={classes.paper}>
+                  <Typography variant="h5" gutterBottom>{t('slideUpDialogTabPower')}
+                    <Tooltip title={t('slideUpDialogTooltipShowPowerChart')} placement="top">
+                      <IconButton className={classes.marginFAB} onClick={() => this.handleChangeTabs(null, 'powerTab')}>
+                        <TimelineIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </Typography>
+                  <div>
+                    <Typography variant="body1" display="inline">{t('slideUpDialogActivePower')}</Typography>
+                    <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Active_power_import_15_min').toFixed(2)} kW</Typography>
+                  </div>
+                  <div>
+                    <Typography variant="body1" display="inline">{t('slideUpDialogReactivePower')}</Typography>
+                    <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Reactive_power_import_15_min').toFixed(2)} kvar</Typography>
+                  </div>
+                  <div>
+                    <Typography variant="body1" display="inline">{t('slideUpDialogApparentPower')}</Typography>
+                    <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Total_apparent_power_15_min').toFixed(2)} kVA</Typography>
+                  </div>
+                  <div>
+                    <Typography variant="body1" display="inline">{t('slideUpDialogCosTotal')}</Typography>
+                    <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Total_power_factor_1_min').toFixed(2)} PF</Typography>
+                  </div>
+                </Paper>
+              </Grid>
+            </Grid>
+            <Grid container item xs={12} sm={6} md={4} spacing={2} direction="column"
+              justify="flex-start"
+              alignItems="stretch">
+              {this.props.selectedDeviceType && this.props.selectedDeviceType === 'topDevice' ?
+                <Grid item xs={12}>
+                  <Paper className={classes.paper}>
+                    <Typography variant="h5" gutterBottom>{t('slideUpDialogTabVoltage')} L-L
+                    <Tooltip title={t('slideUpDialogTooltipShowVoltageLLChart')} placement="top">
+                        <IconButton className={classes.marginFAB} onClick={() => this.handleChangeTabs(null, 'voltageLLTab')}>
+                          <TimelineIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </Typography>
+                    <div>
+                      <Typography variant="body1" display="inline">{t('slideUpDialogTabVoltage')} L1-L2</Typography>
+                      <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Voltage_L1_L2').toFixed(2)} V</Typography>
+                    </div>
+                    <div>
+                      <Typography variant="body1" display="inline">{t('slideUpDialogTabVoltage')} L2-L3</Typography>
+                      <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Voltage_L2_L3').toFixed(2)} V</Typography>
+                    </div>
+                    <div>
+                      <Typography variant="body1" display="inline">{t('slideUpDialogTabVoltage')} L3-L1</Typography>
+                      <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Voltage_L3_L1').toFixed(2)} V</Typography>
+                    </div>
+                  </Paper>
                 </Grid>
+                : null}
+              {this.props.selectedDeviceType && this.props.selectedDeviceType === 'topDevice' ?
+                <Grid item xs={12}>
+                  <Paper className={classes.paper}>
+                    <Typography variant="h5" gutterBottom>{t('slideUpDialogTabVoltage')} L-N
+                    <Tooltip title={t('slideUpDialogTooltipShowVoltageLNChart')} placement="top">
+                        <IconButton className={classes.marginFAB} onClick={() => this.handleChangeTabs(null, 'voltageLNTab')}>
+                          <TimelineIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </Typography>
+                    <div>
+                      <Typography variant="body1" display="inline">{t('slideUpDialogTabVoltage')} L1-N</Typography>
+                      <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Voltage_L1_N').toFixed(2)} V</Typography>
+                    </div>
+                    <div>
+                      <Typography variant="body1" display="inline">{t('slideUpDialogTabVoltage')} L2-N</Typography>
+                      <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Voltage_L2_N').toFixed(2)} V</Typography>
+                    </div>
+                    <div>
+                      <Typography variant="body1" display="inline">{t('slideUpDialogTabVoltage')} L3-N</Typography>
+                      <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('Voltage_L3_N').toFixed(2)} V</Typography>
+                    </div>
+                  </Paper>
+                </Grid>
+                : null}
+              <Grid item xs={12}>
+                <Paper className={classes.paper}>
+                  <Typography variant="h5" gutterBottom>{t('slideUpDialogTHDI')}
+                    <Tooltip title={t('slideUpDialogTooltipShowTHDIChart')} placement="top">
+                      <IconButton className={classes.marginFAB} onClick={() => this.handleChangeTabs(null, 'THDItab')}>
+                        <TimelineIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </Typography>
+                  <div>
+                    <Typography variant="body1" display="inline">{t('slideUpDialogTHDI')} L1</Typography>
+                    <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('THD_Current_L1').toFixed(2)} %</Typography>
+                  </div>
+                  <div>
+                    <Typography variant="body1" display="inline">{t('slideUpDialogTHDI')} L2</Typography>
+                    <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('THD_Current_L2').toFixed(2)} %</Typography>
+                  </div>
+                  <div>
+                    <Typography variant="body1" display="inline">{t('slideUpDialogTHDI')} L3</Typography>
+                    <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('THD_Current_L3').toFixed(2)} %</Typography>
+                  </div>
+                </Paper>
+              </Grid>
+              {this.props.selectedDeviceType && this.props.selectedDeviceType === 'topDevice' ?
+                <Grid item xs={12}>
+                  <Paper className={classes.paper}>
+                    <Typography variant="h5" gutterBottom>{t('slideUpDialogTHDV')}
+                      <Tooltip title={t('slideUpDialogTooltipShowTHDVChart')} placement="top">
+                        <IconButton className={classes.marginFAB} onClick={() => this.handleChangeTabs(null, 'THDUtab')}>
+                          <TimelineIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </Typography>
+                    <div>
+                      <Typography variant="body1" display="inline">{t('slideUpDialogTHDV')} L1</Typography>
+                      <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('THD_voltage_L1').toFixed(2)} %</Typography>
+                    </div>
+                    <div>
+                      <Typography variant="body1" display="inline">{t('slideUpDialogTHDV')} L2</Typography>
+                      <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('THD_voltage_L2').toFixed(2)} %</Typography>
+                    </div>
+                    <div>
+                      <Typography variant="body1" display="inline">{t('slideUpDialogTHDV')} L3</Typography>
+                      <Typography className={classes.floatRight} variant="body1" display="inline" color="primary">{this.getCurrentDeviceVariables('THD_voltage_L3').toFixed(2)} %</Typography>
+                    </div>
+                  </Paper>
+                </Grid>
+                : null}
+            </Grid>
+          </Grid>
+          </TabContainer>}
+          {params.tabIndex === 'voltageLNTab' && this.props.selectedDevice && this.props.selectedDevice.indexOf('cb_') === -1 && <TabContainer>
+            <TimeSeriesChart />
+            <Grid container spacing={1} direction="row" justify="center" alignItems="center">
+              <Grid item xs={11}>
+                <ChartDataRangeTimeSlider />
+              </Grid>
+            </Grid>
+            <Grid container spacing={2} justify="center" alignItems="flex-start" alignContent="space-around" className={classes.chartControls}>
+              <Grid item xs={12}>
+                <Typography variant="h6">{t('chartSettings')}</Typography>
+              </Grid>
 
-                <ChartDataRangeTimePicker />
+              <ChartDataRangeTimePicker />
 
-                <Grid item xs={12}>
-                  <ChartLiveUpdateControls />
-                </Grid>
+              <Grid item xs={12}>
+                <ChartLiveUpdateControls />
               </Grid>
-            </TabContainer>}
-            {(params.tabIndex === 'voltageLLTab' && this.props.selectedDevice && this.props.selectedDevice.indexOf('cb_') === -1) && <TabContainer>
-              <TimeSeriesChart />
-              <Grid container spacing={1} direction="row" justify="center" alignItems="center">
-                <Grid item xs={11}>
-                  <ChartDataRangeTimeSlider />
-                </Grid>
+            </Grid>
+          </TabContainer>}
+          {(params.tabIndex === 'voltageLLTab' && this.props.selectedDevice && this.props.selectedDevice.indexOf('cb_') === -1) && <TabContainer>
+            <TimeSeriesChart />
+            <Grid container spacing={1} direction="row" justify="center" alignItems="center">
+              <Grid item xs={11}>
+                <ChartDataRangeTimeSlider />
               </Grid>
-              <Grid container spacing={2} justify="center" alignItems="flex-start" alignContent="space-around" className={classes.chartControls}>
-                <Grid item xs={12}>
-                  <Typography variant="h6">{t('chartSettings')}</Typography>
-                </Grid>
+            </Grid>
+            <Grid container spacing={2} justify="center" alignItems="flex-start" alignContent="space-around" className={classes.chartControls}>
+              <Grid item xs={12}>
+                <Typography variant="h6">{t('chartSettings')}</Typography>
+              </Grid>
 
-                <ChartDataRangeTimePicker />
+              <ChartDataRangeTimePicker />
 
-                <Grid item xs={12}>
-                  <ChartLiveUpdateControls />
-                </Grid>
+              <Grid item xs={12}>
+                <ChartLiveUpdateControls />
               </Grid>
-            </TabContainer>}
-            {params.tabIndex === 'currentTab' && <TabContainer>
-              <TimeSeriesChart />
-              <Grid container spacing={1} direction="row" justify="center" alignItems="center">
-                <Grid item xs={11}>
-                  <ChartDataRangeTimeSlider />
-                </Grid>
+            </Grid>
+          </TabContainer>}
+          {params.tabIndex === 'currentTab' && <TabContainer>
+            <TimeSeriesChart />
+            <Grid container spacing={1} direction="row" justify="center" alignItems="center">
+              <Grid item xs={11}>
+                <ChartDataRangeTimeSlider />
               </Grid>
-              <Grid container spacing={2} justify="center" alignItems="flex-start" alignContent="space-around" className={classes.chartControls}>
-                <Grid item xs={12}>
-                  <Typography variant="h6">{t('chartSettings')}</Typography>
-                </Grid>
-                <ChartDataRangeTimePicker />
-                <Grid item xs={12}>
-                  <ChartLiveUpdateControls />
-                </Grid>
+            </Grid>
+            <Grid container spacing={2} justify="center" alignItems="flex-start" alignContent="space-around" className={classes.chartControls}>
+              <Grid item xs={12}>
+                <Typography variant="h6">{t('chartSettings')}</Typography>
               </Grid>
-            </TabContainer>}
-            {params.tabIndex === 'powerTab' && <TabContainer>
-              <TimeSeriesChart />
-              <Grid container spacing={2} justify="flex-start" alignItems="flex-start" alignContent="space-around" className={classes.chartControls}>
-                <Grid item xs={12}>
-                  <Typography variant="h6">{t('chartSettings')}</Typography>
-                </Grid>
-                <ChartDataRangeTimePicker />
-                <Grid item xs={12}>
-                  <ChartLiveUpdateControls />
-                </Grid>
+              <ChartDataRangeTimePicker />
+              <Grid item xs={12}>
+                <ChartLiveUpdateControls />
               </Grid>
-            </TabContainer>}
-            {params.tabIndex === 'THDUtab' && <TabContainer>
-              <TimeSeriesChart />
-              <Grid container spacing={2} justify="flex-start" alignItems="flex-start" alignContent="space-around" className={classes.chartControls}>
-                <Grid item xs={12}>
-                  <Typography variant="h6">{t('chartSettings')}</Typography>
-                </Grid>
-                <ChartDataRangeTimePicker />
-                <Grid item xs={12}>
-                  <ChartLiveUpdateControls />
-                </Grid>
+            </Grid>
+          </TabContainer>}
+          {params.tabIndex === 'powerTab' && <TabContainer>
+            <TimeSeriesChart />
+            <Grid container spacing={2} justify="flex-start" alignItems="flex-start" alignContent="space-around" className={classes.chartControls}>
+              <Grid item xs={12}>
+                <Typography variant="h6">{t('chartSettings')}</Typography>
               </Grid>
-            </TabContainer>}
-            {params.tabIndex === 'THDItab' && <TabContainer>
-              <TimeSeriesChart />
-              <Grid container spacing={2} justify="flex-start" alignItems="flex-start" alignContent="space-around" className={classes.chartControls}>
-                <Grid item xs={12}>
-                  <Typography variant="h6">{t('chartSettings')}</Typography>
-                </Grid>
-                <ChartDataRangeTimePicker />
-                <Grid item xs={12}>
-                  <ChartLiveUpdateControls />
-                </Grid>
+              <ChartDataRangeTimePicker />
+              <Grid item xs={12}>
+                <ChartLiveUpdateControls />
               </Grid>
-            </TabContainer>}
-          </div>
+            </Grid>
+          </TabContainer>}
+          {params.tabIndex === 'THDUtab' && <TabContainer>
+            <TimeSeriesChart />
+            <Grid container spacing={2} justify="flex-start" alignItems="flex-start" alignContent="space-around" className={classes.chartControls}>
+              <Grid item xs={12}>
+                <Typography variant="h6">{t('chartSettings')}</Typography>
+              </Grid>
+              <ChartDataRangeTimePicker />
+              <Grid item xs={12}>
+                <ChartLiveUpdateControls />
+              </Grid>
+            </Grid>
+          </TabContainer>}
+          {params.tabIndex === 'THDItab' && <TabContainer>
+            <TimeSeriesChart />
+            <Grid container spacing={2} justify="flex-start" alignItems="flex-start" alignContent="space-around" className={classes.chartControls}>
+              <Grid item xs={12}>
+                <Typography variant="h6">{t('chartSettings')}</Typography>
+              </Grid>
+              <ChartDataRangeTimePicker />
+              <Grid item xs={12}>
+                <ChartLiveUpdateControls />
+              </Grid>
+            </Grid>
+          </TabContainer>}
+        </div>
         </Dialog>
       </div>
     );
@@ -794,7 +833,9 @@ const mapDispatchToProps = {
   setCurrentDeviceStatus,
   setCurrentDeviceType,
   clearDatasets,
-  chartSetRewindDirection
+  chartSetRewindDirection,
+  getIntervalData1Min,
+  getIntervalData15Min
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(withTranslation()(SlideupDialog)))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withStyles(styles)(withTranslation()(SlideupDialog))))

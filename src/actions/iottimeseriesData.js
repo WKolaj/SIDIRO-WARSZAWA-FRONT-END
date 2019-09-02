@@ -39,6 +39,7 @@ export const chartSetRewindDirection = direction => ({
 });
 
 export const getData = (device, tabIndex, toTime, loadingCircle = false, live = false) => {
+  console.log(device)
   let from = moment().subtract(15, "minute").toISOString();
   let to = moment(toTime).startOf("minute").toISOString();
   switch (tabIndex) {
@@ -48,6 +49,10 @@ export const getData = (device, tabIndex, toTime, loadingCircle = false, live = 
       from = moment(toTime).startOf("day").subtract(10, 'minutes').toISOString();
       to = moment(toTime).endOf("day").toISOString();
       break;
+    case 'voltageLNTab':
+    case 'voltageLLTab':
+    case 'currentTab':
+      
     default:
       if(live)
       {

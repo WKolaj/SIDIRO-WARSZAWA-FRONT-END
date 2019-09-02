@@ -24,7 +24,7 @@ const initialState = {
     zoomedRewindDirection: 0,
     timeRangeSlider: moment().toISOString(),
     timeRangeStepValue: false,
-    liveDataUpdate: true,
+    liveDataUpdate: false,
     datasets: [],
     unit: 'V',
 };

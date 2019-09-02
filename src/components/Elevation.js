@@ -11,6 +11,7 @@ import {
     getIntervalData1Min,
     getIntervalData15Min
   } from "../actions/mindsphereDataUpdateInterval";
+import { visbilityBrowser } from '../utils/pageVisibility';
 
 class Elevation extends React.Component {
     interval15sec = null;
@@ -66,8 +67,20 @@ class Elevation extends React.Component {
     openProperties = (name, title, section, outgoingFeeder) => {
         this.props.manageDialogOpen(true, name, title, section, outgoingFeeder)
     }
+
+    handleVisibilityChange = () => {
+        if (document[visbilityBrowser().hidden]) {
+            this.clearIntervals()
+        } 
+        else {
+            this.setIntervals()
+        }
+    }
     
     componentDidMount() {
+        //add visibility listener
+        document.addEventListener(visbilityBrowser().visibilityChange, this.handleVisibilityChange, false);
+
         this.props.getIntervalData1Min();
         this.props.getIntervalData15Min();
         this.interval15sec = setInterval(() => {
@@ -79,8 +92,24 @@ class Elevation extends React.Component {
     }
 
     componentWillUnmount() {
+        document.removeEventListener(visbilityBrowser().visibilityChange, this.handleVisibilityChange);
+        this.clearIntervals()
+    }
+
+    clearIntervals = () => {
         clearInterval(this.interval15sec);
         clearInterval(this.interval15min);
+        console.log('intervals cleared')
+    }
+
+    setIntervals = () => {
+        this.interval15sec = setInterval(() => {
+            this.props.getIntervalData1Min();
+            }, 30000);
+            this.interval15min = setInterval(() => {
+            this.props.getIntervalData15Min();
+            }, 900000);
+            console.log('intervals set')
     }
 
     render() {

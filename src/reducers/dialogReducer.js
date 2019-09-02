@@ -19,6 +19,7 @@ const initialState = {
 
 export const dialogReducer = (state = initialState, action) => {
     switch (action.type) {
+        
         case MANAGE_DIALOG_OPEN:
             return {
                 ...state,
