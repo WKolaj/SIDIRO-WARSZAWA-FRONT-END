@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getDataFromRange } from "./mindsphereService";
+import { exists } from "../utils/utilities";
 
 const powermonitorRoute = "customApi/powermonitor";
 const powermonitorTotalActivePowerRoute =
@@ -66,6 +67,8 @@ export async function getTotalActivePowerData(fromDate, toDate) {
     fromDateString,
     toDateString
   );
+
+  if (!Array.isArray(result)) return [];
 
   let mappedData = result.map(x => {
     return {

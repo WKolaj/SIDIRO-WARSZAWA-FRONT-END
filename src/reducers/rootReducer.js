@@ -15,6 +15,7 @@ import { power15MinReportReducer } from "./power15MinReportReducer";
 import { supplyQualityReducer } from "./supplyQualityReportReducer";
 import { infeedQualityReducer } from "./infeedQualityReportReducer";
 import { notificationsReducer } from "./notificationsReducer";
+import { userReducer } from "./userReducer";
 import { reducer } from "redux-form";
 import snackbarReducer from "./snackbarReducer";
 
@@ -36,5 +37,6 @@ export default combineReducers({
   power15MinReport: power15MinReportReducer,
   supplyQualityReport: supplyQualityReducer,
   infeedQualityReport: infeedQualityReducer,
-  notifications: notificationsReducer
+  notifications: notificationsReducer,
+  user: userReducer
 });

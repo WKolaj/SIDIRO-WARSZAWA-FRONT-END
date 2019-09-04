@@ -33,10 +33,12 @@ import BusyDialog from "./components/BusyDialog";
 import SnackbarNotifier from "./components/SnackbarNotifier";
 import { withSnackbar } from "notistack";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import { fetchAllAdminUsers, fetchCurrentUser } from "./services/userService";
+import { getUserDataActionCreator } from "./actions/userData";
+import { exists } from "./utils/utilities";
 import MomentUtils from "@date-io/moment";
 import "moment/locale/pl";
 import "moment/locale/en-gb";
+import Typography from "@material-ui/core/Typography";
 
 const drawerWidth = 240;
 const styles = theme => ({
@@ -92,21 +94,10 @@ class App extends React.Component {
     this.props.manageDrawerOpen(open);
   };
 
-  fetchUsers = async () => {
-    try {
-      await fetchAllAdminUsers();
-      await fetchCurrentUser();
-    } catch (err) {
-      this.props.enqueueSnackbar(err.message, {
-        variant: "error"
-      });
-    }
-  };
-
   //Setting default lang to pl - bug fix with default lang of MuiPickersUtilsProvider
   componentDidMount = () => {
     //this.props.i18n.changeLanguage("pl");
-    this.fetchUsers();
+    this.props.getUserData();
   };
 
   componentDidUpdate(prevProps) {
@@ -120,105 +111,127 @@ class App extends React.Component {
     }
   }
 
-  render() {
+  renderMainComponent = () => {
     const { classes, t } = this.props;
     let open = this.props.drawerOpen;
+
+    return (
+      <div className={classes.root}>
+        <SnackbarNotifier />
+        <Router>
+          <CssBaseline />
+          <Drawer
+            variant="permanent"
+            className={clsx(classes.drawer, {
+              [classes.drawerOpen]: open,
+              [classes.drawerClose]: !open
+            })}
+            classes={{
+              paper: clsx({
+                [classes.drawerOpen]: open,
+                [classes.drawerClose]: !open
+              })
+            }}
+            open={open}
+          >
+            <div className={classes.toolbar}>
+              <IconButton
+                onClick={
+                  open === false
+                    ? () => this.handleDrawerOpen(true)
+                    : () => this.handleDrawerOpen(false)
+                }
+              >
+                {open ? <ChevronLeftIcon /> : <MenuIcon />}
+              </IconButton>
+            </div>
+            <Divider />
+            <List
+              onClick={open ? () => this.handleDrawerOpen(false) : null}
+              onBlur={open ? () => this.handleDrawerOpen(false) : null}
+            >
+              <ListItem button component={Link} to="/">
+                <ListItemIcon>
+                  <HomeIcon />
+                </ListItemIcon>
+                <ListItemText primary={t("overview")} />
+              </ListItem>
+              <ListItem button component={Link} to="/elewacja">
+                <ListItemIcon>
+                  <ViewArrayIcon />
+                </ListItemIcon>
+                <ListItemText primary={t("elevation")} />
+              </ListItem>
+              <ListItem button component={Link} to="/zdarzenia">
+                <ListItemIcon>
+                  <EventIcon />
+                </ListItemIcon>
+                <ListItemText primary={t("events")} />
+              </ListItem>
+              <ListItem button component={Link} to="/powermonitor">
+                <ListItemIcon>
+                  <MultilineChart />
+                </ListItemIcon>
+                <ListItemText primary={t("powermonitor")} />
+              </ListItem>
+              <ListItem button component={Link} to="/reports">
+                <ListItemIcon>
+                  <BarChart />
+                </ListItemIcon>
+                <ListItemText primary={t("reports")} />
+              </ListItem>
+              <Divider />
+              <ListItem
+                button
+                onClick={() => this.props.manageLanguageDialog(true)}
+              >
+                <ListItemIcon>
+                  <LanguageIcon />
+                </ListItemIcon>
+                <ListItemText primary={t("language")} />
+              </ListItem>
+            </List>
+          </Drawer>
+          <BusyDialog />
+          <main className={classes.content}>
+            <div className={classes.toolbar} />
+            <Switch>
+              <Route path="/elewacja" component={Elevation} />
+              <Route path="/zdarzenia" component={Events} />
+              <Route path="/powermonitor" component={Powermonitor} />
+              <Route path="/reports" component={Reports} />
+              <Route path="/" component={Overview} />
+            </Switch>
+          </main>
+          <SlideupDialog />
+          <LanguageDialog />
+        </Router>
+      </div>
+    );
+  };
+
+  renderForbiddenAccessComponent = () => {
+    const { t } = this.props;
+    return (
+      <Typography variant="h3" style={{ padding: 25 }}>
+        {t("forbiddenAccessError")}
+      </Typography>
+    );
+  };
+
+  render() {
+    const { user } = this.props;
+
+    if (!exists(user.isUser)) return null;
+
     return (
       <MuiPickersUtilsProvider
         utils={MomentUtils}
         locale={this.props.i18n.language === "pl" ? "pl" : "en-gb"}
       >
-        <div className={classes.root}>
-          <SnackbarNotifier />
-          <Router>
-            <CssBaseline />
-            <Drawer
-              variant="permanent"
-              className={clsx(classes.drawer, {
-                [classes.drawerOpen]: open,
-                [classes.drawerClose]: !open
-              })}
-              classes={{
-                paper: clsx({
-                  [classes.drawerOpen]: open,
-                  [classes.drawerClose]: !open
-                })
-              }}
-              open={open}
-            >
-              <div className={classes.toolbar}>
-                <IconButton
-                  onClick={
-                    open === false
-                      ? () => this.handleDrawerOpen(true)
-                      : () => this.handleDrawerOpen(false)
-                  }
-                >
-                  {open ? <ChevronLeftIcon /> : <MenuIcon />}
-                </IconButton>
-              </div>
-              <Divider />
-              <List
-                onClick={open ? () => this.handleDrawerOpen(false) : null}
-                onBlur={open ? () => this.handleDrawerOpen(false) : null}
-              >
-                <ListItem button component={Link} to="/">
-                  <ListItemIcon>
-                    <HomeIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={t("overview")} />
-                </ListItem>
-                <ListItem button component={Link} to="/elewacja">
-                  <ListItemIcon>
-                    <ViewArrayIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={t("elevation")} />
-                </ListItem>
-                <ListItem button component={Link} to="/zdarzenia">
-                  <ListItemIcon>
-                    <EventIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={t("events")} />
-                </ListItem>
-                <ListItem button component={Link} to="/powermonitor">
-                  <ListItemIcon>
-                    <MultilineChart />
-                  </ListItemIcon>
-                  <ListItemText primary={t("powermonitor")} />
-                </ListItem>
-                <ListItem button component={Link} to="/reports">
-                  <ListItemIcon>
-                    <BarChart />
-                  </ListItemIcon>
-                  <ListItemText primary={t("reports")} />
-                </ListItem>
-                <Divider />
-                <ListItem
-                  button
-                  onClick={() => this.props.manageLanguageDialog(true)}
-                >
-                  <ListItemIcon>
-                    <LanguageIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={t("language")} />
-                </ListItem>
-              </List>
-            </Drawer>
-            <BusyDialog />
-            <main className={classes.content}>
-              <div className={classes.toolbar} />
-              <Switch>
-                <Route path="/elewacja" component={Elevation} />
-                <Route path="/zdarzenia" component={Events} />
-                <Route path="/powermonitor" component={Powermonitor} />
-                <Route path="/reports" component={Reports} />
-                <Route path="/" component={Overview} />
-              </Switch>
-            </main>
-            <SlideupDialog />
-            <LanguageDialog />
-          </Router>
-        </div>
+        {user.isUser
+          ? this.renderMainComponent()
+          : this.renderForbiddenAccessComponent()}
       </MuiPickersUtilsProvider>
     );
   }
@@ -229,13 +242,15 @@ function mapStateToProps(state) {
     drawerOpen: state.drawerReducer.drawerOpen,
     languageDialogOpen: state.languageDialogReducer.openDialog,
     applicationLanguage: state.languageDialogReducer.language,
-    checkStates: state.switchesStateReducer
+    checkStates: state.switchesStateReducer,
+    user: state.user
   };
 }
 
 const mapDispatchToProps = {
   manageLanguageDialog,
-  manageDrawerOpen
+  manageDrawerOpen,
+  getUserData: getUserDataActionCreator
 };
 
 export default connect(

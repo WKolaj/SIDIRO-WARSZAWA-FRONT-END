@@ -38,7 +38,6 @@ import { exists, isEmpty } from "../../utils/utilities";
 import Joi from "joi-browser";
 import { ListItemText } from "@material-ui/core";
 import PowermonitorNewRecipientDialog from "./PowermonitorNewRecipientDialogComponent";
-import { getCurrentUser } from "../../services/userService";
 
 const BlackCheckbox = withStyles({
   root: {
@@ -159,7 +158,7 @@ class PowermonitorSettingsComponent extends Component {
   };
 
   checkIfUserIsNotAdmin = () => {
-    return !getCurrentUser().isAdmin;
+    return !this.props.user.isAdmin;
   };
 
   //Method for checking if login button should be disabled
@@ -539,6 +538,7 @@ function mapStateToProps(state, props) {
     powermonitor: state.powermonitor,
     newRecipientDialog: state.newRecipientDialog,
     notifications: state.notifications,
+    user: state.user,
     formData: state.form.powermonitorSettings
       ? state.form.powermonitorSettings.values
         ? state.form.powermonitorSettings.values

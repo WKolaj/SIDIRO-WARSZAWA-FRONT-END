@@ -118,7 +118,7 @@ export async function isRegistered(group) {
 
     return result.data;
   } catch (err) {
-    console.log(err);
+    console.log(err.message, err);
     return false;
   }
 }

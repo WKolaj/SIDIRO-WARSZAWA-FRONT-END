@@ -6,6 +6,8 @@ import LanguageDetector from "i18next-browser-languagedetector";
 const resources = {
   pl: {
     translation: {
+      //403
+      forbiddenAccessError: "Brak uprawnień",
       //overview
       overview: "Przegląd",
       //elevation
@@ -406,6 +408,8 @@ const resources = {
   },
   en: {
     translation: {
+      //403
+      forbiddenAccessError: "Forbidden access",
       //overview
       overview: "Overview",
       //elevation
