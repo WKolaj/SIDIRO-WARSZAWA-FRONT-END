@@ -31,3 +31,27 @@ export function isObjectEmpty(obj) {
 export function existsAndIsNotEmpty(object) {
   return exists(object) && !isObjectEmpty(object);
 }
+
+const roundDateToDays = date => {
+  date.setHours(0);
+  date.setMinutes(0);
+  date.setSeconds(0);
+  date.setMilliseconds(0);
+
+  return date;
+};
+
+export function validateEndDate(date) {
+  let maxFutureDays = 2;
+
+  let nowDate = new Date(Date.now());
+
+  let currentDayDate = roundDateToDays(nowDate);
+
+  let maxFutureOffsetDate = new Date(
+    currentDayDate.getTime() + maxFutureDays * 24 * 60 * 60 * 1000
+  );
+
+  if (date.getTime() > maxFutureOffsetDate) return maxFutureOffsetDate;
+  else return date;
+}

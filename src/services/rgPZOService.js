@@ -1,5 +1,9 @@
 import { getAggregateData, getDataFromRange } from "./mindsphereService";
-import { exists, existsAndIsNotEmpty } from "../utils/utilities";
+import {
+  exists,
+  existsAndIsNotEmpty,
+  validateEndDate
+} from "../utils/utilities";
 
 const assetIdRGPZO = "a5eebd59cd1348c5b38f8d74ab432780";
 
@@ -162,8 +166,8 @@ const getBreakerEnergyMonthly = (breakerName, year, month) => {
     try {
       let fromDate = new Date(year, month, 0);
       let numberOfDays = numberOfDaysInMonth(month, year);
-      let toDate = new Date(
-        fromDate.getTime() + (numberOfDays + 1) * 24 * 60 * 60 * 1000
+      let toDate = validateEndDate(
+        new Date(fromDate.getTime() + (numberOfDays + 1) * 24 * 60 * 60 * 1000)
       );
 
       let agregatedData = await getAggregateData(
@@ -195,8 +199,8 @@ const getPACEnergyMonthly = (pacName, year, month) => {
     try {
       let fromDate = new Date(year, month, 0);
       let numberOfDays = numberOfDaysInMonth(month, year);
-      let toDate = new Date(
-        fromDate.getTime() + (numberOfDays + 1) * 24 * 60 * 60 * 1000
+      let toDate = validateEndDate(
+        new Date(fromDate.getTime() + (numberOfDays + 1) * 24 * 60 * 60 * 1000)
       );
 
       let agregatedData = await getAggregateData(
@@ -868,8 +872,8 @@ const convertPACAdvancedQualityData = aggregatedData => {
 export async function getPACSupplyQualityMonthlyBasic(pacName, year, month) {
   let fromDate = new Date(year, month, 0);
   let numberOfDays = numberOfDaysInMonth(month, year);
-  let toDate = new Date(
-    fromDate.getTime() + (numberOfDays + 1) * 24 * 60 * 60 * 1000
+  let toDate = validateEndDate(
+    new Date(fromDate.getTime() + (numberOfDays + 1) * 24 * 60 * 60 * 1000)
   );
 
   let agregatedData = await getAggregateData(
@@ -898,8 +902,8 @@ export async function getPACSupplyQualityMonthlyBasic(pacName, year, month) {
 export async function getPACSupplyQualityMonthlyAdvanced(pacName, year, month) {
   let fromDate = new Date(year, month, 0);
   let numberOfDays = numberOfDaysInMonth(month, year);
-  let toDate = new Date(
-    fromDate.getTime() + (numberOfDays + 1) * 24 * 60 * 60 * 1000
+  let toDate = validateEndDate(
+    new Date(fromDate.getTime() + (numberOfDays + 1) * 24 * 60 * 60 * 1000)
   );
 
   let agregatedData = await getAggregateData(
@@ -1224,8 +1228,8 @@ export async function getBreakerSupplyQualityMonthlyBasic(
 ) {
   let fromDate = new Date(year, month, 0);
   let numberOfDays = numberOfDaysInMonth(month, year);
-  let toDate = new Date(
-    fromDate.getTime() + (numberOfDays + 1) * 24 * 60 * 60 * 1000
+  let toDate = validateEndDate(
+    new Date(fromDate.getTime() + (numberOfDays + 1) * 24 * 60 * 60 * 1000)
   );
 
   let agregatedData = await getAggregateData(
@@ -1252,8 +1256,8 @@ export async function getBreakerSupplyQualityMonthlyAdvanced(
 ) {
   let fromDate = new Date(year, month, 0);
   let numberOfDays = numberOfDaysInMonth(month, year);
-  let toDate = new Date(
-    fromDate.getTime() + (numberOfDays + 1) * 24 * 60 * 60 * 1000
+  let toDate = validateEndDate(
+    new Date(fromDate.getTime() + (numberOfDays + 1) * 24 * 60 * 60 * 1000)
   );
 
   let agregatedData = await getAggregateData(
