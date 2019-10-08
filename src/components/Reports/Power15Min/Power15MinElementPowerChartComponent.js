@@ -133,7 +133,10 @@ class Power15MinElementPowerChartComponent extends Component {
     let dataset = data.datasets[tooltipItem.datasetIndex];
     let value = dataset.data[tooltipItem.index].y;
 
-    return `${value.toFixed(2)} kW`;
+    if (!exists(data.datasets[tooltipItem.datasetIndex].label)) return "";
+    let label = data.datasets[tooltipItem.datasetIndex].label;
+
+    return `${label}: ${value.toFixed(2)} kW`;
   };
 
   generateAllActivePowerPoints = (groupName, power15MinReportData) => {
