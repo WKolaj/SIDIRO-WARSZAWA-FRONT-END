@@ -41,7 +41,7 @@ const roundDateToDays = date => {
   return date;
 };
 
-export function validateEndDate(date) {
+export function validateEndDate(endDate, fromDate) {
   let maxFutureDays = 2;
 
   let nowDate = new Date(Date.now());
@@ -52,6 +52,23 @@ export function validateEndDate(date) {
     currentDayDate.getTime() + maxFutureDays * 24 * 60 * 60 * 1000
   );
 
-  if (date.getTime() > maxFutureOffsetDate) return maxFutureOffsetDate;
-  else return date;
+  let dateToReturn = endDate;
+
+  //Setting date as maxFutureOffsetDate if it is greater than max offset of date
+  if (endDate.getTime() > maxFutureOffsetDate.getTime())
+    dateToReturn = maxFutureOffsetDate;
+
+  //Checking if there is a difference in time zone offsets and adjusting the difference
+
+  let fromDateTimeZoneOffset = fromDate.getTimezoneOffset();
+  let endDateTimeZoneOffset = dateToReturn.getTimezoneOffset();
+
+  if (fromDateTimeZoneOffset !== endDateTimeZoneOffset) {
+    dateToReturn = new Date(
+      dateToReturn.getTime() +
+        (endDateTimeZoneOffset - fromDateTimeZoneOffset) * 60 * 1000
+    );
+  }
+
+  return dateToReturn;
 }
