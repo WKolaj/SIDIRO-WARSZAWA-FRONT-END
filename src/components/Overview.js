@@ -2381,7 +2381,7 @@ class Overview extends React.Component {
                   stroke="none"
                   fontFamily="Roboto, Helvetica, Arial, sans-serif"
                 >
-                  {(breakers.cb_1FP2.Active_power_import_15_min / 1000).toFixed(
+                  {(breakers.cb_1FP1.Active_power_import_15_min / 1000).toFixed(
                     1
                   )}{" "}
                   kW
@@ -2393,7 +2393,7 @@ class Overview extends React.Component {
                   stroke="none"
                   fontFamily="Roboto, Helvetica, Arial, sans-serif"
                 >
-                  {breakers.cb_1FP2.Current_L1.toFixed(1)} A
+                  {breakers.cb_1FP1.Current_L1.toFixed(1)} A
                 </text>
                 <text
                   transform="translate(487.81 320.72)"
