@@ -18,7 +18,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import TweenLite from 'gsap';
+import gsap from 'gsap';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import {
@@ -145,10 +145,10 @@ class SlideupDialog extends React.Component {
         let stateTripped = this.props.breakers[`cb_${this.props.params.deviceTitle}`].stateTripped;
 
         if (stateOpened || stateTripped) {
-          this.myTween = TweenLite.to(deviceLevelRef, 1, { rotation: 0, transformOrigin: "100% 100%" })
+          this.myTween = gsap.to(deviceLevelRef, 1, { rotation: 0, transformOrigin: "100% 100%" })
         }
         else if (stateClosed) {
-          this.myTween = TweenLite.to(deviceLevelRef, 1, { rotation: 45, transformOrigin: "100% 100%" })
+          this.myTween = gsap.to(deviceLevelRef, 1, { rotation: 45, transformOrigin: "100% 100%" })
         }
       }
     }

@@ -1,5 +1,5 @@
 import React from "react";
-import { TweenLite } from "gsap/TweenMax";
+import { gsap } from "gsap";
 import "../styles/Overview.scss";
 import { connect } from "react-redux";
 import Typography from "@material-ui/core/Typography";
@@ -58,12 +58,12 @@ class Overview extends React.Component {
     Object.entries(breakers).forEach(([key, value]) => {
       let refName = `${key}_ref`;
       if (value.stateClosed === false) {
-        this.myTween = TweenLite.to(this[refName].current, 1, {
+        this.myTween = gsap.to(this[refName].current, 1, {
           rotation: 0,
           transformOrigin: "100% 100%"
         });
       } else if (value.stateClosed === true) {
-        this.myTween = TweenLite.to(this[refName].current, 1, {
+        this.myTween = gsap.to(this[refName].current, 1, {
           rotation: 45,
           transformOrigin: "100% 100%"
         });
