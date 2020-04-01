@@ -57,7 +57,6 @@ class EnergyCalculator {
     for (let energyObject of this.AllEnergyObjects) {
       allTimes.push(Object.keys(this.Data[energyObject]));
     }
-
     let mergedTimes = _.merge(...allTimes);
 
     let intFilteredTimes = [];
@@ -321,7 +320,12 @@ class EnergyCalculator {
       let currentTime = allTimes[i];
       let nextTime = allTimes[i + 1];
 
-      if (nextTime - currentTime === 24 * 60 * 60 * 1000)
+      //25 and 23 - for days with time shifts
+      if (
+        nextTime - currentTime === 24 * 60 * 60 * 1000 ||
+        nextTime - currentTime === 23 * 60 * 60 * 1000 ||
+        nextTime - currentTime === 25 * 60 * 60 * 1000
+      )
         valuesToReturn[currentTime] = this.getConsumption(
           currentTime,
           nextTime

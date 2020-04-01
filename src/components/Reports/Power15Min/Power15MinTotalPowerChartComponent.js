@@ -63,12 +63,10 @@ class Power15MinTotalPowerChartComponent extends Component {
         ],
         xAxes: [
           {
-            categoryPercentage: 1.0,
-            barPercentage: 1.0,
             type: "time",
             time: {
-              min: startDate,
-              max: stopDate,
+              unit: "day",
+              stepSize: 1,
               displayFormats: {
                 millisecond: "YYYY-MM-DD",
                 second: "YYYY-MM-DD",
@@ -82,9 +80,8 @@ class Power15MinTotalPowerChartComponent extends Component {
               }
             },
             ticks: {
-              autoSkip: true,
-              maxRotation: 0,
-              minRotation: 0
+              min: startDate,
+              max: stopDate
             }
           }
         ]
@@ -211,7 +208,9 @@ class Power15MinTotalPowerChartComponent extends Component {
           borderWidth: 1,
           borderColor: pointColors,
           data: allPoints,
-          backgroundColor: pointColors
+          backgroundColor: pointColors,
+          categoryPercentage: 1.0,
+          barPercentage: 1.0
         },
         {
           type: "line",
@@ -224,7 +223,9 @@ class Power15MinTotalPowerChartComponent extends Component {
           showLine: true,
           borderDash: [10],
           borderWidth: 3,
-          data: alertLimitPoints
+          data: alertLimitPoints,
+          categoryPercentage: 1.0,
+          barPercentage: 1.0
         },
         {
           type: "line",
@@ -237,7 +238,9 @@ class Power15MinTotalPowerChartComponent extends Component {
           showLine: true,
           borderDash: [10],
           borderWidth: 3,
-          data: warningLimitPoints
+          data: warningLimitPoints,
+          categoryPercentage: 1.0,
+          barPercentage: 1.0
         }
       ]
     };

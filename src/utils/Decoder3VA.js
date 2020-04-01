@@ -8,17 +8,18 @@ class Decoder3VA {
     let lastTripReason = 0;
     if (byte0[4]) lastTripReason = Decoder3VA._setBit(lastTripReason, 0);
     if (byte0[5]) lastTripReason = Decoder3VA._setBit(lastTripReason, 1);
+    if (byte0[6]) lastTripReason = Decoder3VA._setBit(lastTripReason, 2);
 
     return {
       stateClosed: !byte1[2] && byte1[3],
       stateOpened: (byte1[2] && !byte1[3]) || (byte1[2] && byte1[3]),
       stateTripped: byte1[2] && byte1[3],
       stateInvalid: !byte1[2] && !byte1[3],
-      overloadWarning: byte1[7],//
+      overloadWarning: byte1[7], //
       limitReached: byte0[0],
       alarm: byte0[1],
       writeProtection: byte0[2],
-      lastTripReason: lastTripReason,
+      lastTripReason: lastTripReason
     };
   }
 

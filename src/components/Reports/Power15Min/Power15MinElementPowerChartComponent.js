@@ -80,7 +80,8 @@ class Power15MinElementPowerChartComponent extends Component {
       },
       legend: {
         display: true,
-        position: "left"
+        position: "bottom",
+        align: "start"
       },
       animation: { duration: 0 },
       scales: {
@@ -91,12 +92,10 @@ class Power15MinElementPowerChartComponent extends Component {
         ],
         xAxes: [
           {
-            categoryPercentage: 0.9,
-            barPercentage: 0.9,
             type: "time",
             time: {
-              min: startDate,
-              max: stopDate,
+              unit: "minute",
+              stepSize: 15,
               displayFormats: {
                 millisecond: "HH:mm",
                 second: "HH:mm",
@@ -108,6 +107,10 @@ class Power15MinElementPowerChartComponent extends Component {
                 quarter: "HH:mm",
                 year: "HH:mm"
               }
+            },
+            ticks: {
+              min: startDate,
+              max: stopDate
             },
             stacked: true
           }
@@ -168,7 +171,9 @@ class Power15MinElementPowerChartComponent extends Component {
       borderWidth: 1,
       borderColor: groupColors[groupName],
       data: this.generateAllActivePowerPoints(groupName, power15MinReport),
-      backgroundColor: groupColors[groupName]
+      backgroundColor: groupColors[groupName],
+      categoryPercentage: 0.9,
+      barPercentage: 0.9
     };
   };
 

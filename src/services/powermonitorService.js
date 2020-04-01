@@ -1,10 +1,7 @@
 import axios from "axios";
 import { getDataFromRange } from "./mindsphereService";
-import { exists } from "../utils/utilities";
 
 const powermonitorRoute = "customApi/powermonitor";
-const powermonitorTotalActivePowerRoute =
-  "customApi/powermonitor/totalActivePower";
 const powermonitorEntityId = "82b4893792e74f959028ef2afca51bf4";
 const activePowerPropertySetName = "PZO_Powermonitor";
 const activePowerVariableName = "Total_active_power_15_min";

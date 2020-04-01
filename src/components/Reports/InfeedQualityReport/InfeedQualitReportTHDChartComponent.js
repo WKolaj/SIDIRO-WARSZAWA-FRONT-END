@@ -83,8 +83,8 @@ class InfeedQualityTHDChartComponent extends Component {
           {
             type: "time",
             time: {
-              min: startDate,
-              max: stopDate,
+              unit: "day",
+              stepSize: 1,
               displayFormats: {
                 millisecond: "YYYY-MM-DD",
                 second: "YYYY-MM-DD",
@@ -96,6 +96,10 @@ class InfeedQualityTHDChartComponent extends Component {
                 quarter: "YYYY-MM-DD",
                 year: "YYYY-MM-DD"
               }
+            },
+            ticks: {
+              min: startDate,
+              max: stopDate
             }
           }
         ]

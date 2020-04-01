@@ -83,13 +83,10 @@ class DailyConsumptionChartComponent extends Component {
         xAxes: [
           {
             stacked: true,
-            categoryPercentage: 0.9,
-            barPercentage: 0.9,
             type: "time",
             time: {
-              min: startDate,
-              max: stopDate,
-
+              unit: "day",
+              stepSize: 1,
               displayFormats: {
                 millisecond: "YYYY-MM-DD",
                 second: "YYYY-MM-DD",
@@ -101,6 +98,10 @@ class DailyConsumptionChartComponent extends Component {
                 quarter: "YYYY-MM-DD",
                 year: "YYYY-MM-DD"
               }
+            },
+            ticks: {
+              min: startDate,
+              max: stopDate
             }
           }
         ]
@@ -145,7 +146,9 @@ class DailyConsumptionChartComponent extends Component {
         borderWidth: 1,
         data: data,
         borderColor: "rgba(0, 0, 0, 0.1)",
-        backgroundColor: color
+        backgroundColor: color,
+        categoryPercentage: 0.9,
+        barPercentage: 0.9
       };
 
       datasets.push(dataSet);
