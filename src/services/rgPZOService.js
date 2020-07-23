@@ -2,7 +2,8 @@ import { getAggregateData, getDataFromRange } from "./mindsphereService";
 import {
   exists,
   existsAndIsNotEmpty,
-  validateEndDate
+  validateEndDate,
+  getDateWithTimeZone,
 } from "../utils/utilities";
 
 const assetIdRGPZO = "a5eebd59cd1348c5b38f8d74ab432780";
@@ -61,19 +62,19 @@ const numberOfDaysInMonth = (month, year) => {
   return new Date(year, month + 1, 0).getDate();
 };
 
-const getElement1minAspectName = elementName => {
+const getElement1minAspectName = (elementName) => {
   return elementName + "_1_min";
 };
 
-const getElement15minAspectName = elementName => {
+const getElement15minAspectName = (elementName) => {
   return elementName + "_15_min";
 };
 
-const getElement1sAspectName = elementName => {
+const getElement1sAspectName = (elementName) => {
   return elementName + "_1_s";
 };
 
-const isAggregatedBreakerDataValid = data => {
+const isAggregatedBreakerDataValid = (data) => {
   if (!existsAndIsNotEmpty(data)) return false;
 
   if (!exists(data[breakerActiveEnergyImportVariableName])) return false;
@@ -111,7 +112,7 @@ const isAggregatedBreakerDataValid = data => {
   return true;
 };
 
-const convertAggregatedDataToBreakerData = aggregatedData => {
+const convertAggregatedDataToBreakerData = (aggregatedData) => {
   let dataToReturn = {};
 
   for (let data of aggregatedData) {
@@ -128,7 +129,7 @@ const convertAggregatedDataToBreakerData = aggregatedData => {
         reactiveEnergyImport:
           data[breakerReactiveEnergyImportVariableName]["lastvalue"] * 1000,
         reactiveEnergyExport:
-          data[breakerReactiveEnergyExportVariableName]["lastvalue"] * 1000
+          data[breakerReactiveEnergyExportVariableName]["lastvalue"] * 1000,
       };
     }
   }
@@ -136,7 +137,7 @@ const convertAggregatedDataToBreakerData = aggregatedData => {
   return dataToReturn;
 };
 
-const convertAggregatedDataToPACData = aggregatedData => {
+const convertAggregatedDataToPACData = (aggregatedData) => {
   let dataToReturn = {};
 
   for (let data of aggregatedData) {
@@ -153,7 +154,7 @@ const convertAggregatedDataToPACData = aggregatedData => {
         reactiveEnergyImport:
           data[pacReactiveEnergyImportVariableName]["lastvalue"],
         reactiveEnergyExport:
-          data[pacReactiveEnergyExportVariableName]["lastvalue"]
+          data[pacReactiveEnergyExportVariableName]["lastvalue"],
       };
     }
   }
@@ -164,7 +165,9 @@ const convertAggregatedDataToPACData = aggregatedData => {
 const getBreakerEnergyMonthly = (breakerName, year, month) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let fromDate = new Date(year, month, 0);
+      let fromDate = new Date(
+        getDateWithTimeZone("Europe/Berlin", year, month, 0)
+      );
       let numberOfDays = numberOfDaysInMonth(month, year);
       let toDate = validateEndDate(
         new Date(fromDate.getTime() + (numberOfDays + 1) * 24 * 60 * 60 * 1000),
@@ -178,7 +181,7 @@ const getBreakerEnergyMonthly = (breakerName, year, month) => {
           breakerActiveEnergyImportVariableName,
           breakerActiveEnergyExportVariableName,
           breakerReactiveEnergyImportVariableName,
-          breakerReactiveEnergyExportVariableName
+          breakerReactiveEnergyExportVariableName,
         ],
         fromDate.toISOString(),
         toDate.toISOString(),
@@ -198,7 +201,9 @@ const getBreakerEnergyMonthly = (breakerName, year, month) => {
 const getPACEnergyMonthly = (pacName, year, month) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let fromDate = new Date(year, month, 0);
+      let fromDate = new Date(
+        getDateWithTimeZone("Europe/Berlin", year, month, 0)
+      );
       let numberOfDays = numberOfDaysInMonth(month, year);
       let toDate = validateEndDate(
         new Date(fromDate.getTime() + (numberOfDays + 1) * 24 * 60 * 60 * 1000),
@@ -212,7 +217,7 @@ const getPACEnergyMonthly = (pacName, year, month) => {
           pacActiveEnergyImportVariableName,
           pacActiveEnergyExportVariableName,
           pacReactiveEnergyImportVariableName,
-          pacReactiveEnergyExportVariableName
+          pacReactiveEnergyExportVariableName,
         ],
         fromDate.toISOString(),
         toDate.toISOString(),
@@ -272,7 +277,7 @@ export async function getEnergyMonthly(year, month) {
     "3F2",
     "TR1",
     "TR2",
-    "GEN"
+    "GEN",
   ];
 
   let allActions = [
@@ -297,7 +302,7 @@ export async function getEnergyMonthly(year, month) {
     getBreakerEnergyAction(elementNames[18], year, month),
     getPACEnergyAction(elementNames[19], year, month),
     getPACEnergyAction(elementNames[20], year, month),
-    getPACEnergyAction(elementNames[21], year, month)
+    getPACEnergyAction(elementNames[21], year, month),
   ];
 
   let allData = await Promise.all(allActions);
@@ -344,7 +349,9 @@ export async function getBreakerActivePowerMonthData(
   yearNumber,
   monthNumber
 ) {
-  let startDate = new Date(yearNumber, monthNumber, 1);
+  let startDate = new Date(
+    getDateWithTimeZone("Europe/Berlin", yearNumber, monthNumber, 1)
+  );
   let endDate = addMonthsToDate(startDate, 1);
   let firstQueryEnd = addDaysToDate(startDate, 16);
 
@@ -366,7 +373,7 @@ export async function getBreakerActivePowerMonthData(
       } catch (err) {
         return reject(err);
       }
-    })
+    }),
   ]);
   let dataArray = [...result[0], ...result[1]];
 
@@ -378,7 +385,10 @@ export async function getPACActivePowerMonthData(
   yearNumber,
   monthNumber
 ) {
-  let startDate = new Date(yearNumber, monthNumber, 1);
+  let startDate = new Date(
+    getDateWithTimeZone("Europe/Berlin", yearNumber, monthNumber, 1)
+  );
+
   let endDate = addMonthsToDate(startDate, 1);
   let firstQueryEnd = addDaysToDate(startDate, 16);
 
@@ -400,7 +410,7 @@ export async function getPACActivePowerMonthData(
       } catch (err) {
         return reject(err);
       }
-    })
+    }),
   ]);
   let dataArray = [...result[0], ...result[1]];
 
@@ -452,7 +462,7 @@ export async function getPowerMonthly(year, month) {
     "3F2",
     "TR1",
     "TR2",
-    "GEN"
+    "GEN",
   ];
 
   let allActions = [
@@ -477,7 +487,7 @@ export async function getPowerMonthly(year, month) {
     getBreakerPowerAction(elementNames[18], year, month),
     getPACPowerAction(elementNames[19], year, month),
     getPACPowerAction(elementNames[20], year, month),
-    getPACPowerAction(elementNames[21], year, month)
+    getPACPowerAction(elementNames[21], year, month),
   ];
 
   let allData = await Promise.all(allActions);
@@ -497,7 +507,7 @@ export async function getPowerMonthly(year, month) {
         let date = new Date(timestamp);
         dataToReturn[elementName][date.getTime()] = {
           date,
-          value
+          value,
         };
       }
     }
@@ -516,7 +526,7 @@ export async function getPowerMonthly(year, month) {
         let date = new Date(timestamp);
         dataToReturn[elementName][date.getTime()] = {
           date,
-          value
+          value,
         };
       }
     }
@@ -525,7 +535,7 @@ export async function getPowerMonthly(year, month) {
   return dataToReturn;
 }
 
-const convertPACBasicQualityData = aggregatedData => {
+const convertPACBasicQualityData = (aggregatedData) => {
   let dailyData = {};
 
   let monthlyData = {
@@ -534,64 +544,64 @@ const convertPACBasicQualityData = aggregatedData => {
       max: null,
       maxTime: null,
       min: null,
-      minTime: null
+      minTime: null,
     },
     CurrentL2: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
-      minTime: null
+      minTime: null,
     },
     CurrentL3: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
-      minTime: null
+      minTime: null,
     },
     VoltageL1N: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
-      minTime: null
+      minTime: null,
     },
     VoltageL2N: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
-      minTime: null
+      minTime: null,
     },
     VoltageL3N: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
-      minTime: null
+      minTime: null,
     },
     VoltageL1L2: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
-      minTime: null
+      minTime: null,
     },
     VoltageL2L3: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
-      minTime: null
+      minTime: null,
     },
     VoltageL3L1: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
-      minTime: null
-    }
+      minTime: null,
+    },
   };
 
   let numberOfData = {
@@ -603,7 +613,7 @@ const convertPACBasicQualityData = aggregatedData => {
     VoltageL3N: 0,
     VoltageL1L2: 0,
     VoltageL2L3: 0,
-    VoltageL3L1: 0
+    VoltageL3L1: 0,
   };
 
   let sumOfData = {
@@ -615,7 +625,7 @@ const convertPACBasicQualityData = aggregatedData => {
     VoltageL3N: 0,
     VoltageL1L2: 0,
     VoltageL2L3: 0,
-    VoltageL3L1: 0
+    VoltageL3L1: 0,
   };
 
   let checkAndAssignData = (
@@ -632,7 +642,7 @@ const convertPACBasicQualityData = aggregatedData => {
         max: elementData.maxvalue,
         maxTime: new Date(elementData.maxtime),
         min: elementData.minvalue,
-        minTime: new Date(elementData.mintime)
+        minTime: new Date(elementData.mintime),
       };
 
       //Updating total calculations
@@ -661,7 +671,7 @@ const convertPACBasicQualityData = aggregatedData => {
     }
   };
 
-  let calculateAverage = elementNameToReturn => {
+  let calculateAverage = (elementNameToReturn) => {
     if (numberOfData[elementNameToReturn] > 0)
       monthlyData[elementNameToReturn].average =
         sumOfData[elementNameToReturn] / numberOfData[elementNameToReturn];
@@ -704,7 +714,7 @@ const convertPACBasicQualityData = aggregatedData => {
   return { dailyData, monthlyData };
 };
 
-const convertPACAdvancedQualityData = aggregatedData => {
+const convertPACAdvancedQualityData = (aggregatedData) => {
   let dailyData = {};
 
   let monthlyData = {
@@ -713,57 +723,57 @@ const convertPACAdvancedQualityData = aggregatedData => {
       max: null,
       maxTime: null,
       min: null,
-      minTime: null
+      minTime: null,
     },
     THDCurrentL2: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
-      minTime: null
+      minTime: null,
     },
     THDCurrentL3: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
-      minTime: null
+      minTime: null,
     },
     THDVoltageL1: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
-      minTime: null
+      minTime: null,
     },
     THDVoltageL2: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
-      minTime: null
+      minTime: null,
     },
     THDVoltageL3: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
-      minTime: null
+      minTime: null,
     },
     UnbalanceVoltage: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
-      minTime: null
+      minTime: null,
     },
     UnbalanceCurrent: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
-      minTime: null
-    }
+      minTime: null,
+    },
   };
 
   let numberOfData = {
@@ -774,7 +784,7 @@ const convertPACAdvancedQualityData = aggregatedData => {
     THDVoltageL2: 0,
     THDVoltageL3: 0,
     UnbalanceVoltage: 0,
-    UnbalanceCurrent: 0
+    UnbalanceCurrent: 0,
   };
 
   let sumOfData = {
@@ -785,7 +795,7 @@ const convertPACAdvancedQualityData = aggregatedData => {
     THDVoltageL2: 0,
     THDVoltageL3: 0,
     UnbalanceVoltage: 0,
-    UnbalanceCurrent: 0
+    UnbalanceCurrent: 0,
   };
 
   let checkAndAssignData = (
@@ -802,7 +812,7 @@ const convertPACAdvancedQualityData = aggregatedData => {
         max: elementData.maxvalue,
         maxTime: new Date(elementData.maxtime),
         min: elementData.minvalue,
-        minTime: new Date(elementData.mintime)
+        minTime: new Date(elementData.mintime),
       };
 
       //Updating total calculations
@@ -831,7 +841,7 @@ const convertPACAdvancedQualityData = aggregatedData => {
     }
   };
 
-  let calculateAverage = elementNameToReturn => {
+  let calculateAverage = (elementNameToReturn) => {
     if (numberOfData[elementNameToReturn] > 0)
       monthlyData[elementNameToReturn].average =
         sumOfData[elementNameToReturn] / numberOfData[elementNameToReturn];
@@ -872,7 +882,7 @@ const convertPACAdvancedQualityData = aggregatedData => {
 };
 
 export async function getPACSupplyQualityMonthlyBasic(pacName, year, month) {
-  let fromDate = new Date(year, month, 0);
+  let fromDate = new Date(getDateWithTimeZone("Europe/Berlin", year, month, 0));
   let numberOfDays = numberOfDaysInMonth(month, year);
   let toDate = validateEndDate(
     new Date(fromDate.getTime() + (numberOfDays + 1) * 24 * 60 * 60 * 1000),
@@ -891,7 +901,7 @@ export async function getPACSupplyQualityMonthlyBasic(pacName, year, month) {
       pacVoltageL3L1VariableName,
       pacCurrentL1VariableName,
       pacCurrentL2VariableName,
-      pacCurrentL3VariableName
+      pacCurrentL3VariableName,
     ],
     fromDate.toISOString(),
     toDate.toISOString(),
@@ -903,7 +913,7 @@ export async function getPACSupplyQualityMonthlyBasic(pacName, year, month) {
 }
 
 export async function getPACSupplyQualityMonthlyAdvanced(pacName, year, month) {
-  let fromDate = new Date(year, month, 0);
+  let fromDate = new Date(getDateWithTimeZone("Europe/Berlin", year, month, 0));
   let numberOfDays = numberOfDaysInMonth(month, year);
   let toDate = validateEndDate(
     new Date(fromDate.getTime() + (numberOfDays + 1) * 24 * 60 * 60 * 1000),
@@ -921,7 +931,7 @@ export async function getPACSupplyQualityMonthlyAdvanced(pacName, year, month) {
       pacTHDUL2VariableName,
       pacTHDUL3VariableName,
       pacUnbalanceVoltageVariableName,
-      pacUnbalanceCurrentVariableName
+      pacUnbalanceCurrentVariableName,
     ],
     fromDate.toISOString(),
     toDate.toISOString(),
@@ -955,7 +965,7 @@ export async function getPACSupplyQualityMonthly(pacName, year, month) {
 
   let dataFromMS = await Promise.all([
     getBasicDataPromise,
-    getAdvancedDataPromise
+    getAdvancedDataPromise,
   ]);
 
   //Merging to datas into one
@@ -967,14 +977,14 @@ export async function getPACSupplyQualityMonthly(pacName, year, month) {
   if (exists(basicDataFromMS.monthlyData)) {
     dataToReturn.monthlyData = {
       ...dataToReturn.monthlyData,
-      ...basicDataFromMS.monthlyData
+      ...basicDataFromMS.monthlyData,
     };
   }
 
   if (exists(advancedDataFromMS.monthlyData)) {
     dataToReturn.monthlyData = {
       ...dataToReturn.monthlyData,
-      ...advancedDataFromMS.monthlyData
+      ...advancedDataFromMS.monthlyData,
     };
   }
 
@@ -988,7 +998,7 @@ export async function getPACSupplyQualityMonthly(pacName, year, month) {
         dataToReturn.dailyData[time] = {};
       dataToReturn.dailyData[time] = {
         ...dataToReturn.dailyData[time],
-        ...dailyData
+        ...dailyData,
       };
     }
   }
@@ -1003,7 +1013,7 @@ export async function getPACSupplyQualityMonthly(pacName, year, month) {
         dataToReturn.dailyData[time] = {};
       dataToReturn.dailyData[time] = {
         ...dataToReturn.dailyData[time],
-        ...dailyData
+        ...dailyData,
       };
     }
   }
@@ -1011,7 +1021,7 @@ export async function getPACSupplyQualityMonthly(pacName, year, month) {
   return dataToReturn;
 }
 
-const convertBreakerBasicQualityData = aggregatedData => {
+const convertBreakerBasicQualityData = (aggregatedData) => {
   let dailyData = {};
 
   let monthlyData = {
@@ -1020,34 +1030,34 @@ const convertBreakerBasicQualityData = aggregatedData => {
       max: null,
       maxTime: null,
       min: null,
-      minTime: null
+      minTime: null,
     },
     CurrentL2: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
-      minTime: null
+      minTime: null,
     },
     CurrentL3: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
-      minTime: null
-    }
+      minTime: null,
+    },
   };
 
   let numberOfData = {
     CurrentL1: 0,
     CurrentL2: 0,
-    CurrentL3: 0
+    CurrentL3: 0,
   };
 
   let sumOfData = {
     CurrentL1: 0,
     CurrentL2: 0,
-    CurrentL3: 0
+    CurrentL3: 0,
   };
 
   let checkAndAssignData = (
@@ -1064,7 +1074,7 @@ const convertBreakerBasicQualityData = aggregatedData => {
         max: elementData.maxvalue,
         maxTime: new Date(elementData.maxtime),
         min: elementData.minvalue,
-        minTime: new Date(elementData.mintime)
+        minTime: new Date(elementData.mintime),
       };
 
       //Updating total calculations
@@ -1093,7 +1103,7 @@ const convertBreakerBasicQualityData = aggregatedData => {
     }
   };
 
-  let calculateAverage = elementNameToReturn => {
+  let calculateAverage = (elementNameToReturn) => {
     if (numberOfData[elementNameToReturn] > 0)
       monthlyData[elementNameToReturn].average =
         sumOfData[elementNameToReturn] / numberOfData[elementNameToReturn];
@@ -1118,7 +1128,7 @@ const convertBreakerBasicQualityData = aggregatedData => {
   return { dailyData, monthlyData };
 };
 
-const convertBreakerAdvancedQualityData = aggregatedData => {
+const convertBreakerAdvancedQualityData = (aggregatedData) => {
   let dailyData = {};
 
   let monthlyData = {
@@ -1127,34 +1137,34 @@ const convertBreakerAdvancedQualityData = aggregatedData => {
       max: null,
       maxTime: null,
       min: null,
-      minTime: null
+      minTime: null,
     },
     THDCurrentL2: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
-      minTime: null
+      minTime: null,
     },
     THDCurrentL3: {
       average: null,
       max: null,
       maxTime: null,
       min: null,
-      minTime: null
-    }
+      minTime: null,
+    },
   };
 
   let numberOfData = {
     THDCurrentL1: 0,
     THDCurrentL2: 0,
-    THDCurrentL3: 0
+    THDCurrentL3: 0,
   };
 
   let sumOfData = {
     THDCurrentL1: 0,
     THDCurrentL2: 0,
-    THDCurrentL3: 0
+    THDCurrentL3: 0,
   };
 
   let checkAndAssignData = (
@@ -1171,7 +1181,7 @@ const convertBreakerAdvancedQualityData = aggregatedData => {
         max: elementData.maxvalue,
         maxTime: new Date(elementData.maxtime),
         min: elementData.minvalue,
-        minTime: new Date(elementData.mintime)
+        minTime: new Date(elementData.mintime),
       };
 
       //Updating total calculations
@@ -1200,7 +1210,7 @@ const convertBreakerAdvancedQualityData = aggregatedData => {
     }
   };
 
-  let calculateAverage = elementNameToReturn => {
+  let calculateAverage = (elementNameToReturn) => {
     if (numberOfData[elementNameToReturn] > 0)
       monthlyData[elementNameToReturn].average =
         sumOfData[elementNameToReturn] / numberOfData[elementNameToReturn];
@@ -1230,7 +1240,7 @@ export async function getBreakerSupplyQualityMonthlyBasic(
   year,
   month
 ) {
-  let fromDate = new Date(year, month, 0);
+  let fromDate = new Date(getDateWithTimeZone("Europe/Berlin", year, month, 0));
   let numberOfDays = numberOfDaysInMonth(month, year);
   let toDate = validateEndDate(
     new Date(fromDate.getTime() + (numberOfDays + 1) * 24 * 60 * 60 * 1000),
@@ -1243,7 +1253,7 @@ export async function getBreakerSupplyQualityMonthlyBasic(
     [
       breakerCurrentL1VariableName,
       breakerCurrentL2VariableName,
-      breakerCurrentL3VariableName
+      breakerCurrentL3VariableName,
     ],
     fromDate.toISOString(),
     toDate.toISOString(),
@@ -1259,7 +1269,7 @@ export async function getBreakerSupplyQualityMonthlyAdvanced(
   year,
   month
 ) {
-  let fromDate = new Date(year, month, 0);
+  let fromDate = new Date(getDateWithTimeZone("Europe/Berlin", year, month, 0));
   let numberOfDays = numberOfDaysInMonth(month, year);
   let toDate = validateEndDate(
     new Date(fromDate.getTime() + (numberOfDays + 1) * 24 * 60 * 60 * 1000),
@@ -1272,7 +1282,7 @@ export async function getBreakerSupplyQualityMonthlyAdvanced(
     [
       breakerTHDIL1VariableName,
       breakerTHDIL2VariableName,
-      breakerTHDIL3VariableName
+      breakerTHDIL3VariableName,
     ],
     fromDate.toISOString(),
     toDate.toISOString(),
@@ -1306,7 +1316,7 @@ export async function getBreakerSupplyQualityMonthly(breakerName, year, month) {
 
   let dataFromMS = await Promise.all([
     getBasicDataPromise,
-    getAdvancedDataPromise
+    getAdvancedDataPromise,
   ]);
 
   //Merging to datas into one
@@ -1318,14 +1328,14 @@ export async function getBreakerSupplyQualityMonthly(breakerName, year, month) {
   if (exists(basicDataFromMS.monthlyData)) {
     dataToReturn.monthlyData = {
       ...dataToReturn.monthlyData,
-      ...basicDataFromMS.monthlyData
+      ...basicDataFromMS.monthlyData,
     };
   }
 
   if (exists(advancedDataFromMS.monthlyData)) {
     dataToReturn.monthlyData = {
       ...dataToReturn.monthlyData,
-      ...advancedDataFromMS.monthlyData
+      ...advancedDataFromMS.monthlyData,
     };
   }
 
@@ -1339,7 +1349,7 @@ export async function getBreakerSupplyQualityMonthly(breakerName, year, month) {
         dataToReturn.dailyData[time] = {};
       dataToReturn.dailyData[time] = {
         ...dataToReturn.dailyData[time],
-        ...dailyData
+        ...dailyData,
       };
     }
   }
@@ -1354,7 +1364,7 @@ export async function getBreakerSupplyQualityMonthly(breakerName, year, month) {
         dataToReturn.dailyData[time] = {};
       dataToReturn.dailyData[time] = {
         ...dataToReturn.dailyData[time],
-        ...dailyData
+        ...dailyData,
       };
     }
   }
@@ -1407,7 +1417,7 @@ export async function getSupplyQualityMonthly(year, month) {
     "3F2",
     "TR1",
     "TR2",
-    "GEN"
+    "GEN",
   ];
 
   let allActions = [
@@ -1432,7 +1442,7 @@ export async function getSupplyQualityMonthly(year, month) {
     getBreakerSupplyQuality(elementNames[18], year, month),
     getPACSupplyQuality(elementNames[19], year, month),
     getPACSupplyQuality(elementNames[20], year, month),
-    getPACSupplyQuality(elementNames[21], year, month)
+    getPACSupplyQuality(elementNames[21], year, month),
   ];
 
   let allData = await Promise.all(allActions);

@@ -7,7 +7,7 @@ export function roundToSpecifiedPlaces(number, places) {
 }
 
 export function snooze(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export function isEmpty(obj) {
@@ -32,21 +32,19 @@ export function existsAndIsNotEmpty(object) {
   return exists(object) && !isObjectEmpty(object);
 }
 
-const roundDateToDays = date => {
-  date.setHours(0);
-  date.setMinutes(0);
-  date.setSeconds(0);
-  date.setMilliseconds(0);
-
-  return date;
-};
-
 export function validateEndDate(endDate, fromDate) {
   let maxFutureDays = 2;
 
   let nowDate = new Date(Date.now());
 
-  let currentDayDate = roundDateToDays(nowDate);
+  let currentDayDate = new Date(
+    getDateWithTimeZone(
+      "Europe/Berlin",
+      nowDate.getFullYear(),
+      nowDate.getMonth(),
+      nowDate.getDate()
+    )
+  );
 
   let maxFutureOffsetDate = new Date(
     currentDayDate.getTime() + maxFutureDays * 24 * 60 * 60 * 1000
@@ -59,7 +57,6 @@ export function validateEndDate(endDate, fromDate) {
     dateToReturn = maxFutureOffsetDate;
 
   //Checking if there is a difference in time zone offsets and adjusting the difference
-
   let fromDateTimeZoneOffset = fromDate.getTimezoneOffset();
   let endDateTimeZoneOffset = dateToReturn.getTimezoneOffset();
 
@@ -71,4 +68,23 @@ export function validateEndDate(endDate, fromDate) {
   }
 
   return dateToReturn;
+}
+
+export function getDateWithTimeZone(
+  timeZone,
+  year,
+  month,
+  day,
+  hour = 0,
+  minute = 0,
+  second = 0
+) {
+  let date = new Date(Date.UTC(year, month, day, hour, minute, second));
+
+  let utcDate = new Date(date.toLocaleString("en-US", { timeZone: "UTC" }));
+  let tzDate = new Date(date.toLocaleString("en-US", { timeZone: timeZone }));
+  let offset = utcDate.getTime() - tzDate.getTime();
+  date.setTime(date.getTime() + offset);
+
+  return date;
 }
